@@ -1,17 +1,31 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserController } from './user/user.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserModule } from './user/user.module';
+import { UserModule } from './modules/user/user.module';
+import { TypeOrmExModule } from './database/typeorm-ex.module';
+import { UserRepository } from './modules/user/repositories/user.repository';
+import { ProfileRepository } from './modules/user/repositories/profile.repository';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(
+    TypeOrmModule.forRoot(
+      {
+        type: 'postgres',
+        host: 'bk6v1mavp0s8wdc05wtd-postgresql.services.clever-cloud.com',
+        port: 5432,
+        username: 'utkffh2rjuun7a9wtwrc',
+        password: 'Pwk4J1mjiVCxsXzA2CCP',
+        database: 'bk6v1mavp0s8wdc05wtd',
+        entities: [`__dirname + '/../**/*.entity.js'`],
+        synchronize: true,
+      },
       // 'mongodb://ddps:SFKdWREM6Jorvvyk@cluster0.lddsl.mongodb.net/?retryWrites=true&w=majority',
-      'mongodb://ddps:SFKdWREM6Jorvvyk@cluster0-shard-00-00.lddsl.mongodb.net:27017,cluster0-shard-00-01.lddsl.mongodb.net:27017,cluster0-shard-00-02.lddsl.mongodb.net:27017/?ssl=true&replicaSet=atlas-vq40wb-shard-0&authSource=admin&retryWrites=true&w=majority',
+      //'mongodb://ddps:SFKdWREM6Jorvvyk@cluster0-shard-00-00.lddsl.mongodb.net:27017,cluster0-shard-00-01.lddsl.mongodb.net:27017,cluster0-shard-00-02.lddsl.mongodb.net:27017/?ssl=true&replicaSet=atlas-vq40wb-shard-0&authSource=admin&retryWrites=true&w=majority',
     ),
     UserModule,
+    TypeOrmExModule.forCustomRepository([UserRepository, ProfileRepository]),
   ],
   controllers: [AppController],
   providers: [AppService],
