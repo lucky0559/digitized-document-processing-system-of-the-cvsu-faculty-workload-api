@@ -6,6 +6,7 @@ import {
 import { AppDataSource } from '../../../data-source';
 import { Profile } from '../entities/profile.entity';
 import * as bcrypt from 'bcryptjs';
+import { ProfileUpdateDto } from '../dtos/user-update.dto';
 
 // type LoginDto = {
 //   email: string;
@@ -40,5 +41,17 @@ export class UserService {
       return user;
     }
     throw new UnauthorizedException('Invalid email or password');
+  }
+
+  public async updateProfile(
+    id: string,
+    profileDto: ProfileUpdateDto,
+  ): Promise<Profile> {
+    const user = await profileRepository.findOneBy({ id });
+    if (!user) {
+      throw new UnauthorizedException('Cant find user');
+    }
+    const updatedProfile = { ...user, ...profileDto };
+    return await profileRepository.save(updatedProfile);
   }
 }

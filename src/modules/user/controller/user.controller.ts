@@ -1,6 +1,6 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import { ProfileUpdateDto } from '../dtos/user-update.dto';
 import { Profile } from '../entities/profile.entity';
-import { User } from '../entities/user.entity';
 import { UserService } from '../services/user.service';
 
 @Controller('/user')
@@ -23,5 +23,13 @@ export class UserController {
     @Param('password') password: string,
   ): Promise<Profile> {
     return this.userService.login(email, password);
+  }
+
+  @Patch(':id/update-profile')
+  public async updateProfile(
+    @Param('id') id: string,
+    @Body() profileDto: ProfileUpdateDto,
+  ): Promise<Profile> {
+    return this.userService.updateProfile(id, profileDto);
   }
 }
