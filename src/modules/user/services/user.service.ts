@@ -54,4 +54,9 @@ export class UserService {
     const updatedProfile = { ...user, ...profileDto };
     return await profileRepository.save(updatedProfile);
   }
+
+  public async deleteProfile(id: string): Promise<Profile> {
+    const user = await profileRepository.findOneBy({ id });
+    return await profileRepository.remove(user);
+  }
 }
