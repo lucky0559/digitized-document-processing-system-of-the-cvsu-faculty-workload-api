@@ -41,8 +41,5 @@ export class Profile {
   public department: string;
 
   @Column()
-  public role: string;
-
-  @Column()
-  public natureOfAppointment: string;
+  public role?: string;
 }

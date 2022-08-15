@@ -7,6 +7,7 @@ import { AppDataSource } from '../../../data-source';
 import { Profile } from '../entities/profile.entity';
 import * as bcrypt from 'bcryptjs';
 import { ProfileUpdateDto } from '../dtos/user-update.dto';
+import { JwtService } from '@nestjs/jwt';
 
 // type LoginDto = {
 //   email: string;
@@ -29,7 +30,9 @@ export class UserService {
   public async register(user: Profile): Promise<Profile> {
     const hashPassword = await this.hashPassword(user.password);
     user.password = hashPassword;
-    return await profileRepository.save(user);
+    await profileRepository.save(user);
+    const userData = await profileRepository.findOneBy({ email: user.email });
+    return userData;
   }
 
   public async login(email: string, password: string): Promise<Profile> {
