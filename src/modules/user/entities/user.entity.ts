@@ -1,21 +1,34 @@
-import {
-  CreateDateColumn,
-  Entity,
-  JoinColumn,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { Profile } from './profile.entity';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity()
+@Entity('user')
 export class User {
   @PrimaryGeneratedColumn('uuid')
   public id: string;
 
-  @OneToOne(() => Profile, (profile) => profile.user)
-  @JoinColumn()
-  public profile: Profile;
+  @Column()
+  public username: string;
 
-  @CreateDateColumn()
-  public created: Date;
+  @Column()
+  public email: string;
+
+  @Column()
+  public password: string;
+
+  @Column()
+  public surname: string;
+
+  @Column()
+  public firstName: string;
+
+  @Column()
+  public middleInitial: string;
+
+  @Column()
+  public campus: string;
+
+  @Column()
+  public department: string;
+
+  @Column({ nullable: true })
+  public role?: string;
 }

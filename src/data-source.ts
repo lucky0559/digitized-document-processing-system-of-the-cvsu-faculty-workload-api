@@ -1,5 +1,4 @@
 import { DataSource } from 'typeorm';
-import { Profile } from './modules/user/entities/profile.entity';
 import { User } from './modules/user/entities/user.entity';
 
 export const AppDataSource = new DataSource({
@@ -9,7 +8,7 @@ export const AppDataSource = new DataSource({
   username: 'utkffh2rjuun7a9wtwrc',
   password: 'Pwk4J1mjiVCxsXzA2CCP',
   database: 'bk6v1mavp0s8wdc05wtd',
-  entities: [Profile, User],
+  entities: [User],
   synchronize: true,
 });
 

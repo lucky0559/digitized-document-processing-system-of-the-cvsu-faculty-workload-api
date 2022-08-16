@@ -4,16 +4,16 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { AppDataSource } from '../../../data-source';
-import { Profile } from '../entities/profile.entity';
 import * as bcrypt from 'bcryptjs';
-import { ProfileUpdateDto } from '../dtos/user-update.dto';
+import { UserUpdateDto } from '../dtos/user-update.dto';
 import { JwtService } from '@nestjs/jwt';
+import { User } from '../entities/user.entity';
 
 // type LoginDto = {
 //   email: string;
 //   password: string;
 // };
-const profileRepository = AppDataSource.getRepository(Profile);
+const userRepository = AppDataSource.getRepository(User);
 
 @Injectable()
 export class UserService {
@@ -23,20 +23,20 @@ export class UserService {
     return hashedPassword;
   }
 
-  public async getAllUser(): Promise<Profile[]> {
-    return await profileRepository.find();
+  public async getAllUser(): Promise<User[]> {
+    return await userRepository.find();
   }
 
-  public async register(user: Profile): Promise<Profile> {
+  public async register(user: User): Promise<User> {
     const hashPassword = await this.hashPassword(user.password);
     user.password = hashPassword;
-    await profileRepository.save(user);
-    const userData = await profileRepository.findOneBy({ email: user.email });
+    await userRepository.save(user);
+    const userData = await userRepository.findOneBy({ email: user.email });
     return userData;
   }
 
-  public async login(email: string, password: string): Promise<Profile> {
-    const user = await profileRepository.findOneBy({ email });
+  public async login(email: string, password: string): Promise<User> {
+    const user = await userRepository.findOneBy({ email });
     if (!user) {
       throw new NotFoundException();
     }
@@ -48,18 +48,18 @@ export class UserService {
 
   public async updateProfile(
     id: string,
-    profileDto: ProfileUpdateDto,
-  ): Promise<Profile> {
-    const user = await profileRepository.findOneBy({ id });
+    profileDto: UserUpdateDto,
+  ): Promise<User> {
+    const user = await userRepository.findOneBy({ id });
     if (!user) {
       throw new UnauthorizedException('Cant find user');
     }
     const updatedProfile = { ...user, ...profileDto };
-    return await profileRepository.save(updatedProfile);
+    return await userRepository.save(updatedProfile);
   }
 
-  public async deleteProfile(id: string): Promise<Profile> {
-    const user = await profileRepository.findOneBy({ id });
-    return await profileRepository.remove(user);
+  public async deleteProfile(id: string): Promise<User> {
+    const user = await userRepository.findOneBy({ id });
+    return await userRepository.remove(user);
   }
 }

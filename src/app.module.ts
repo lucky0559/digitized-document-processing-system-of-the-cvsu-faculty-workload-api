@@ -1,11 +1,9 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './modules/user/user.module';
 import { TypeOrmExModule } from './database/typeorm-ex.module';
 import { UserRepository } from './modules/user/repositories/user.repository';
-import { ProfileRepository } from './modules/user/repositories/profile.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
@@ -25,7 +23,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       //'mongodb://ddps:SFKdWREM6Jorvvyk@cluster0-shard-00-00.lddsl.mongodb.net:27017,cluster0-shard-00-01.lddsl.mongodb.net:27017,cluster0-shard-00-02.lddsl.mongodb.net:27017/?ssl=true&replicaSet=atlas-vq40wb-shard-0&authSource=admin&retryWrites=true&w=majority',
     ),
     UserModule,
-    TypeOrmExModule.forCustomRepository([UserRepository, ProfileRepository]),
+    TypeOrmExModule.forCustomRepository([UserRepository]),
   ],
   controllers: [AppController],
   providers: [AppService],

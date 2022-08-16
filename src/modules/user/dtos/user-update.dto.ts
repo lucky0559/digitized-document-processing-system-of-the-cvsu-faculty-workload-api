@@ -1,7 +1,7 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsOptional } from 'class-validator';
 
-export class ProfileUpdateDto {
+export class UserUpdateDto {
   @ApiPropertyOptional()
   @IsOptional()
   public username: string;
@@ -32,9 +32,5 @@ export class ProfileUpdateDto {
 
   @ApiPropertyOptional()
   @IsOptional()
-  public role: string;
-
-  @ApiPropertyOptional()
-  @IsOptional()
-  public natureOfAppointment: string;
+  public role?: string;
 }
