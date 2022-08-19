@@ -31,4 +31,7 @@ export class User {
 
   @Column({ nullable: true })
   public role?: string;
+
+  @Column({ default: false })
+  public verified: boolean;
 }
