@@ -35,8 +35,8 @@ export class UserService {
     return userData;
   }
 
-  public async login(email: string, password: string): Promise<User> {
-    const user = await userRepository.findOneBy({ email });
+  public async login(username: string, password: string): Promise<User> {
+    const user = await userRepository.findOneBy({ username });
     if (!user) {
       throw new NotFoundException();
     }

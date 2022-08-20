@@ -25,12 +25,12 @@ export class UserController {
     return this.userService.register(user);
   }
 
-  @Get(':email/:password/login')
+  @Get(':username/:password/login')
   public async login(
-    @Param('email') email: string,
+    @Param('username') username: string,
     @Param('password') password: string,
   ): Promise<User> {
-    return this.userService.login(email, password);
+    return this.userService.login(username, password);
   }
 
   @Patch(':id/update-profile')
