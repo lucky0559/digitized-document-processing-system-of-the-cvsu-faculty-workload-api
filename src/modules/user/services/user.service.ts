@@ -30,6 +30,18 @@ export class UserService {
   public async register(user: User): Promise<User> {
     const hashPassword = await this.hashPassword(user.password);
     user.password = hashPassword;
+    const isUsernameNotAvailable = await userRepository.findOneBy({
+      username: user.username,
+    });
+    const isEmailNotAvailable = await userRepository.findOneBy({
+      email: user.email,
+    });
+    if (isUsernameNotAvailable) {
+      throw new UnauthorizedException('Username already taken');
+    }
+    if (isEmailNotAvailable) {
+      throw new UnauthorizedException('Email already used');
+    }
     await userRepository.save(user);
     const userData = await userRepository.findOneBy({ email: user.email });
     return userData;
