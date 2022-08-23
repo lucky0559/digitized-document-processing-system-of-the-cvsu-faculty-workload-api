@@ -112,10 +112,14 @@ export class UserService {
   public async login(username: string, password: string): Promise<User> {
     const user = await userRepository.findOneBy({ username });
     if (!user) {
-      throw new NotFoundException();
+      throw new NotFoundException('User not found');
     }
     if (await bcrypt.compare(password, user.password)) {
-      return user;
+      if (user.verified) {
+        return user;
+      } else {
+        throw new UnauthorizedException('Please verify your email first');
+      }
     }
     throw new UnauthorizedException('Invalid email or password');
   }
