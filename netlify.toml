@@ -1,9 +1,9 @@
 [build]
   command = "npm run build"
-  publish = "/build"
-  base ="/"
+  publish = "dist/src"
+  functions = "dist/netlify/functions"
 
 [[redirects]]
   from = "/*"
-  to = "/index.html"
+  to = "/.netlify/functions/main"
   status = 200
