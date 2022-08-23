@@ -3,11 +3,14 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
+import { google } from 'googleapis';
+import * as nodemailer from 'nodemailer';
+
 import { AppDataSource } from '../../../data-source';
 import * as bcrypt from 'bcryptjs';
 import { UserUpdateDto } from '../dtos/user-update.dto';
-import { JwtService } from '@nestjs/jwt';
 import { User } from '../entities/user.entity';
+import { config } from '../../../../config';
 
 // type LoginDto = {
 //   email: string;
@@ -21,6 +24,60 @@ export class UserService {
     const saltRound = 10;
     const hashedPassword = await bcrypt.hash(password, saltRound);
     return hashedPassword;
+  }
+
+  public async sendEmail(email: string) {
+    const user = await userRepository.findOneBy({ email });
+
+    const oAuthClient = new google.auth.OAuth2(
+      config.CLIENT_ID,
+      config.CLIENT_SECRET,
+      config.REDIRECT_URI,
+    );
+    oAuthClient.setCredentials({ refresh_token: config.REFRESH_TOKEN });
+
+    const sendMail = async () => {
+      try {
+        const accessToken = await oAuthClient.getAccessToken();
+
+        const transport = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            type: 'OAuth2',
+            user: 'luckyangelo.rabosa@cvsu.edu.ph',
+            clientId: config.CLIENT_ID,
+            clientSecret: config.CLIENT_SECRET,
+            refreshToken: config.REFRESH_TOKEN,
+            accessToken: accessToken.token,
+          },
+        });
+
+        const mailOption = {
+          from: 'DDPS <ddps.cvsu.edu.ph>',
+          to: email,
+          subject: 'DDPS Verify Your Email',
+          text: `
+            <h1>Hello ${user.firstName}</h1>
+            <p>Please click the link below to verify your email.</p>
+            <p>https://youtube.com</p>
+          `,
+          html: `
+          <h1>Hello ${user.firstName}!</h1>
+          <p>Please click the link below to verify your email.</p>
+          <p>https://youtube.com</p>
+          <button><h2><a href="https://facebook.com">Verify Email</a></h2></button>
+          `,
+        };
+        const result = await transport.sendMail(mailOption);
+        return result;
+      } catch (error) {
+        return error;
+      }
+    };
+
+    sendMail()
+      .then((result) => console.log('Email sent', result))
+      .catch((error) => console.log(error.message));
   }
 
   public async getAllUser(): Promise<User[]> {
@@ -42,9 +99,14 @@ export class UserService {
     if (isEmailNotAvailable) {
       throw new UnauthorizedException('Email already used');
     }
-    await userRepository.save(user);
-    const userData = await userRepository.findOneBy({ email: user.email });
-    return userData;
+    try {
+      await userRepository.save(user);
+      await this.sendEmail(user.email);
+      const userData = await userRepository.findOneBy({ email: user.email });
+      return userData;
+    } catch {
+      throw new UnauthorizedException('Response error');
+    }
   }
 
   public async login(username: string, password: string): Promise<User> {
