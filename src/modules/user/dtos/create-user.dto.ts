@@ -10,6 +10,6 @@ export class CreateUserDto {
   @IsString() readonly middleInitial: string;
   @IsString() readonly campus: string;
   @IsString() readonly department: string;
+  @IsString() readonly emailToken: string;
   @IsString() readonly role: string;
-  @IsString() readonly natureOfAppointment: string;
 }

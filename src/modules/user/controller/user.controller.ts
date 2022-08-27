@@ -45,4 +45,9 @@ export class UserController {
   public async deleteProfile(@Param('id') id: string): Promise<User> {
     return this.userService.deleteProfile(id);
   }
+
+  @Get('verify/:token')
+  public async verifyEmail(@Param('token') token: string) {
+    return this.userService.verifyEmail(token);
+  }
 }
