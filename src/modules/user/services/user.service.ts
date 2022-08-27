@@ -62,13 +62,13 @@ export class UserService {
           text: `
             <h1>Hello ${user.firstName}</h1>
             <p>Please click the link below to verify your email.</p>
-            <p>https://ddps-cvsu.herokuapp.com/verify?token=${email_token}</p>
+            <p>https://localhost:3001/verify/${email_token}</p>
           `,
           html: `
           <h1>Hello ${user.firstName}!</h1>
           <p>Please click the link below to verify your email.</p>
-          <p>https://ddps-cvsu.herokuapp.com/</p>
-          <button><h2><a href="https://ddps-cvsu.herokuapp.com/verify?token=${email_token}">Verify Email</a></h2></button>
+          <p>https://localhost:3001/verify/${email_token}</p>
+          <button><h2><a href="https://localhost:3001/verify/${email_token}">Verify Email</a></h2></button>
           `,
         };
         const result = await transport.sendMail(mailOption);
