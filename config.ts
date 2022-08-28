@@ -8,6 +8,6 @@ export const config = {
       '1//04LiU8TxHV_ArCgYIARAAGAQSNwF-L9IrDj0FTYIOyKcg76cQjoBZu5e1LnC-aSkwufujWMvguwvYtKA4dkt2Vy6mtTJGIoF-YTM',
   },
   client_url:
-    'https://digitized-document-processing-system-of-the-cvsu-l0r1dubcu.vercel.app/',
-  // client_url: 'http://localhost:3000/',
+    'https://digitized-document-processing-system-of-the-cvsu-ca538xco1.vercel.app/',
+  // client_url: 'http://localhost:3001/',
 };
