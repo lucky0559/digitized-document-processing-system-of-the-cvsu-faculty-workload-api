@@ -33,11 +33,11 @@ export class UserService {
     const user = await userRepository.findOneBy({ email });
 
     const oAuthClient = new google.auth.OAuth2(
-      config.CLIENT_ID,
-      config.CLIENT_SECRET,
-      config.REDIRECT_URI,
+      config.email.CLIENT_ID,
+      config.email.CLIENT_SECRET,
+      config.email.REDIRECT_URI,
     );
-    oAuthClient.setCredentials({ refresh_token: config.REFRESH_TOKEN });
+    oAuthClient.setCredentials({ refresh_token: config.email.REFRESH_TOKEN });
 
     const sendMail = async () => {
       try {
@@ -48,9 +48,9 @@ export class UserService {
           auth: {
             type: 'OAuth2',
             user: 'luckyangelo.rabosa@cvsu.edu.ph',
-            clientId: config.CLIENT_ID,
-            clientSecret: config.CLIENT_SECRET,
-            refreshToken: config.REFRESH_TOKEN,
+            clientId: config.email.CLIENT_ID,
+            clientSecret: config.email.CLIENT_SECRET,
+            refreshToken: config.email.REFRESH_TOKEN,
             accessToken: accessToken.token,
           },
         });
@@ -62,13 +62,13 @@ export class UserService {
           text: `
             <h1>Hello ${user.firstName}</h1>
             <p>Please click the link below to verify your email.</p>
-            <p>https://localhost:3001/verify/${email_token}</p>
+            <p>${config.client_url}verify/${email_token}</p>
           `,
           html: `
           <h1>Hello ${user.firstName}!</h1>
           <p>Please click the link below to verify your email.</p>
-          <p>https://localhost:3001/verify/${email_token}</p>
-          <button><h2><a href="https://localhost:3001/verify/${email_token}">Verify Email</a></h2></button>
+          <p>${config.client_url}verify/${email_token}</p>
+          <button><h2><a href="${config.client_url}verify/${email_token}">Verify Email</a></h2></button>
           `,
         };
         const result = await transport.sendMail(mailOption);
