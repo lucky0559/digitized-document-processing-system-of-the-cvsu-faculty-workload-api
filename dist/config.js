@@ -8,6 +8,6 @@ exports.config = {
         REDIRECT_URI: 'https://developers.google.com/oauthplayground',
         REFRESH_TOKEN: '1//04LiU8TxHV_ArCgYIARAAGAQSNwF-L9IrDj0FTYIOyKcg76cQjoBZu5e1LnC-aSkwufujWMvguwvYtKA4dkt2Vy6mtTJGIoF-YTM',
     },
-    client_url: 'https://digitized-document-processing-system-of-the-cvsu-ca538xco1.vercel.app/',
+    client_url: 'https://digitized-document-processing-system-of-the-cvsu-oc0s4746i.vercel.app/',
 };
 //# sourceMappingURL=config.js.map
