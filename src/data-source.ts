@@ -1,4 +1,5 @@
 import { DataSource } from 'typeorm';
+import { EmailToken } from './modules/user/entities/email-token.entity';
 import { User } from './modules/user/entities/user.entity';
 
 export const AppDataSource = new DataSource({
@@ -8,7 +9,7 @@ export const AppDataSource = new DataSource({
   username: 'utkffh2rjuun7a9wtwrc',
   password: 'Pwk4J1mjiVCxsXzA2CCP',
   database: 'bk6v1mavp0s8wdc05wtd',
-  entities: [User],
+  entities: [User, EmailToken],
   synchronize: true,
 });
 

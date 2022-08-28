@@ -8,15 +8,18 @@ import * as nodemailer from 'nodemailer';
 
 import { AppDataSource } from '../../../data-source';
 import * as bcrypt from 'bcryptjs';
+import * as crypto from 'crypto';
 import { UserUpdateDto } from '../dtos/user-update.dto';
 import { User } from '../entities/user.entity';
 import { config } from '../../../../config';
+import { EmailToken } from '../entities/email-token.entity';
 
 // type LoginDto = {
 //   email: string;
 //   password: string;
 // };
 const userRepository = AppDataSource.getRepository(User);
+const tokenRepository = AppDataSource.getRepository(EmailToken);
 
 @Injectable()
 export class UserService {
@@ -26,15 +29,15 @@ export class UserService {
     return hashedPassword;
   }
 
-  public async sendEmail(email: string) {
+  public async sendEmail(email: string, email_token: string) {
     const user = await userRepository.findOneBy({ email });
 
     const oAuthClient = new google.auth.OAuth2(
-      config.CLIENT_ID,
-      config.CLIENT_SECRET,
-      config.REDIRECT_URI,
+      config.email.CLIENT_ID,
+      config.email.CLIENT_SECRET,
+      config.email.REDIRECT_URI,
     );
-    oAuthClient.setCredentials({ refresh_token: config.REFRESH_TOKEN });
+    oAuthClient.setCredentials({ refresh_token: config.email.REFRESH_TOKEN });
 
     const sendMail = async () => {
       try {
@@ -45,9 +48,9 @@ export class UserService {
           auth: {
             type: 'OAuth2',
             user: 'luckyangelo.rabosa@cvsu.edu.ph',
-            clientId: config.CLIENT_ID,
-            clientSecret: config.CLIENT_SECRET,
-            refreshToken: config.REFRESH_TOKEN,
+            clientId: config.email.CLIENT_ID,
+            clientSecret: config.email.CLIENT_SECRET,
+            refreshToken: config.email.REFRESH_TOKEN,
             accessToken: accessToken.token,
           },
         });
@@ -59,13 +62,13 @@ export class UserService {
           text: `
             <h1>Hello ${user.firstName}</h1>
             <p>Please click the link below to verify your email.</p>
-            <p>https://youtube.com</p>
+            <p>${config.client_url}verify/${email_token}</p>
           `,
           html: `
           <h1>Hello ${user.firstName}!</h1>
           <p>Please click the link below to verify your email.</p>
-          <p>https://youtube.com</p>
-          <button><h2><a href="https://facebook.com">Verify Email</a></h2></button>
+          <p>${config.client_url}verify/${email_token}</p>
+          <button><h2><a href="${config.client_url}verify/${email_token}">Verify Email</a></h2></button>
           `,
         };
         const result = await transport.sendMail(mailOption);
@@ -86,7 +89,9 @@ export class UserService {
 
   public async register(user: User): Promise<User> {
     const hashPassword = await this.hashPassword(user.password);
+    const email_token = crypto.randomBytes(64).toString('hex');
     user.password = hashPassword;
+    user.emailToken = email_token;
     const isUsernameNotAvailable = await userRepository.findOneBy({
       username: user.username,
     });
@@ -101,8 +106,11 @@ export class UserService {
     }
     try {
       await userRepository.save(user);
-      await this.sendEmail(user.email);
+      await this.sendEmail(user.email, email_token);
       const userData = await userRepository.findOneBy({ email: user.email });
+      // await tokenRepository.save({
+      //   token: email_token,
+      // });
       return userData;
     } catch {
       throw new UnauthorizedException('Response error');
@@ -139,5 +147,15 @@ export class UserService {
   public async deleteProfile(id: string): Promise<User> {
     const user = await userRepository.findOneBy({ id });
     return await userRepository.remove(user);
+  }
+
+  public async verifyEmail(token: string) {
+    const user = await userRepository.findOneBy({ emailToken: token });
+    if (!user) {
+      throw new UnauthorizedException('Not existing');
+    }
+    user.emailToken = '';
+    user.verified = true;
+    await userRepository.save(user);
   }
 }
