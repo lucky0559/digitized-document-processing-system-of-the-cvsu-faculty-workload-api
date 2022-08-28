@@ -36,6 +36,9 @@ let UserController = class UserController {
     async deleteProfile(id) {
         return this.userService.deleteProfile(id);
     }
+    async verifyEmail(token) {
+        return this.userService.verifyEmail(token);
+    }
 };
 __decorate([
     (0, common_1.Get)(),
@@ -73,6 +76,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "deleteProfile", null);
+__decorate([
+    (0, common_1.Get)('verify/:token'),
+    __param(0, (0, common_1.Param)('token')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "verifyEmail", null);
 UserController = __decorate([
     (0, common_1.Controller)('/user'),
     __metadata("design:paramtypes", [user_service_1.UserService])

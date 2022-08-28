@@ -14,6 +14,7 @@ const user_module_1 = require("./modules/user/user.module");
 const typeorm_ex_module_1 = require("./database/typeorm-ex.module");
 const user_repository_1 = require("./modules/user/repositories/user.repository");
 const typeorm_1 = require("@nestjs/typeorm");
+const email_token_repository_1 = require("./modules/user/repositories/email-token.repository");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -30,7 +31,7 @@ AppModule = __decorate([
                 synchronize: true,
             }),
             user_module_1.UserModule,
-            typeorm_ex_module_1.TypeOrmExModule.forCustomRepository([user_repository_1.UserRepository]),
+            typeorm_ex_module_1.TypeOrmExModule.forCustomRepository([user_repository_1.UserRepository, email_token_repository_1.EmailTokenRepository]),
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

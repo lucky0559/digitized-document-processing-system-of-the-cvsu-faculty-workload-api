@@ -52,10 +52,10 @@ __decorate([
 __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], CreateUserDto.prototype, "role", void 0);
+], CreateUserDto.prototype, "emailToken", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], CreateUserDto.prototype, "natureOfAppointment", void 0);
+], CreateUserDto.prototype, "role", void 0);
 exports.CreateUserDto = CreateUserDto;
 //# sourceMappingURL=create-user.dto.js.map

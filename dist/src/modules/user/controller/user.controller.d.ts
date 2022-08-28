@@ -9,4 +9,5 @@ export declare class UserController {
     login(username: string, password: string): Promise<User>;
     updateProfile(id: string, profileDto: UserUpdateDto): Promise<User>;
     deleteProfile(id: string): Promise<User>;
+    verifyEmail(token: string): Promise<void>;
 }

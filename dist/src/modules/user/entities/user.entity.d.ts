@@ -9,5 +9,6 @@ export declare class User {
     campus: string;
     department: string;
     role?: string;
+    emailToken: string;
     verified: boolean;
 }

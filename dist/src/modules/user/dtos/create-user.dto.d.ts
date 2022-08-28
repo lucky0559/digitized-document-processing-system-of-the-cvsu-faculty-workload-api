@@ -8,6 +8,6 @@ export declare class CreateUserDto {
     readonly middleInitial: string;
     readonly campus: string;
     readonly department: string;
+    readonly emailToken: string;
     readonly role: string;
-    readonly natureOfAppointment: string;
 }

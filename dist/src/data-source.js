@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppDataSource = void 0;
 const typeorm_1 = require("typeorm");
+const email_token_entity_1 = require("./modules/user/entities/email-token.entity");
 const user_entity_1 = require("./modules/user/entities/user.entity");
 exports.AppDataSource = new typeorm_1.DataSource({
     type: 'postgres',
@@ -10,7 +11,7 @@ exports.AppDataSource = new typeorm_1.DataSource({
     username: 'utkffh2rjuun7a9wtwrc',
     password: 'Pwk4J1mjiVCxsXzA2CCP',
     database: 'bk6v1mavp0s8wdc05wtd',
-    entities: [user_entity_1.User],
+    entities: [user_entity_1.User, email_token_entity_1.EmailToken],
     synchronize: true,
 });
 exports.AppDataSource.initialize();
