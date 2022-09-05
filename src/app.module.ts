@@ -8,6 +8,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { FacultyWorkloadModule } from './modules/faculty-workload/faculty-workload.module';
 import { TeachingWorkloadRepository } from './modules/faculty-workload/repositories/teaching-workload.repository';
 import { ResearchWorkloadRepository } from './modules/faculty-workload/repositories/research-workload.repository';
+import { ExtensionWorkloadRepository } from './modules/faculty-workload/repositories/extension-workload.repository';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { ResearchWorkloadRepository } from './modules/faculty-workload/repositor
       UserRepository,
       TeachingWorkloadRepository,
       ResearchWorkloadRepository,
+      ExtensionWorkloadRepository,
     ]),
   ],
   controllers: [AppController],
