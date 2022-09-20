@@ -13,4 +13,34 @@ export class StrategicFunctionWorkload {
 
   @Column({ nullable: true })
   public approvedUniversityDesignationFilePath: string;
+
+  @Column({ nullable: true, array: true })
+  public designationCollegeCampusLevel: string;
+
+  @Column({ nullable: true })
+  public approvedCollegeCampusDesignationFilePath: string;
+
+  @Column({ nullable: true, array: true })
+  public designationDepartmentLevel: string;
+
+  @Column({ nullable: true })
+  public approvedDepartmentDesignationFilePath: string;
+
+  @Column({ nullable: true })
+  public designationAsSportTrainorAcademic: string;
+
+  @Column({ nullable: true })
+  public coachAdviserCertificateFilePath: string;
+
+  @Column({ nullable: true })
+  public designationAsMemberOfAdhoc: string;
+
+  @Column({ nullable: true })
+  public approvedDesignationFilePath: string;
+
+  @Column({ nullable: true })
+  public totalOfAcademicAdvisees: string;
+
+  @Column({ nullable: true })
+  public listOfAdviseesFilePath: string;
 }
