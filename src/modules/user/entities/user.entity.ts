@@ -37,4 +37,7 @@ export class User {
 
   @Column({ default: false })
   public verified: boolean;
+
+  @Column()
+  public academicRank: string;
 }

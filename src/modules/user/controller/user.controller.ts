@@ -20,6 +20,11 @@ export class UserController {
     return this.userService.getAllUser();
   }
 
+  @Get(':userId')
+  public async getUser(@Param('userId') userId: string): Promise<User> {
+    return this.userService.getUser(userId);
+  }
+
   @Post('register')
   public async createUser(@Body() user: User): Promise<User> {
     return this.userService.register(user);

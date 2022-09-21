@@ -87,6 +87,10 @@ export class UserService {
     return await userRepository.find();
   }
 
+  public async getUser(userId: string): Promise<User> {
+    return await userRepository.findOneBy({ id: userId });
+  }
+
   public async register(user: User): Promise<User> {
     const hashPassword = await this.hashPassword(user.password);
     const email_token = crypto.randomBytes(64).toString('hex');
