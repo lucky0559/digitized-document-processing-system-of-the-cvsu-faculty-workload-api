@@ -33,4 +33,8 @@ export class UserUpdateDto {
   @ApiPropertyOptional()
   @IsOptional()
   public role?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  public academicRank: string;
 }
