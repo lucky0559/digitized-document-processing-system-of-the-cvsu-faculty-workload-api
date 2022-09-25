@@ -11,4 +11,5 @@ export declare class User {
     role?: string;
     emailToken: string;
     verified: boolean;
+    academicRank: string;
 }

@@ -14,7 +14,10 @@ const user_module_1 = require("./modules/user/user.module");
 const typeorm_ex_module_1 = require("./database/typeorm-ex.module");
 const user_repository_1 = require("./modules/user/repositories/user.repository");
 const typeorm_1 = require("@nestjs/typeorm");
-const email_token_repository_1 = require("./modules/user/repositories/email-token.repository");
+const faculty_workload_module_1 = require("./modules/faculty-workload/faculty-workload.module");
+const teaching_workload_repository_1 = require("./modules/faculty-workload/repositories/teaching-workload.repository");
+const research_workload_repository_1 = require("./modules/faculty-workload/repositories/research-workload.repository");
+const extension_workload_repository_1 = require("./modules/faculty-workload/repositories/extension-workload.repository");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -31,7 +34,13 @@ AppModule = __decorate([
                 synchronize: true,
             }),
             user_module_1.UserModule,
-            typeorm_ex_module_1.TypeOrmExModule.forCustomRepository([user_repository_1.UserRepository, email_token_repository_1.EmailTokenRepository]),
+            faculty_workload_module_1.FacultyWorkloadModule,
+            typeorm_ex_module_1.TypeOrmExModule.forCustomRepository([
+                user_repository_1.UserRepository,
+                teaching_workload_repository_1.TeachingWorkloadRepository,
+                research_workload_repository_1.ResearchWorkloadRepository,
+                extension_workload_repository_1.ExtensionWorkloadRepository,
+            ]),
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

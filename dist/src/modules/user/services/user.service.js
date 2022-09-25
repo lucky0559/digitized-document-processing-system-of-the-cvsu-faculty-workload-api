@@ -15,9 +15,9 @@ const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
 const user_entity_1 = require("../entities/user.entity");
 const config_1 = require("../../../../config");
-const email_token_entity_1 = require("../entities/email-token.entity");
+const e_signature_entity_1 = require("../entities/e-signature.entity");
 const userRepository = data_source_1.AppDataSource.getRepository(user_entity_1.User);
-const tokenRepository = data_source_1.AppDataSource.getRepository(email_token_entity_1.EmailToken);
+const eSignatureRepository = data_source_1.AppDataSource.getRepository(e_signature_entity_1.ESignature);
 let UserService = class UserService {
     async hashPassword(password) {
         const saltRound = 10;
@@ -71,6 +71,9 @@ let UserService = class UserService {
     }
     async getAllUser() {
         return await userRepository.find();
+    }
+    async getUser(userId) {
+        return await userRepository.findOneBy({ id: userId });
     }
     async register(user) {
         const hashPassword = await this.hashPassword(user.password);
@@ -134,6 +137,31 @@ let UserService = class UserService {
         user.emailToken = '';
         user.verified = true;
         await userRepository.save(user);
+    }
+    async uploadESignature(eSignature) {
+        const hasESignature = await this.checkESignature(eSignature.userId);
+        if (hasESignature) {
+            const eSignatureData = await eSignatureRepository.findOneBy({
+                userId: eSignature.userId,
+            });
+            await eSignatureRepository.delete({
+                userId: eSignature.userId,
+            });
+            await eSignatureRepository.save(eSignature);
+            return eSignatureData;
+        }
+        await eSignatureRepository.save(eSignature);
+        return false;
+    }
+    async checkESignature(userId) {
+        const eSignature = await eSignatureRepository.findOneBy({
+            userId,
+        });
+        if (eSignature) {
+            return true;
+        }
+        else
+            return false;
     }
 };
 UserService = __decorate([

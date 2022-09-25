@@ -61,6 +61,10 @@ __decorate([
     (0, typeorm_1.Column)({ default: false }),
     __metadata("design:type", Boolean)
 ], User.prototype, "verified", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], User.prototype, "academicRank", void 0);
 User = __decorate([
     (0, typeorm_1.Entity)('user')
 ], User);

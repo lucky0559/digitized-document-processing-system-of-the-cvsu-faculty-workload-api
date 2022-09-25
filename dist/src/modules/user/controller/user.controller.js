@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
 const common_1 = require("@nestjs/common");
 const user_update_dto_1 = require("../dtos/user-update.dto");
+const e_signature_entity_1 = require("../entities/e-signature.entity");
 const user_entity_1 = require("../entities/user.entity");
 const user_service_1 = require("../services/user.service");
 let UserController = class UserController {
@@ -23,6 +24,9 @@ let UserController = class UserController {
     }
     async getAllUser() {
         return this.userService.getAllUser();
+    }
+    async getUser(userId) {
+        return this.userService.getUser(userId);
     }
     async createUser(user) {
         return this.userService.register(user);
@@ -39,6 +43,12 @@ let UserController = class UserController {
     async verifyEmail(token) {
         return this.userService.verifyEmail(token);
     }
+    async uploadESignature(eSignature) {
+        return this.userService.uploadESignature(eSignature);
+    }
+    async checkESignature(userId) {
+        return this.userService.checkESignature(userId);
+    }
 };
 __decorate([
     (0, common_1.Get)(),
@@ -46,6 +56,13 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getAllUser", null);
+__decorate([
+    (0, common_1.Get)(':userId'),
+    __param(0, (0, common_1.Param)('userId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "getUser", null);
 __decorate([
     (0, common_1.Post)('register'),
     __param(0, (0, common_1.Body)()),
@@ -83,6 +100,20 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "verifyEmail", null);
+__decorate([
+    (0, common_1.Post)('e-signature'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [e_signature_entity_1.ESignature]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "uploadESignature", null);
+__decorate([
+    (0, common_1.Get)(':userId/check-e-signature'),
+    __param(0, (0, common_1.Param)('userId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "checkESignature", null);
 UserController = __decorate([
     (0, common_1.Controller)('/user'),
     __metadata("design:paramtypes", [user_service_1.UserService])

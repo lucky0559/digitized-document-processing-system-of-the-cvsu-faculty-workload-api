@@ -7,4 +7,5 @@ export declare class UserUpdateDto {
     campus: string;
     department: string;
     role?: string;
+    academicRank: string;
 }

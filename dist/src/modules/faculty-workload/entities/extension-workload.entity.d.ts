@@ -1,0 +1,10 @@
+export declare class ExtensionWorkload {
+    id: string;
+    userID: string;
+    designationExtensionActivity: string;
+    extensionActivityFilePath: string;
+    resourcePerson: string;
+    certificateFilePath: string;
+    totalNumberHours: string;
+    summaryOfHoursFilePath: string;
+}
