@@ -5,7 +5,10 @@ import { UserModule } from './modules/user/user.module';
 import { TypeOrmExModule } from './database/typeorm-ex.module';
 import { UserRepository } from './modules/user/repositories/user.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { EmailTokenRepository } from './modules/user/repositories/email-token.repository';
+import { FacultyWorkloadModule } from './modules/faculty-workload/faculty-workload.module';
+import { TeachingWorkloadRepository } from './modules/faculty-workload/repositories/teaching-workload.repository';
+import { ResearchWorkloadRepository } from './modules/faculty-workload/repositories/research-workload.repository';
+import { ExtensionWorkloadRepository } from './modules/faculty-workload/repositories/extension-workload.repository';
 
 @Module({
   imports: [
@@ -24,7 +27,13 @@ import { EmailTokenRepository } from './modules/user/repositories/email-token.re
       //'mongodb://ddps:SFKdWREM6Jorvvyk@cluster0-shard-00-00.lddsl.mongodb.net:27017,cluster0-shard-00-01.lddsl.mongodb.net:27017,cluster0-shard-00-02.lddsl.mongodb.net:27017/?ssl=true&replicaSet=atlas-vq40wb-shard-0&authSource=admin&retryWrites=true&w=majority',
     ),
     UserModule,
-    TypeOrmExModule.forCustomRepository([UserRepository, EmailTokenRepository]),
+    FacultyWorkloadModule,
+    TypeOrmExModule.forCustomRepository([
+      UserRepository,
+      TeachingWorkloadRepository,
+      ResearchWorkloadRepository,
+      ExtensionWorkloadRepository,
+    ]),
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,5 +1,9 @@
 import { DataSource } from 'typeorm';
-import { EmailToken } from './modules/user/entities/email-token.entity';
+import { ExtensionWorkload } from './modules/faculty-workload/entities/extension-workload.entity';
+import { ResearchWorkload } from './modules/faculty-workload/entities/research-workload.entity';
+import { StrategicFunctionWorkload } from './modules/faculty-workload/entities/strategic-function-workload.entity';
+import { TeachingWorkload } from './modules/faculty-workload/entities/teaching-workload.entity';
+import { ESignature } from './modules/user/entities/e-signature.entity';
 import { User } from './modules/user/entities/user.entity';
 
 export const AppDataSource = new DataSource({
@@ -9,7 +13,14 @@ export const AppDataSource = new DataSource({
   username: 'utkffh2rjuun7a9wtwrc',
   password: 'Pwk4J1mjiVCxsXzA2CCP',
   database: 'bk6v1mavp0s8wdc05wtd',
-  entities: [User, EmailToken],
+  entities: [
+    User,
+    TeachingWorkload,
+    ResearchWorkload,
+    ExtensionWorkload,
+    StrategicFunctionWorkload,
+    ESignature,
+  ],
   synchronize: true,
 });
 
