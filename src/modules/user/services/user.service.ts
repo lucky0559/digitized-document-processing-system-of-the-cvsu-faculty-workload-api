@@ -12,14 +12,14 @@ import * as crypto from 'crypto';
 import { UserUpdateDto } from '../dtos/user-update.dto';
 import { User } from '../entities/user.entity';
 import { config } from '../../../../config';
-import { EmailToken } from '../entities/email-token.entity';
+import { ESignature } from '../entities/e-signature.entity';
 
 // type LoginDto = {
 //   email: string;
 //   password: string;
 // };
 const userRepository = AppDataSource.getRepository(User);
-const tokenRepository = AppDataSource.getRepository(EmailToken);
+const eSignatureRepository = AppDataSource.getRepository(ESignature);
 
 @Injectable()
 export class UserService {
@@ -161,5 +161,30 @@ export class UserService {
     user.emailToken = '';
     user.verified = true;
     await userRepository.save(user);
+  }
+
+  public async uploadESignature(eSignature: ESignature) {
+    const hasESignature = await this.checkESignature(eSignature.userId);
+    if (hasESignature) {
+      const eSignatureData = await eSignatureRepository.findOneBy({
+        userId: eSignature.userId,
+      });
+      await eSignatureRepository.delete({
+        userId: eSignature.userId,
+      });
+      await eSignatureRepository.save(eSignature);
+      return eSignatureData;
+    }
+    await eSignatureRepository.save(eSignature);
+    return false;
+  }
+
+  public async checkESignature(userId: string) {
+    const eSignature = await eSignatureRepository.findOneBy({
+      userId,
+    });
+    if (eSignature) {
+      return true;
+    } else return false;
   }
 }

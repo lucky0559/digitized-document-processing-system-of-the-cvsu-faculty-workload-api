@@ -8,6 +8,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { UserUpdateDto } from '../dtos/user-update.dto';
+import { ESignature } from '../entities/e-signature.entity';
 import { User } from '../entities/user.entity';
 import { UserService } from '../services/user.service';
 
@@ -54,5 +55,17 @@ export class UserController {
   @Get('verify/:token')
   public async verifyEmail(@Param('token') token: string) {
     return this.userService.verifyEmail(token);
+  }
+
+  @Post('e-signature')
+  public async uploadESignature(@Body() eSignature: ESignature): Promise<any> {
+    return this.userService.uploadESignature(eSignature);
+  }
+
+  @Get(':userId/check-e-signature')
+  public async checkESignature(
+    @Param('userId') userId: string,
+  ): Promise<boolean> {
+    return this.userService.checkESignature(userId);
   }
 }
