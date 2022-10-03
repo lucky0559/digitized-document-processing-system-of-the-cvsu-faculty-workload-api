@@ -34,4 +34,7 @@ export class ResearchWorkload {
 
   @Column({ nullable: true })
   public rwlFilePath2: string;
+
+  @Column({ nullable: true })
+  public rwlPoints: number;
 }

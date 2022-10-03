@@ -15,8 +15,11 @@ export class TeachingWorkload {
   public contactHours: string;
 
   @Column({ nullable: true })
-  public totalNoOfHours: string;
+  public totalNoOfStudents: string;
 
   @Column({ nullable: true })
   public twlFilePath: string;
+
+  @Column({ nullable: true, type: 'decimal' })
+  public totalTeachingWorkload: number;
 }

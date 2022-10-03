@@ -68,4 +68,13 @@ export class UserController {
   ): Promise<boolean> {
     return this.userService.checkESignature(userId);
   }
+
+  @Patch(':username/:oldPassword/:password/change-password')
+  public async changePassword(
+    @Param('username') username: string,
+    @Param('oldPassword') oldPassword: string,
+    @Param('password') password: string,
+  ): Promise<any> {
+    return this.userService.changePassword(username, oldPassword, password);
+  }
 }

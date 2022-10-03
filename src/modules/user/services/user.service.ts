@@ -187,4 +187,20 @@ export class UserService {
       return true;
     } else return false;
   }
+
+  public async changePassword(
+    username: string,
+    oldPassword: string,
+    password: string,
+  ) {
+    const user = await userRepository.findOneBy({ username });
+    if (await bcrypt.compare(oldPassword, user.password)) {
+      const newPassword = await this.hashPassword(password);
+      user.password = newPassword;
+      await userRepository.update(user.id, user);
+      return 'Change Password Successfully!';
+    } else {
+      throw new UnauthorizedException('Invalid Old Password');
+    }
+  }
 }
