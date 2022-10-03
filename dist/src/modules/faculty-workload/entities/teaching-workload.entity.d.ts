@@ -3,6 +3,7 @@ export declare class TeachingWorkload {
     userID: string;
     numberOfPreparations: string;
     contactHours: string;
-    totalNoOfHours: string;
+    totalNoOfStudents: string;
     twlFilePath: string;
+    totalTeachingWorkload: number;
 }

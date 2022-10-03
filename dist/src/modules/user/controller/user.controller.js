@@ -49,6 +49,9 @@ let UserController = class UserController {
     async checkESignature(userId) {
         return this.userService.checkESignature(userId);
     }
+    async changePassword(username, oldPassword, password) {
+        return this.userService.changePassword(username, oldPassword, password);
+    }
 };
 __decorate([
     (0, common_1.Get)(),
@@ -114,6 +117,15 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "checkESignature", null);
+__decorate([
+    (0, common_1.Patch)(':username/:oldPassword/:password/change-password'),
+    __param(0, (0, common_1.Param)('username')),
+    __param(1, (0, common_1.Param)('oldPassword')),
+    __param(2, (0, common_1.Param)('password')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String, String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "changePassword", null);
 UserController = __decorate([
     (0, common_1.Controller)('/user'),
     __metadata("design:paramtypes", [user_service_1.UserService])

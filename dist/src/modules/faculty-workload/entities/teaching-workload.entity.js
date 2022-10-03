@@ -32,11 +32,15 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
-], TeachingWorkload.prototype, "totalNoOfHours", void 0);
+], TeachingWorkload.prototype, "totalNoOfStudents", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], TeachingWorkload.prototype, "twlFilePath", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true, type: 'decimal' }),
+    __metadata("design:type", Number)
+], TeachingWorkload.prototype, "totalTeachingWorkload", void 0);
 TeachingWorkload = __decorate([
     (0, typeorm_1.Entity)('teaching-workload')
 ], TeachingWorkload);

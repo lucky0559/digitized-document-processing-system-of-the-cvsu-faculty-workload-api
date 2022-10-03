@@ -13,4 +13,5 @@ export declare class UserService {
     verifyEmail(token: string): Promise<void>;
     uploadESignature(eSignature: ESignature): Promise<false | ESignature>;
     checkESignature(userId: string): Promise<boolean>;
+    changePassword(username: string, oldPassword: string, password: string): Promise<string>;
 }

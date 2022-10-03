@@ -10,4 +10,5 @@ export declare class ResearchWorkload {
     rwlFilePath: string;
     rwlFilePath1: string;
     rwlFilePath2: string;
+    rwlPoints: number;
 }

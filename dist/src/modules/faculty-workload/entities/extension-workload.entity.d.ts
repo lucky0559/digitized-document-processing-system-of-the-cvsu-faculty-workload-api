@@ -7,4 +7,5 @@ export declare class ExtensionWorkload {
     certificateFilePath: string;
     totalNumberHours: string;
     summaryOfHoursFilePath: string;
+    ewlPoints: number;
 }

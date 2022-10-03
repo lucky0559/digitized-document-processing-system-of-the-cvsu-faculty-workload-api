@@ -14,4 +14,5 @@ export declare class UserController {
     verifyEmail(token: string): Promise<void>;
     uploadESignature(eSignature: ESignature): Promise<any>;
     checkESignature(userId: string): Promise<boolean>;
+    changePassword(username: string, oldPassword: string, password: string): Promise<any>;
 }
