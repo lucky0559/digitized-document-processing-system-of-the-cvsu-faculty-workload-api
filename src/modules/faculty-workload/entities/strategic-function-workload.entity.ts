@@ -44,6 +44,6 @@ export class StrategicFunctionWorkload {
   @Column({ nullable: true })
   public listOfAdviseesFilePath: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'decimal' })
   public sfwPoints: number;
 }

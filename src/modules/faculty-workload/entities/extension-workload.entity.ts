@@ -26,6 +26,6 @@ export class ExtensionWorkload {
   @Column({ nullable: true })
   public summaryOfHoursFilePath: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'decimal' })
   public ewlPoints: number;
 }
