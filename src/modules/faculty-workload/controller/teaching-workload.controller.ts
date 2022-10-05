@@ -22,4 +22,9 @@ export class TeachingWorkloadController {
       userId,
     );
   }
+
+  @Get('all-teaching-workload')
+  public async getAllTeachingWorkload() {
+    return this.teachingWorkloadService.getAllTeachingWorkload();
+  }
 }
