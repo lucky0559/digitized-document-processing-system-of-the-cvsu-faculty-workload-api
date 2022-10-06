@@ -43,4 +43,22 @@ export class User {
 
   @Column({ nullable: true })
   public twlFilePath?: string;
+
+  @Column({ nullable: true })
+  public rwlFilePath?: string;
+
+  @Column({ nullable: true })
+  public rwlFilePath1?: string;
+
+  @Column({ nullable: true })
+  public rwlFilePath2?: string;
+
+  @Column({ nullable: true })
+  public extensionActivityFilePath?: string;
+
+  @Column({ nullable: true })
+  public certificateFilePath?: string;
+
+  @Column({ nullable: true })
+  public summaryOfHoursFilePath?: string;
 }

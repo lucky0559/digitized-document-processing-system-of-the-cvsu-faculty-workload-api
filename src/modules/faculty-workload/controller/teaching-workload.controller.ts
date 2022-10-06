@@ -27,4 +27,14 @@ export class TeachingWorkloadController {
   public async getAllTeachingWorkload() {
     return this.teachingWorkloadService.getAllTeachingWorkload();
   }
+
+  @Get('all-research-workload')
+  public async getAllResearchWorkload() {
+    return this.teachingWorkloadService.getAllResearchWorkload();
+  }
+
+  @Get('all-extension-workload')
+  public async getAllExtensionWorkload() {
+    return this.teachingWorkloadService.getAllExtensionWorkload();
+  }
 }
