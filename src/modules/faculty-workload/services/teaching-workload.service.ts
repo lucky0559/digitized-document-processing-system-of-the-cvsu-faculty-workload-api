@@ -25,6 +25,7 @@ export class TeachingWorkloadService {
         .createQueryBuilder('user')
         .where('user.id = :id', { id: teachingWorkloads[i].userID })
         .getOne();
+      user.twlFilePath = teachingWorkloads[i].twlFilePath;
       data.push(user);
     }
 

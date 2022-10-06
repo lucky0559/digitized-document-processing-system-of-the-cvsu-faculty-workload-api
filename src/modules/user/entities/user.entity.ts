@@ -40,4 +40,7 @@ export class User {
 
   @Column()
   public academicRank: string;
+
+  @Column({ nullable: true })
+  public twlFilePath?: string;
 }
