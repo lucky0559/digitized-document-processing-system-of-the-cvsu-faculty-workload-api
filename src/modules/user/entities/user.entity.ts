@@ -61,4 +61,22 @@ export class User {
 
   @Column({ nullable: true })
   public summaryOfHoursFilePath?: string;
+
+  @Column({ nullable: true })
+  public approvedUniversityDesignationFilePath?: string;
+
+  @Column({ nullable: true })
+  public approvedCollegeCampusDesignationFilePath?: string;
+
+  @Column({ nullable: true })
+  public approvedDepartmentDesignationFilePath?: string;
+
+  @Column({ nullable: true })
+  public coachAdviserCertificateFilePath?: string;
+
+  @Column({ nullable: true })
+  public approvedDesignationFilePath?: string;
+
+  @Column({ nullable: true })
+  public listOfAdviseesFilePath?: string;
 }

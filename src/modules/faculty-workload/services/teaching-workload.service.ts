@@ -3,6 +3,7 @@ import { AppDataSource } from '../../../data-source';
 import { User } from '../../user/entities/user.entity';
 import { ExtensionWorkload } from '../entities/extension-workload.entity';
 import { ResearchWorkload } from '../entities/research-workload.entity';
+import { StrategicFunctionWorkload } from '../entities/strategic-function-workload.entity';
 import { TeachingWorkload } from '../entities/teaching-workload.entity';
 
 const teachingWorkloadRepository =
@@ -11,6 +12,9 @@ const researchWorkloadRepository =
   AppDataSource.getRepository(ResearchWorkload);
 const extensionWorkloadRepository =
   AppDataSource.getRepository(ExtensionWorkload);
+const strategicWorkloadRepository = AppDataSource.getRepository(
+  StrategicFunctionWorkload,
+);
 const userRepository = AppDataSource.getRepository(User);
 
 @Injectable()
@@ -68,6 +72,32 @@ export class TeachingWorkloadService {
       user.certificateFilePath = extensionWorkloads[i].certificateFilePath;
       user.summaryOfHoursFilePath =
         extensionWorkloads[i].summaryOfHoursFilePath;
+      data.push(user);
+    }
+
+    return data;
+  }
+
+  public async getAllStrategicWorkload() {
+    const strategicWorkloads = await strategicWorkloadRepository.find();
+    const data = [];
+    for (let i = 0; strategicWorkloads.length > i; i++) {
+      const user = await userRepository
+        .createQueryBuilder('user')
+        .where('user.id = :id', { id: strategicWorkloads[i].userID })
+        .getOne();
+      user.approvedUniversityDesignationFilePath =
+        strategicWorkloads[i].approvedUniversityDesignationFilePath;
+      user.approvedCollegeCampusDesignationFilePath =
+        strategicWorkloads[i].approvedCollegeCampusDesignationFilePath;
+      user.approvedDepartmentDesignationFilePath =
+        strategicWorkloads[i].approvedDepartmentDesignationFilePath;
+      user.coachAdviserCertificateFilePath =
+        strategicWorkloads[i].coachAdviserCertificateFilePath;
+      user.approvedDesignationFilePath =
+        strategicWorkloads[i].approvedDesignationFilePath;
+      user.listOfAdviseesFilePath =
+        strategicWorkloads[i].listOfAdviseesFilePath;
       data.push(user);
     }
 

@@ -37,4 +37,9 @@ export class TeachingWorkloadController {
   public async getAllExtensionWorkload() {
     return this.teachingWorkloadService.getAllExtensionWorkload();
   }
+
+  @Get('all-strategic-workload')
+  public async getAllStrategicWorkload() {
+    return this.teachingWorkloadService.getAllStrategicWorkload();
+  }
 }
