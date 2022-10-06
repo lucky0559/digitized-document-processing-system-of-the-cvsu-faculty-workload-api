@@ -22,4 +22,9 @@ export class ExtensionWorkloadController {
       userId,
     );
   }
+
+  @Get('all-extension-workload')
+  public async getAllExtensionWorkload() {
+    return this.extensionWorkloadService.getAllExtensionWorkload();
+  }
 }

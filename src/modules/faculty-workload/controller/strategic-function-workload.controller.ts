@@ -22,4 +22,9 @@ export class StrategicFunctionWorkloadController {
       userId,
     );
   }
+
+  @Get('all-strategic-workload')
+  public async getAllStrategicWorkload() {
+    return this.strategicFunctionWorkloadService.getAllStrategicWorkload();
+  }
 }

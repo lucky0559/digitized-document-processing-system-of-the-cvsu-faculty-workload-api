@@ -22,4 +22,9 @@ export class ResearchWorkloadController {
       userId,
     );
   }
+
+  @Get('all-research-workload')
+  public async getAllResearchWorkload() {
+    return this.researchWorkloadService.getAllResearchWorkload();
+  }
 }
