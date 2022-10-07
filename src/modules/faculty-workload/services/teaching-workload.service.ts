@@ -18,15 +18,69 @@ export class TeachingWorkloadService {
     return await teachingWorkloadRepository.save(teachingWorkload);
   }
 
-  public async getAllTeachingWorkload() {
-    const teachingWorkloads = await teachingWorkloadRepository.find();
+  public async getAllPendingTeachingWorkloadDC() {
+    const pendingTeachingWorkloads = await teachingWorkloadRepository
+      .createQueryBuilder('teaching-workload')
+      .where('teaching-workload.status = :status', {
+        status: 'pending',
+      })
+      .andWhere('teaching-workload.currentProcessRole = :currentProcessRole', {
+        currentProcessRole: 'Department Chairperson',
+      })
+      .getMany();
     const data = [];
-    for (let i = 0; teachingWorkloads.length > i; i++) {
+    for (let i = 0; pendingTeachingWorkloads.length > i; i++) {
       const user = await userRepository
         .createQueryBuilder('user')
-        .where('user.id = :id', { id: teachingWorkloads[i].userID })
+        .where('user.id = :id', { id: pendingTeachingWorkloads[i].userID })
         .getOne();
-      user.twlFilePath = teachingWorkloads[i].twlFilePath;
+      user.twlFilePath = pendingTeachingWorkloads[i].twlFilePath;
+      data.push(user);
+    }
+
+    return data;
+  }
+
+  public async getAllPendingTeachingWorkloadDean() {
+    const pendingTeachingWorkloads = await teachingWorkloadRepository
+      .createQueryBuilder('teaching-workload')
+      .where('teaching-workload.status = :status', {
+        status: 'pending',
+      })
+      .andWhere('teaching-workload.currentProcessRole = :currentProcessRole', {
+        currentProcessRole: 'Dean',
+      })
+      .getMany();
+    const data = [];
+    for (let i = 0; pendingTeachingWorkloads.length > i; i++) {
+      const user = await userRepository
+        .createQueryBuilder('user')
+        .where('user.id = :id', { id: pendingTeachingWorkloads[i].userID })
+        .getOne();
+      user.twlFilePath = pendingTeachingWorkloads[i].twlFilePath;
+      data.push(user);
+    }
+
+    return data;
+  }
+
+  public async getAllPendingTeachingWorkloadOVPAA() {
+    const pendingTeachingWorkloads = await teachingWorkloadRepository
+      .createQueryBuilder('teaching-workload')
+      .where('teaching-workload.status = :status', {
+        status: 'pending',
+      })
+      .andWhere('teaching-workload.currentProcessRole = :currentProcessRole', {
+        currentProcessRole: 'OVPAA',
+      })
+      .getMany();
+    const data = [];
+    for (let i = 0; pendingTeachingWorkloads.length > i; i++) {
+      const user = await userRepository
+        .createQueryBuilder('user')
+        .where('user.id = :id', { id: pendingTeachingWorkloads[i].userID })
+        .getOne();
+      user.twlFilePath = pendingTeachingWorkloads[i].twlFilePath;
       data.push(user);
     }
 

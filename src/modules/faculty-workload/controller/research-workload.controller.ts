@@ -23,8 +23,18 @@ export class ResearchWorkloadController {
     );
   }
 
-  @Get('all-research-workload')
-  public async getAllResearchWorkload() {
-    return this.researchWorkloadService.getAllResearchWorkload();
+  @Get('all-pending-research-workload-dc')
+  public async getAllPendingResearchWorkloadDC() {
+    return this.researchWorkloadService.getAllPendingResearchWorkloadDC();
+  }
+
+  @Get('all-pending-research-workload-dean')
+  public async getAllPendingResearchWorkloadDean() {
+    return this.researchWorkloadService.getAllPendingResearchWorkloadDean();
+  }
+
+  @Get('all-pending-research-workload-ovpaa')
+  public async getAllPendingResearchWorkloadOVPAA() {
+    return this.researchWorkloadService.getAllPendingResearchWorkloadOVPAA();
   }
 }

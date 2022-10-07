@@ -23,8 +23,18 @@ export class StrategicFunctionWorkloadController {
     );
   }
 
-  @Get('all-strategic-workload')
-  public async getAllStrategicWorkload() {
-    return this.strategicFunctionWorkloadService.getAllStrategicWorkload();
+  @Get('all-pending-strategic-workload-dc')
+  public async getAllPendingStrategicWorkloadDC() {
+    return this.strategicFunctionWorkloadService.getAllPendingStrategicWorkloadDC();
+  }
+
+  @Get('all-pending-strategic-workload-dean')
+  public async getAllPendingStrategicWorkloadDean() {
+    return this.strategicFunctionWorkloadService.getAllPendingStrategicWorkloadDean();
+  }
+
+  @Get('all-pending-strategic-workload-ovpaa')
+  public async getAllPendingStrategicWorkloadOVPAA() {
+    return this.strategicFunctionWorkloadService.getAllPendingStrategicWorkloadOVPAA();
   }
 }

@@ -17,19 +17,78 @@ export class ExtensionWorkloadService {
     return await extensionWorkloadRepository.save(extensionWorkload);
   }
 
-  public async getAllExtensionWorkload() {
-    const extensionWorkloads = await extensionWorkloadRepository.find();
+  public async getAllPendingExtensionWorkloadDC() {
+    const pendingExtensionWorkloads = await extensionWorkloadRepository
+      .createQueryBuilder('extension-workload')
+      .where('extension-workload.status = :status', { status: 'pending' })
+      .andWhere('extension-workload.currentProcessRole = :currentProcessRole', {
+        currentProcessRole: 'Department Chairperson',
+      })
+      .getMany();
     const data = [];
-    for (let i = 0; extensionWorkloads.length > i; i++) {
+    for (let i = 0; pendingExtensionWorkloads.length > i; i++) {
       const user = await userRepository
         .createQueryBuilder('user')
-        .where('user.id = :id', { id: extensionWorkloads[i].userID })
+        .where('user.id = :id', { id: pendingExtensionWorkloads[i].userID })
         .getOne();
       user.extensionActivityFilePath =
-        extensionWorkloads[i].extensionActivityFilePath;
-      user.certificateFilePath = extensionWorkloads[i].certificateFilePath;
+        pendingExtensionWorkloads[i].extensionActivityFilePath;
+      user.certificateFilePath =
+        pendingExtensionWorkloads[i].certificateFilePath;
       user.summaryOfHoursFilePath =
-        extensionWorkloads[i].summaryOfHoursFilePath;
+        pendingExtensionWorkloads[i].summaryOfHoursFilePath;
+      data.push(user);
+    }
+
+    return data;
+  }
+
+  public async getAllPendingExtensionWorkloadDean() {
+    const pendingExtensionWorkloads = await extensionWorkloadRepository
+      .createQueryBuilder('extension-workload')
+      .where('extension-workload.status = :status', { status: 'pending' })
+      .andWhere('extension-workload.currentProcessRole = :currentProcessRole', {
+        currentProcessRole: 'Dean',
+      })
+      .getMany();
+    const data = [];
+    for (let i = 0; pendingExtensionWorkloads.length > i; i++) {
+      const user = await userRepository
+        .createQueryBuilder('user')
+        .where('user.id = :id', { id: pendingExtensionWorkloads[i].userID })
+        .getOne();
+      user.extensionActivityFilePath =
+        pendingExtensionWorkloads[i].extensionActivityFilePath;
+      user.certificateFilePath =
+        pendingExtensionWorkloads[i].certificateFilePath;
+      user.summaryOfHoursFilePath =
+        pendingExtensionWorkloads[i].summaryOfHoursFilePath;
+      data.push(user);
+    }
+
+    return data;
+  }
+
+  public async getAllPendingExtensionWorkloadOVPAA() {
+    const pendingExtensionWorkloads = await extensionWorkloadRepository
+      .createQueryBuilder('extension-workload')
+      .where('extension-workload.status = :status', { status: 'pending' })
+      .andWhere('extension-workload.currentProcessRole = :currentProcessRole', {
+        currentProcessRole: 'OVPAA',
+      })
+      .getMany();
+    const data = [];
+    for (let i = 0; pendingExtensionWorkloads.length > i; i++) {
+      const user = await userRepository
+        .createQueryBuilder('user')
+        .where('user.id = :id', { id: pendingExtensionWorkloads[i].userID })
+        .getOne();
+      user.extensionActivityFilePath =
+        pendingExtensionWorkloads[i].extensionActivityFilePath;
+      user.certificateFilePath =
+        pendingExtensionWorkloads[i].certificateFilePath;
+      user.summaryOfHoursFilePath =
+        pendingExtensionWorkloads[i].summaryOfHoursFilePath;
       data.push(user);
     }
 

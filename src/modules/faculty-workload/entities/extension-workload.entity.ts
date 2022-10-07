@@ -28,4 +28,10 @@ export class ExtensionWorkload {
 
   @Column({ nullable: true, type: 'decimal' })
   public ewlPoints: number;
+
+  @Column({ nullable: true })
+  public status: string;
+
+  @Column({ nullable: true })
+  public currentProcessRole: string;
 }

@@ -23,8 +23,18 @@ export class TeachingWorkloadController {
     );
   }
 
-  @Get('all-teaching-workload')
-  public async getAllTeachingWorkload() {
-    return this.teachingWorkloadService.getAllTeachingWorkload();
+  @Get('all-pending-teaching-workload-dc')
+  public async getAllPendingTeachingWorkloadDC() {
+    return this.teachingWorkloadService.getAllPendingTeachingWorkloadDC();
+  }
+
+  @Get('all-pending-teaching-workload-dean')
+  public async getAllPendingTeachingWorkloadDean() {
+    return this.teachingWorkloadService.getAllPendingTeachingWorkloadDean();
+  }
+
+  @Get('all-pending-teaching-workload-ovpaa')
+  public async getAllPendingTeachingWorkloadOVPAA() {
+    return this.teachingWorkloadService.getAllPendingTeachingWorkloadOVPAA();
   }
 }

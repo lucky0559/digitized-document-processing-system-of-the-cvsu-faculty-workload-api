@@ -22,4 +22,10 @@ export class TeachingWorkload {
 
   @Column({ nullable: true, type: 'decimal' })
   public totalTeachingWorkload: number;
+
+  @Column({ nullable: true })
+  public status: string;
+
+  @Column({ nullable: true })
+  public currentProcessRole: string;
 }

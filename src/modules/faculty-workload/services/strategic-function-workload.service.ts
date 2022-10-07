@@ -20,26 +20,111 @@ export class StrategicFunctionWorkloadService {
     );
   }
 
-  public async getAllStrategicWorkload() {
-    const strategicWorkloads = await strategicFunctionWorkloadRepository.find();
+  public async getAllPendingStrategicWorkloadDC() {
+    const pendingStrategicWorkloads = await strategicFunctionWorkloadRepository
+      .createQueryBuilder('strategic-function-workload')
+      .where('strategic-function-workload.status = :status', {
+        status: 'pending',
+      })
+      .andWhere(
+        'strategic-function-workload.currentProcessRole = :currentProcessRole',
+        {
+          currentProcessRole: 'Department Chairperson',
+        },
+      )
+      .getMany();
     const data = [];
-    for (let i = 0; strategicWorkloads.length > i; i++) {
+    for (let i = 0; pendingStrategicWorkloads.length > i; i++) {
       const user = await userRepository
         .createQueryBuilder('user')
-        .where('user.id = :id', { id: strategicWorkloads[i].userID })
+        .where('user.id = :id', { id: pendingStrategicWorkloads[i].userID })
         .getOne();
       user.approvedUniversityDesignationFilePath =
-        strategicWorkloads[i].approvedUniversityDesignationFilePath;
+        pendingStrategicWorkloads[i].approvedUniversityDesignationFilePath;
       user.approvedCollegeCampusDesignationFilePath =
-        strategicWorkloads[i].approvedCollegeCampusDesignationFilePath;
+        pendingStrategicWorkloads[i].approvedCollegeCampusDesignationFilePath;
       user.approvedDepartmentDesignationFilePath =
-        strategicWorkloads[i].approvedDepartmentDesignationFilePath;
+        pendingStrategicWorkloads[i].approvedDepartmentDesignationFilePath;
       user.coachAdviserCertificateFilePath =
-        strategicWorkloads[i].coachAdviserCertificateFilePath;
+        pendingStrategicWorkloads[i].coachAdviserCertificateFilePath;
       user.approvedDesignationFilePath =
-        strategicWorkloads[i].approvedDesignationFilePath;
+        pendingStrategicWorkloads[i].approvedDesignationFilePath;
       user.listOfAdviseesFilePath =
-        strategicWorkloads[i].listOfAdviseesFilePath;
+        pendingStrategicWorkloads[i].listOfAdviseesFilePath;
+      data.push(user);
+    }
+
+    return data;
+  }
+
+  public async getAllPendingStrategicWorkloadDean() {
+    const pendingStrategicWorkloads = await strategicFunctionWorkloadRepository
+      .createQueryBuilder('strategic-function-workload')
+      .where('strategic-function-workload.status = :status', {
+        status: 'pending',
+      })
+      .andWhere(
+        'strategic-function-workload.currentProcessRole = :currentProcessRole',
+        {
+          currentProcessRole: 'Dean',
+        },
+      )
+      .getMany();
+    const data = [];
+    for (let i = 0; pendingStrategicWorkloads.length > i; i++) {
+      const user = await userRepository
+        .createQueryBuilder('user')
+        .where('user.id = :id', { id: pendingStrategicWorkloads[i].userID })
+        .getOne();
+      user.approvedUniversityDesignationFilePath =
+        pendingStrategicWorkloads[i].approvedUniversityDesignationFilePath;
+      user.approvedCollegeCampusDesignationFilePath =
+        pendingStrategicWorkloads[i].approvedCollegeCampusDesignationFilePath;
+      user.approvedDepartmentDesignationFilePath =
+        pendingStrategicWorkloads[i].approvedDepartmentDesignationFilePath;
+      user.coachAdviserCertificateFilePath =
+        pendingStrategicWorkloads[i].coachAdviserCertificateFilePath;
+      user.approvedDesignationFilePath =
+        pendingStrategicWorkloads[i].approvedDesignationFilePath;
+      user.listOfAdviseesFilePath =
+        pendingStrategicWorkloads[i].listOfAdviseesFilePath;
+      data.push(user);
+    }
+
+    return data;
+  }
+
+  public async getAllPendingStrategicWorkloadOVPAA() {
+    const pendingStrategicWorkloads = await strategicFunctionWorkloadRepository
+      .createQueryBuilder('strategic-function-workload')
+      .where('strategic-function-workload.status = :status', {
+        status: 'pending',
+      })
+      .andWhere(
+        'strategic-function-workload.currentProcessRole = :currentProcessRole',
+        {
+          currentProcessRole: 'OVPAA',
+        },
+      )
+      .getMany();
+    const data = [];
+    for (let i = 0; pendingStrategicWorkloads.length > i; i++) {
+      const user = await userRepository
+        .createQueryBuilder('user')
+        .where('user.id = :id', { id: pendingStrategicWorkloads[i].userID })
+        .getOne();
+      user.approvedUniversityDesignationFilePath =
+        pendingStrategicWorkloads[i].approvedUniversityDesignationFilePath;
+      user.approvedCollegeCampusDesignationFilePath =
+        pendingStrategicWorkloads[i].approvedCollegeCampusDesignationFilePath;
+      user.approvedDepartmentDesignationFilePath =
+        pendingStrategicWorkloads[i].approvedDepartmentDesignationFilePath;
+      user.coachAdviserCertificateFilePath =
+        pendingStrategicWorkloads[i].coachAdviserCertificateFilePath;
+      user.approvedDesignationFilePath =
+        pendingStrategicWorkloads[i].approvedDesignationFilePath;
+      user.listOfAdviseesFilePath =
+        pendingStrategicWorkloads[i].listOfAdviseesFilePath;
       data.push(user);
     }
 

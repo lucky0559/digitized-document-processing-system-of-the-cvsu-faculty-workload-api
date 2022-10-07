@@ -23,8 +23,18 @@ export class ExtensionWorkloadController {
     );
   }
 
-  @Get('all-extension-workload')
-  public async getAllExtensionWorkload() {
-    return this.extensionWorkloadService.getAllExtensionWorkload();
+  @Get('all-pending-extension-workload-dc')
+  public async getAllPendingExtensionWorkloadDC() {
+    return this.extensionWorkloadService.getAllPendingExtensionWorkloadDC();
+  }
+
+  @Get('all-pending-extension-workload-dean')
+  public async getAllPendingExtensionWorkloadDean() {
+    return this.extensionWorkloadService.getAllPendingExtensionWorkloadDean();
+  }
+
+  @Get('all-pending-extension-workload-ovpaa')
+  public async getAllPendingExtensionWorkloadOVPAA() {
+    return this.extensionWorkloadService.getAllPendingExtensionWorkloadOVPAA();
   }
 }
