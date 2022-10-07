@@ -86,4 +86,12 @@ export class TeachingWorkloadService {
 
     return data;
   }
+
+  public async approveWorkload(workloadId: string) {
+    const workload = await teachingWorkloadRepository.findBy({
+      id: workloadId,
+    });
+    workload[0].status = 'approved';
+    return await teachingWorkloadRepository.save(workload);
+  }
 }

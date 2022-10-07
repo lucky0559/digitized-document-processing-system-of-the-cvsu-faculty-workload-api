@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { StrategicFunctionWorkloadService } from '../services/strategic-function-workload.service';
 
 @Controller('/strategic-function-workload')
@@ -36,5 +36,10 @@ export class StrategicFunctionWorkloadController {
   @Get('all-pending-strategic-workload-ovpaa')
   public async getAllPendingStrategicWorkloadOVPAA() {
     return this.strategicFunctionWorkloadService.getAllPendingStrategicWorkloadOVPAA();
+  }
+
+  @Patch(':workloadId/approve-workload')
+  public async approveWorkload(@Param('workloadId') workloadId: string) {
+    return this.strategicFunctionWorkloadService.approveWorkload(workloadId);
   }
 }

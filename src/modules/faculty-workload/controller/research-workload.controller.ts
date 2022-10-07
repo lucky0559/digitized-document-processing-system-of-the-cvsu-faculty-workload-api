@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { ResearchWorkloadService } from '../services/research-workload.service';
 
 @Controller('/research-workload')
@@ -36,5 +36,10 @@ export class ResearchWorkloadController {
   @Get('all-pending-research-workload-ovpaa')
   public async getAllPendingResearchWorkloadOVPAA() {
     return this.researchWorkloadService.getAllPendingResearchWorkloadOVPAA();
+  }
+
+  @Patch(':workloadId/approve-workload')
+  public async approveWorkload(@Param('workloadId') workloadId: string) {
+    return this.researchWorkloadService.approveWorkload(workloadId);
   }
 }

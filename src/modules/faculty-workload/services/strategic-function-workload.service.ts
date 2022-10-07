@@ -130,4 +130,12 @@ export class StrategicFunctionWorkloadService {
 
     return data;
   }
+
+  public async approveWorkload(workloadId: string) {
+    const workload = await strategicFunctionWorkloadRepository.findBy({
+      id: workloadId,
+    });
+    workload[0].status = 'approved';
+    return await strategicFunctionWorkloadRepository.save(workload);
+  }
 }

@@ -94,4 +94,12 @@ export class ExtensionWorkloadService {
 
     return data;
   }
+
+  public async approveWorkload(workloadId: string) {
+    const workload = await extensionWorkloadRepository.findBy({
+      id: workloadId,
+    });
+    workload[0].status = 'approved';
+    return await extensionWorkloadRepository.save(workload);
+  }
 }

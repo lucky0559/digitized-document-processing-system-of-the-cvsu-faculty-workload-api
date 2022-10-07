@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { TeachingWorkloadService } from '../services/teaching-workload.service';
 
 @Controller('/teaching-workload')
@@ -36,5 +36,10 @@ export class TeachingWorkloadController {
   @Get('all-pending-teaching-workload-ovpaa')
   public async getAllPendingTeachingWorkloadOVPAA() {
     return this.teachingWorkloadService.getAllPendingTeachingWorkloadOVPAA();
+  }
+
+  @Patch(':workloadId/approve-workload')
+  public async approveWorkload(@Param('workloadId') workloadId: string) {
+    return this.teachingWorkloadService.approveWorkload(workloadId);
   }
 }
