@@ -103,4 +103,13 @@ export class ResearchWorkloadService {
     }
     return await researchWorkloadRepository.save(workload);
   }
+
+  public async remarksWorkload(workloadId: string, remarks: string) {
+    const workload = await researchWorkloadRepository.findBy({
+      id: workloadId,
+    });
+    workload[0].remarks = remarks;
+    workload[0].status = 'remarks';
+    return await researchWorkloadRepository.save(workload);
+  }
 }

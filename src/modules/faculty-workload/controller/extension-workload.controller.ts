@@ -42,4 +42,12 @@ export class ExtensionWorkloadController {
   public async approveWorkload(@Param('workloadId') workloadId: string) {
     return this.extensionWorkloadService.approveWorkload(workloadId);
   }
+
+  @Patch(':workloadId/:remarks/remarks-workload')
+  public async remarksWorkload(
+    @Param('workloadId') workloadId: string,
+    @Param('remarks') remarks: string,
+  ) {
+    return this.extensionWorkloadService.remarksWorkload(workloadId, remarks);
+  }
 }

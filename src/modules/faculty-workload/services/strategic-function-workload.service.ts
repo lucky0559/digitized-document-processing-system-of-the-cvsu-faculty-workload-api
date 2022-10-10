@@ -148,4 +148,13 @@ export class StrategicFunctionWorkloadService {
     }
     return await strategicFunctionWorkloadRepository.save(workload);
   }
+
+  public async remarksWorkload(workloadId: string, remarks: string) {
+    const workload = await strategicFunctionWorkloadRepository.findBy({
+      id: workloadId,
+    });
+    workload[0].remarks = remarks;
+    workload[0].status = 'remarks';
+    return await strategicFunctionWorkloadRepository.save(workload);
+  }
 }

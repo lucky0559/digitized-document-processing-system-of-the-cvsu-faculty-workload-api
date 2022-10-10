@@ -42,4 +42,12 @@ export class ResearchWorkloadController {
   public async approveWorkload(@Param('workloadId') workloadId: string) {
     return this.researchWorkloadService.approveWorkload(workloadId);
   }
+
+  @Patch(':workloadId/:remarks/remarks-workload')
+  public async remarksWorkload(
+    @Param('workloadId') workloadId: string,
+    @Param('remarks') remarks: string,
+  ) {
+    return this.researchWorkloadService.remarksWorkload(workloadId, remarks);
+  }
 }

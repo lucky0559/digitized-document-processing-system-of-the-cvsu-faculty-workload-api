@@ -34,4 +34,7 @@ export class ExtensionWorkload {
 
   @Column({ nullable: true })
   public currentProcessRole: string;
+
+  @Column({ nullable: true })
+  public remarks: string;
 }

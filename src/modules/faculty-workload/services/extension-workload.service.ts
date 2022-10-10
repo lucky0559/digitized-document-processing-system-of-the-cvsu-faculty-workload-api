@@ -110,6 +110,16 @@ export class ExtensionWorkloadService {
       workload[0].status = 'approved';
       workload[0].currentProcessRole = '';
     }
+    workload[0].remarks = '';
+    return await extensionWorkloadRepository.save(workload);
+  }
+
+  public async remarksWorkload(workloadId: string, remarks: string) {
+    const workload = await extensionWorkloadRepository.findBy({
+      id: workloadId,
+    });
+    workload[0].remarks = remarks;
+    workload[0].status = 'remarks';
     return await extensionWorkloadRepository.save(workload);
   }
 }
