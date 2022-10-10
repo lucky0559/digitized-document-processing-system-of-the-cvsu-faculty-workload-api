@@ -35,6 +35,7 @@ export class TeachingWorkloadService {
         .where('user.id = :id', { id: pendingTeachingWorkloads[i].userID })
         .getOne();
       user.twlFilePath = pendingTeachingWorkloads[i].twlFilePath;
+      user.workloadId = pendingTeachingWorkloads[i].id;
       data.push(user);
     }
 
@@ -58,6 +59,7 @@ export class TeachingWorkloadService {
         .where('user.id = :id', { id: pendingTeachingWorkloads[i].userID })
         .getOne();
       user.twlFilePath = pendingTeachingWorkloads[i].twlFilePath;
+      user.workloadId = pendingTeachingWorkloads[i].id;
       data.push(user);
     }
 
@@ -81,6 +83,7 @@ export class TeachingWorkloadService {
         .where('user.id = :id', { id: pendingTeachingWorkloads[i].userID })
         .getOne();
       user.twlFilePath = pendingTeachingWorkloads[i].twlFilePath;
+      user.workloadId = pendingTeachingWorkloads[i].id;
       data.push(user);
     }
 
@@ -91,7 +94,14 @@ export class TeachingWorkloadService {
     const workload = await teachingWorkloadRepository.findBy({
       id: workloadId,
     });
-    workload[0].status = 'approved';
+    if (workload[0].currentProcessRole === 'Department Chairperson') {
+      workload[0].currentProcessRole = 'Dean';
+    } else if (workload[0].currentProcessRole === 'Dean') {
+      workload[0].currentProcessRole = 'OVPAA';
+    } else if (workload[0].currentProcessRole === 'OVPAA') {
+      workload[0].status = 'approved';
+      workload[0].currentProcessRole = '';
+    }
     return await teachingWorkloadRepository.save(workload);
   }
 }

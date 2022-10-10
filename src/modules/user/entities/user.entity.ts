@@ -5,6 +5,9 @@ export class User {
   @PrimaryGeneratedColumn('uuid')
   public id: string;
 
+  @Column({ nullable: true })
+  public workloadId: string;
+
   @Column()
   public username: string;
 

@@ -34,6 +34,7 @@ export class ResearchWorkloadService {
       user.rwlFilePath = pendingResearchWorkloads[i].rwlFilePath;
       user.rwlFilePath1 = pendingResearchWorkloads[i].rwlFilePath1;
       user.rwlFilePath2 = pendingResearchWorkloads[i].rwlFilePath2;
+      user.workloadId = pendingResearchWorkloads[i].id;
       data.push(user);
     }
 
@@ -57,6 +58,7 @@ export class ResearchWorkloadService {
       user.rwlFilePath = pendingResearchWorkloads[i].rwlFilePath;
       user.rwlFilePath1 = pendingResearchWorkloads[i].rwlFilePath1;
       user.rwlFilePath2 = pendingResearchWorkloads[i].rwlFilePath2;
+      user.workloadId = pendingResearchWorkloads[i].id;
       data.push(user);
     }
 
@@ -80,6 +82,7 @@ export class ResearchWorkloadService {
       user.rwlFilePath = pendingResearchWorkloads[i].rwlFilePath;
       user.rwlFilePath1 = pendingResearchWorkloads[i].rwlFilePath1;
       user.rwlFilePath2 = pendingResearchWorkloads[i].rwlFilePath2;
+      user.workloadId = pendingResearchWorkloads[i].id;
       data.push(user);
     }
 
@@ -90,7 +93,14 @@ export class ResearchWorkloadService {
     const workload = await researchWorkloadRepository.findBy({
       id: workloadId,
     });
-    workload[0].status = 'approved';
+    if (workload[0].currentProcessRole === 'Department Chairperson') {
+      workload[0].currentProcessRole = 'Dean';
+    } else if (workload[0].currentProcessRole === 'Dean') {
+      workload[0].currentProcessRole = 'OVPAA';
+    } else if (workload[0].currentProcessRole === 'OVPAA') {
+      workload[0].status = 'approved';
+      workload[0].currentProcessRole = '';
+    }
     return await researchWorkloadRepository.save(workload);
   }
 }

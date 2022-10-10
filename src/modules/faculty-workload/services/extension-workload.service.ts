@@ -37,6 +37,7 @@ export class ExtensionWorkloadService {
         pendingExtensionWorkloads[i].certificateFilePath;
       user.summaryOfHoursFilePath =
         pendingExtensionWorkloads[i].summaryOfHoursFilePath;
+      user.workloadId = pendingExtensionWorkloads[i].id;
       data.push(user);
     }
 
@@ -63,6 +64,7 @@ export class ExtensionWorkloadService {
         pendingExtensionWorkloads[i].certificateFilePath;
       user.summaryOfHoursFilePath =
         pendingExtensionWorkloads[i].summaryOfHoursFilePath;
+      user.workloadId = pendingExtensionWorkloads[i].id;
       data.push(user);
     }
 
@@ -89,6 +91,7 @@ export class ExtensionWorkloadService {
         pendingExtensionWorkloads[i].certificateFilePath;
       user.summaryOfHoursFilePath =
         pendingExtensionWorkloads[i].summaryOfHoursFilePath;
+      user.workloadId = pendingExtensionWorkloads[i].id;
       data.push(user);
     }
 
@@ -99,7 +102,14 @@ export class ExtensionWorkloadService {
     const workload = await extensionWorkloadRepository.findBy({
       id: workloadId,
     });
-    workload[0].status = 'approved';
+    if (workload[0].currentProcessRole === 'Department Chairperson') {
+      workload[0].currentProcessRole = 'Dean';
+    } else if (workload[0].currentProcessRole === 'Dean') {
+      workload[0].currentProcessRole = 'OVPAA';
+    } else if (workload[0].currentProcessRole === 'OVPAA') {
+      workload[0].status = 'approved';
+      workload[0].currentProcessRole = '';
+    }
     return await extensionWorkloadRepository.save(workload);
   }
 }

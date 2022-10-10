@@ -51,6 +51,7 @@ export class StrategicFunctionWorkloadService {
         pendingStrategicWorkloads[i].approvedDesignationFilePath;
       user.listOfAdviseesFilePath =
         pendingStrategicWorkloads[i].listOfAdviseesFilePath;
+      user.workloadId = pendingStrategicWorkloads[i].id;
       data.push(user);
     }
 
@@ -88,6 +89,7 @@ export class StrategicFunctionWorkloadService {
         pendingStrategicWorkloads[i].approvedDesignationFilePath;
       user.listOfAdviseesFilePath =
         pendingStrategicWorkloads[i].listOfAdviseesFilePath;
+      user.workloadId = pendingStrategicWorkloads[i].id;
       data.push(user);
     }
 
@@ -125,6 +127,7 @@ export class StrategicFunctionWorkloadService {
         pendingStrategicWorkloads[i].approvedDesignationFilePath;
       user.listOfAdviseesFilePath =
         pendingStrategicWorkloads[i].listOfAdviseesFilePath;
+      user.workloadId = pendingStrategicWorkloads[i].id;
       data.push(user);
     }
 
@@ -135,7 +138,14 @@ export class StrategicFunctionWorkloadService {
     const workload = await strategicFunctionWorkloadRepository.findBy({
       id: workloadId,
     });
-    workload[0].status = 'approved';
+    if (workload[0].currentProcessRole === 'Department Chairperson') {
+      workload[0].currentProcessRole = 'Dean';
+    } else if (workload[0].currentProcessRole === 'Dean') {
+      workload[0].currentProcessRole = 'OVPAA';
+    } else if (workload[0].currentProcessRole === 'OVPAA') {
+      workload[0].status = 'approved';
+      workload[0].currentProcessRole = '';
+    }
     return await strategicFunctionWorkloadRepository.save(workload);
   }
 }
