@@ -14,6 +14,7 @@ export class ExtensionWorkloadService {
     userId: string,
   ) {
     extensionWorkload.userID = userId;
+    extensionWorkload.status = 'pending';
     return await extensionWorkloadRepository.save(extensionWorkload);
   }
 
@@ -121,5 +122,29 @@ export class ExtensionWorkloadService {
     workload[0].remarks = remarks;
     workload[0].status = 'remarks';
     return await extensionWorkloadRepository.save(workload);
+  }
+
+  public async getWorkloadRemarksFaculty(userId: string) {
+    const workloadRemarks = await extensionWorkloadRepository
+      .createQueryBuilder('extension-workload')
+      .where('extension-workload.status = :status', { status: 'remarks' })
+      .andWhere('extension-workload.userID = :userId', {
+        userId,
+      })
+      .getMany();
+    const data = [];
+    const user = await userRepository.findOneBy({
+      id: userId,
+    });
+    for (let i = 0; workloadRemarks.length > i; i++) {
+      user.remarks = workloadRemarks[i].remarks;
+      user.extensionActivityFilePath =
+        workloadRemarks[i].extensionActivityFilePath;
+      user.certificateFilePath = workloadRemarks[i].certificateFilePath;
+      user.summaryOfHoursFilePath = workloadRemarks[i].summaryOfHoursFilePath;
+      user.workloadId = workloadRemarks[i].id;
+      data.push(user);
+    }
+    return data;
   }
 }

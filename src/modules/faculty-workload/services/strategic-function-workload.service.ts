@@ -15,6 +15,7 @@ export class StrategicFunctionWorkloadService {
     userId: string,
   ) {
     strategicFunctionWorkload.userID = userId;
+    strategicFunctionWorkload.status = 'pending';
     return await strategicFunctionWorkloadRepository.save(
       strategicFunctionWorkload,
     );

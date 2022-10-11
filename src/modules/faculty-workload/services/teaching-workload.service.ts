@@ -15,6 +15,7 @@ export class TeachingWorkloadService {
     userId: string,
   ) {
     teachingWorkload.userID = userId;
+    teachingWorkload.status = 'pending';
     return await teachingWorkloadRepository.save(teachingWorkload);
   }
 

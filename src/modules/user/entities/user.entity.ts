@@ -82,4 +82,7 @@ export class User {
 
   @Column({ nullable: true })
   public listOfAdviseesFilePath?: string;
+
+  @Column({ nullable: true })
+  public remarks?: string;
 }

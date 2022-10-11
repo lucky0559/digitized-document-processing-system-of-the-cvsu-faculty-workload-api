@@ -14,6 +14,7 @@ export class ResearchWorkloadService {
     userId: string,
   ) {
     researchWorkload.userID = userId;
+    researchWorkload.status = 'pending';
     return await researchWorkloadRepository.save(researchWorkload);
   }
 

@@ -50,4 +50,9 @@ export class ExtensionWorkloadController {
   ) {
     return this.extensionWorkloadService.remarksWorkload(workloadId, remarks);
   }
+
+  @Get(':userId/workload-remarks')
+  public async getWorkloadRemarksFaculty(@Param('userId') userId: string) {
+    return this.extensionWorkloadService.getWorkloadRemarksFaculty(userId);
+  }
 }
