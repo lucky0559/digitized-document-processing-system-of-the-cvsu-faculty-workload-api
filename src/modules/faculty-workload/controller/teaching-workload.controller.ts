@@ -50,4 +50,9 @@ export class TeachingWorkloadController {
   ) {
     return this.teachingWorkloadService.remarksWorkload(workloadId, remarks);
   }
+
+  @Get(':userId/workload-remarks')
+  public async getWorkloadRemarksFaculty(@Param('userId') userId: string) {
+    return this.teachingWorkloadService.getWorkloadRemarksFaculty(userId);
+  }
 }

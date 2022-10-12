@@ -114,4 +114,27 @@ export class TeachingWorkloadService {
     workload[0].status = 'remarks';
     return await teachingWorkloadRepository.save(workload);
   }
+
+  public async getWorkloadRemarksFaculty(userId: string) {
+    const workloadRemarks = await teachingWorkloadRepository
+      .createQueryBuilder('teaching-workload')
+      .where('teaching-workload.status = :status', {
+        status: 'remarks',
+      })
+      .andWhere('teaching-workload.userID = :userId', {
+        userId,
+      })
+      .getMany();
+    const data = [];
+    const user = await userRepository.findOneBy({
+      id: userId,
+    });
+    for (let i = 0; workloadRemarks.length > i; i++) {
+      user.remarks = workloadRemarks[i].remarks;
+      user.twlFilePath = workloadRemarks[i].twlFilePath;
+      user.workloadId = workloadRemarks[i].id;
+      data.push(user);
+    }
+    return data;
+  }
 }
