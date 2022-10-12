@@ -158,4 +158,37 @@ export class StrategicFunctionWorkloadService {
     workload[0].status = 'remarks';
     return await strategicFunctionWorkloadRepository.save(workload);
   }
+
+  public async getWorkloadRemarksFaculty(userId: string) {
+    const workloadRemarks = await strategicFunctionWorkloadRepository
+      .createQueryBuilder('strategic-function-workload')
+      .where('strategic-function-workload.status = :status', {
+        status: 'remarks',
+      })
+      .andWhere('strategic-function-workload.userID = :userId', {
+        userId,
+      })
+      .getMany();
+    const data = [];
+    const user = await userRepository.findOneBy({
+      id: userId,
+    });
+    for (let i = 0; workloadRemarks.length > i; i++) {
+      user.remarks = workloadRemarks[i].remarks;
+      user.approvedUniversityDesignationFilePath =
+        workloadRemarks[i].approvedUniversityDesignationFilePath;
+      user.approvedCollegeCampusDesignationFilePath =
+        workloadRemarks[i].approvedCollegeCampusDesignationFilePath;
+      user.approvedDepartmentDesignationFilePath =
+        workloadRemarks[i].approvedDepartmentDesignationFilePath;
+      user.coachAdviserCertificateFilePath =
+        workloadRemarks[i].coachAdviserCertificateFilePath;
+      user.approvedDesignationFilePath =
+        workloadRemarks[i].approvedDesignationFilePath;
+      user.listOfAdviseesFilePath = workloadRemarks[i].listOfAdviseesFilePath;
+      user.workloadId = workloadRemarks[i].id;
+      data.push(user);
+    }
+    return data;
+  }
 }

@@ -53,4 +53,11 @@ export class StrategicFunctionWorkloadController {
       remarks,
     );
   }
+
+  @Get(':userId/workload-remarks')
+  public async getWorkloadRemarksFaculty(@Param('userId') userId: string) {
+    return this.strategicFunctionWorkloadService.getWorkloadRemarksFaculty(
+      userId,
+    );
+  }
 }
