@@ -113,4 +113,27 @@ export class ResearchWorkloadService {
     workload[0].status = 'remarks';
     return await researchWorkloadRepository.save(workload);
   }
+
+  public async getWorkloadRemarksFaculty(userId: string) {
+    const workloadRemarks = await researchWorkloadRepository
+      .createQueryBuilder('research-workload')
+      .where('research-workload.status = :status', { status: 'remarks' })
+      .andWhere('research-workload.userID = :userId', {
+        userId,
+      })
+      .getMany();
+    const data = [];
+    const user = await userRepository.findOneBy({
+      id: userId,
+    });
+    for (let i = 0; workloadRemarks.length > i; i++) {
+      user.remarks = workloadRemarks[i].remarks;
+      user.rwlFilePath = workloadRemarks[i].rwlFilePath;
+      user.rwlFilePath1 = workloadRemarks[i].rwlFilePath1;
+      user.rwlFilePath2 = workloadRemarks[i].rwlFilePath2;
+      user.workloadId = workloadRemarks[i].id;
+      data.push(user);
+    }
+    return data;
+  }
 }

@@ -50,4 +50,9 @@ export class ResearchWorkloadController {
   ) {
     return this.researchWorkloadService.remarksWorkload(workloadId, remarks);
   }
+
+  @Get(':userId/workload-remarks')
+  public async getWorkloadRemarksFaculty(@Param('userId') userId: string) {
+    return this.researchWorkloadService.getWorkloadRemarksFaculty(userId);
+  }
 }
