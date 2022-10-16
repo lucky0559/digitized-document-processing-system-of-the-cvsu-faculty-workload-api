@@ -11,4 +11,7 @@ export declare class ResearchWorkload {
     rwlFilePath1: string;
     rwlFilePath2: string;
     rwlPoints: number;
+    status: string;
+    currentProcessRole: string;
+    remarks: string;
 }

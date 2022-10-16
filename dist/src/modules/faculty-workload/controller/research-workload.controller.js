@@ -25,6 +25,24 @@ let ResearchWorkloadController = class ResearchWorkloadController {
     async saveResearchWorkload(userId, researchWorkload) {
         return this.researchWorkloadService.saveResearchWorkload(researchWorkload, userId);
     }
+    async getAllPendingResearchWorkloadDC() {
+        return this.researchWorkloadService.getAllPendingResearchWorkloadDC();
+    }
+    async getAllPendingResearchWorkloadDean() {
+        return this.researchWorkloadService.getAllPendingResearchWorkloadDean();
+    }
+    async getAllPendingResearchWorkloadOVPAA() {
+        return this.researchWorkloadService.getAllPendingResearchWorkloadOVPAA();
+    }
+    async approveWorkload(workloadId) {
+        return this.researchWorkloadService.approveWorkload(workloadId);
+    }
+    async remarksWorkload(workloadId, remarks) {
+        return this.researchWorkloadService.remarksWorkload(workloadId, remarks);
+    }
+    async getWorkloadRemarksFaculty(userId) {
+        return this.researchWorkloadService.getWorkloadRemarksFaculty(userId);
+    }
 };
 __decorate([
     (0, common_1.Get)(),
@@ -40,6 +58,46 @@ __decorate([
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], ResearchWorkloadController.prototype, "saveResearchWorkload", null);
+__decorate([
+    (0, common_1.Get)('all-pending-research-workload-dc'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], ResearchWorkloadController.prototype, "getAllPendingResearchWorkloadDC", null);
+__decorate([
+    (0, common_1.Get)('all-pending-research-workload-dean'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], ResearchWorkloadController.prototype, "getAllPendingResearchWorkloadDean", null);
+__decorate([
+    (0, common_1.Get)('all-pending-research-workload-ovpaa'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], ResearchWorkloadController.prototype, "getAllPendingResearchWorkloadOVPAA", null);
+__decorate([
+    (0, common_1.Patch)(':workloadId/approve-workload'),
+    __param(0, (0, common_1.Param)('workloadId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ResearchWorkloadController.prototype, "approveWorkload", null);
+__decorate([
+    (0, common_1.Patch)(':workloadId/:remarks/remarks-workload'),
+    __param(0, (0, common_1.Param)('workloadId')),
+    __param(1, (0, common_1.Param)('remarks')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], ResearchWorkloadController.prototype, "remarksWorkload", null);
+__decorate([
+    (0, common_1.Get)(':userId/workload-remarks'),
+    __param(0, (0, common_1.Param)('userId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ResearchWorkloadController.prototype, "getWorkloadRemarksFaculty", null);
 ResearchWorkloadController = __decorate([
     (0, common_1.Controller)('/research-workload'),
     __metadata("design:paramtypes", [research_workload_service_1.ResearchWorkloadService])

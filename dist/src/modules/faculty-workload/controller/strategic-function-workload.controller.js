@@ -25,6 +25,24 @@ let StrategicFunctionWorkloadController = class StrategicFunctionWorkloadControl
     async saveTeachingWorkload(userId, strategicFunctionWorkload) {
         return this.strategicFunctionWorkloadService.saveStrategicFunctinWorkload(strategicFunctionWorkload, userId);
     }
+    async getAllPendingStrategicWorkloadDC() {
+        return this.strategicFunctionWorkloadService.getAllPendingStrategicWorkloadDC();
+    }
+    async getAllPendingStrategicWorkloadDean() {
+        return this.strategicFunctionWorkloadService.getAllPendingStrategicWorkloadDean();
+    }
+    async getAllPendingStrategicWorkloadOVPAA() {
+        return this.strategicFunctionWorkloadService.getAllPendingStrategicWorkloadOVPAA();
+    }
+    async approveWorkload(workloadId) {
+        return this.strategicFunctionWorkloadService.approveWorkload(workloadId);
+    }
+    async remarksWorkload(workloadId, remarks) {
+        return this.strategicFunctionWorkloadService.remarksWorkload(workloadId, remarks);
+    }
+    async getWorkloadRemarksFaculty(userId) {
+        return this.strategicFunctionWorkloadService.getWorkloadRemarksFaculty(userId);
+    }
 };
 __decorate([
     (0, common_1.Get)(),
@@ -40,6 +58,46 @@ __decorate([
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], StrategicFunctionWorkloadController.prototype, "saveTeachingWorkload", null);
+__decorate([
+    (0, common_1.Get)('all-pending-strategic-workload-dc'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], StrategicFunctionWorkloadController.prototype, "getAllPendingStrategicWorkloadDC", null);
+__decorate([
+    (0, common_1.Get)('all-pending-strategic-workload-dean'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], StrategicFunctionWorkloadController.prototype, "getAllPendingStrategicWorkloadDean", null);
+__decorate([
+    (0, common_1.Get)('all-pending-strategic-workload-ovpaa'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], StrategicFunctionWorkloadController.prototype, "getAllPendingStrategicWorkloadOVPAA", null);
+__decorate([
+    (0, common_1.Patch)(':workloadId/approve-workload'),
+    __param(0, (0, common_1.Param)('workloadId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], StrategicFunctionWorkloadController.prototype, "approveWorkload", null);
+__decorate([
+    (0, common_1.Patch)(':workloadId/:remarks/remarks-workload'),
+    __param(0, (0, common_1.Param)('workloadId')),
+    __param(1, (0, common_1.Param)('remarks')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], StrategicFunctionWorkloadController.prototype, "remarksWorkload", null);
+__decorate([
+    (0, common_1.Get)(':userId/workload-remarks'),
+    __param(0, (0, common_1.Param)('userId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], StrategicFunctionWorkloadController.prototype, "getWorkloadRemarksFaculty", null);
 StrategicFunctionWorkloadController = __decorate([
     (0, common_1.Controller)('/strategic-function-workload'),
     __metadata("design:paramtypes", [strategic_function_workload_service_1.StrategicFunctionWorkloadService])

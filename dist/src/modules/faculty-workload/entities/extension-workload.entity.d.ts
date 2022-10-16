@@ -8,4 +8,7 @@ export declare class ExtensionWorkload {
     totalNumberHours: string;
     summaryOfHoursFilePath: string;
     ewlPoints: number;
+    status: string;
+    currentProcessRole: string;
+    remarks: string;
 }

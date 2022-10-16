@@ -6,4 +6,7 @@ export declare class TeachingWorkload {
     totalNoOfStudents: string;
     twlFilePath: string;
     totalTeachingWorkload: number;
+    status: string;
+    currentProcessRole: string;
+    remarks: string;
 }

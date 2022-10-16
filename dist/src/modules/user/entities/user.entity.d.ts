@@ -1,5 +1,6 @@
 export declare class User {
     id: string;
+    workloadId: string;
     username: string;
     email: string;
     password: string;
@@ -12,4 +13,18 @@ export declare class User {
     emailToken: string;
     verified: boolean;
     academicRank: string;
+    twlFilePath?: string;
+    rwlFilePath?: string;
+    rwlFilePath1?: string;
+    rwlFilePath2?: string;
+    extensionActivityFilePath?: string;
+    certificateFilePath?: string;
+    summaryOfHoursFilePath?: string;
+    approvedUniversityDesignationFilePath?: string;
+    approvedCollegeCampusDesignationFilePath?: string;
+    approvedDepartmentDesignationFilePath?: string;
+    coachAdviserCertificateFilePath?: string;
+    approvedDesignationFilePath?: string;
+    listOfAdviseesFilePath?: string;
+    remarks?: string;
 }

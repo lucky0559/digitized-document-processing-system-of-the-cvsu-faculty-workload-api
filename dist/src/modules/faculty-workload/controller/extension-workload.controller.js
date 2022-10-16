@@ -25,6 +25,24 @@ let ExtensionWorkloadController = class ExtensionWorkloadController {
     async saveExtensionWorkload(userId, extensionWorkload) {
         return this.extensionWorkloadService.saveExtensionWorkload(extensionWorkload, userId);
     }
+    async getAllPendingExtensionWorkloadDC() {
+        return this.extensionWorkloadService.getAllPendingExtensionWorkloadDC();
+    }
+    async getAllPendingExtensionWorkloadDean() {
+        return this.extensionWorkloadService.getAllPendingExtensionWorkloadDean();
+    }
+    async getAllPendingExtensionWorkloadOVPAA() {
+        return this.extensionWorkloadService.getAllPendingExtensionWorkloadOVPAA();
+    }
+    async approveWorkload(workloadId) {
+        return this.extensionWorkloadService.approveWorkload(workloadId);
+    }
+    async remarksWorkload(workloadId, remarks) {
+        return this.extensionWorkloadService.remarksWorkload(workloadId, remarks);
+    }
+    async getWorkloadRemarksFaculty(userId) {
+        return this.extensionWorkloadService.getWorkloadRemarksFaculty(userId);
+    }
 };
 __decorate([
     (0, common_1.Get)(),
@@ -40,6 +58,46 @@ __decorate([
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], ExtensionWorkloadController.prototype, "saveExtensionWorkload", null);
+__decorate([
+    (0, common_1.Get)('all-pending-extension-workload-dc'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], ExtensionWorkloadController.prototype, "getAllPendingExtensionWorkloadDC", null);
+__decorate([
+    (0, common_1.Get)('all-pending-extension-workload-dean'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], ExtensionWorkloadController.prototype, "getAllPendingExtensionWorkloadDean", null);
+__decorate([
+    (0, common_1.Get)('all-pending-extension-workload-ovpaa'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], ExtensionWorkloadController.prototype, "getAllPendingExtensionWorkloadOVPAA", null);
+__decorate([
+    (0, common_1.Patch)(':workloadId/approve-workload'),
+    __param(0, (0, common_1.Param)('workloadId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ExtensionWorkloadController.prototype, "approveWorkload", null);
+__decorate([
+    (0, common_1.Patch)(':workloadId/:remarks/remarks-workload'),
+    __param(0, (0, common_1.Param)('workloadId')),
+    __param(1, (0, common_1.Param)('remarks')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], ExtensionWorkloadController.prototype, "remarksWorkload", null);
+__decorate([
+    (0, common_1.Get)(':userId/workload-remarks'),
+    __param(0, (0, common_1.Param)('userId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ExtensionWorkloadController.prototype, "getWorkloadRemarksFaculty", null);
 ExtensionWorkloadController = __decorate([
     (0, common_1.Controller)('/extension-workload'),
     __metadata("design:paramtypes", [extension_workload_service_1.ExtensionWorkloadService])

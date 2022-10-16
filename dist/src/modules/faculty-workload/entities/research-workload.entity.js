@@ -61,6 +61,18 @@ __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", Number)
 ], ResearchWorkload.prototype, "rwlPoints", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], ResearchWorkload.prototype, "status", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], ResearchWorkload.prototype, "currentProcessRole", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], ResearchWorkload.prototype, "remarks", void 0);
 ResearchWorkload = __decorate([
     (0, typeorm_1.Entity)('research-workload')
 ], ResearchWorkload);

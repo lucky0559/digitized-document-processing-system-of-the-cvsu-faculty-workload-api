@@ -14,4 +14,7 @@ export declare class StrategicFunctionWorkload {
     totalOfAcademicAdvisees: string;
     listOfAdviseesFilePath: string;
     sfwPoints: number;
+    status: string;
+    currentProcessRole: string;
+    remarks: string;
 }
