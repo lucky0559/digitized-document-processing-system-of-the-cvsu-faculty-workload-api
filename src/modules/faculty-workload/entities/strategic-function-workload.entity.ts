@@ -46,4 +46,13 @@ export class StrategicFunctionWorkload {
 
   @Column({ nullable: true, type: 'decimal' })
   public sfwPoints: number;
+
+  @Column({ nullable: true })
+  public status: string;
+
+  @Column({ nullable: true })
+  public currentProcessRole: string;
+
+  @Column({ nullable: true })
+  public remarks: string;
 }

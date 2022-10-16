@@ -37,4 +37,13 @@ export class ResearchWorkload {
 
   @Column({ nullable: true })
   public rwlPoints: number;
+
+  @Column({ nullable: true })
+  public status: string;
+
+  @Column({ nullable: true })
+  public currentProcessRole: string;
+
+  @Column({ nullable: true })
+  public remarks: string;
 }

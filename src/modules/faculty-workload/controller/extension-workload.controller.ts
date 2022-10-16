@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { ExtensionWorkloadService } from '../services/extension-workload.service';
 
 @Controller('/extension-workload')
@@ -21,5 +21,38 @@ export class ExtensionWorkloadController {
       extensionWorkload,
       userId,
     );
+  }
+
+  @Get('all-pending-extension-workload-dc')
+  public async getAllPendingExtensionWorkloadDC() {
+    return this.extensionWorkloadService.getAllPendingExtensionWorkloadDC();
+  }
+
+  @Get('all-pending-extension-workload-dean')
+  public async getAllPendingExtensionWorkloadDean() {
+    return this.extensionWorkloadService.getAllPendingExtensionWorkloadDean();
+  }
+
+  @Get('all-pending-extension-workload-ovpaa')
+  public async getAllPendingExtensionWorkloadOVPAA() {
+    return this.extensionWorkloadService.getAllPendingExtensionWorkloadOVPAA();
+  }
+
+  @Patch(':workloadId/approve-workload')
+  public async approveWorkload(@Param('workloadId') workloadId: string) {
+    return this.extensionWorkloadService.approveWorkload(workloadId);
+  }
+
+  @Patch(':workloadId/:remarks/remarks-workload')
+  public async remarksWorkload(
+    @Param('workloadId') workloadId: string,
+    @Param('remarks') remarks: string,
+  ) {
+    return this.extensionWorkloadService.remarksWorkload(workloadId, remarks);
+  }
+
+  @Get(':userId/workload-remarks')
+  public async getWorkloadRemarksFaculty(@Param('userId') userId: string) {
+    return this.extensionWorkloadService.getWorkloadRemarksFaculty(userId);
   }
 }
