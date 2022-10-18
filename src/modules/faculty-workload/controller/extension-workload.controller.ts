@@ -55,4 +55,9 @@ export class ExtensionWorkloadController {
   public async getWorkloadRemarksFaculty(@Param('userId') userId: string) {
     return this.extensionWorkloadService.getWorkloadRemarksFaculty(userId);
   }
+
+  @Get('workloads-approved')
+  public async getAllTotalWorkloadPointsApproved() {
+    return this.extensionWorkloadService.getAllTotalWorkloadPointsApproved();
+  }
 }

@@ -2,10 +2,20 @@ import { Injectable } from '@nestjs/common';
 import { AppDataSource } from '../../../data-source';
 import { User } from '../../user/entities/user.entity';
 import { ExtensionWorkload } from '../entities/extension-workload.entity';
+import { ResearchWorkload } from '../entities/research-workload.entity';
+import { StrategicFunctionWorkload } from '../entities/strategic-function-workload.entity';
+import { TeachingWorkload } from '../entities/teaching-workload.entity';
 
 const extensionWorkloadRepository =
   AppDataSource.getRepository(ExtensionWorkload);
 const userRepository = AppDataSource.getRepository(User);
+const researchWorkloadRepository =
+  AppDataSource.getRepository(ResearchWorkload);
+const strategicWorkloadRepository = AppDataSource.getRepository(
+  StrategicFunctionWorkload,
+);
+const teachingWorkloadRepository =
+  AppDataSource.getRepository(TeachingWorkload);
 
 @Injectable()
 export class ExtensionWorkloadService {
@@ -103,6 +113,9 @@ export class ExtensionWorkloadService {
     const workload = await extensionWorkloadRepository.findBy({
       id: workloadId,
     });
+    const user = await userRepository.findOneBy({
+      id: workload[0].userID,
+    });
     if (workload[0].currentProcessRole === 'Department Chairperson') {
       workload[0].currentProcessRole = 'Dean';
     } else if (workload[0].currentProcessRole === 'Dean') {
@@ -110,8 +123,10 @@ export class ExtensionWorkloadService {
     } else if (workload[0].currentProcessRole === 'OVPAA') {
       workload[0].status = 'approved';
       workload[0].currentProcessRole = '';
+      user.ewlPoints = workload[0].ewlPoints + user.ewlPoints;
     }
     workload[0].remarks = '';
+    userRepository.save(user);
     return await extensionWorkloadRepository.save(workload);
   }
 
@@ -146,5 +161,56 @@ export class ExtensionWorkloadService {
       data.push(user);
     }
     return data;
+  }
+
+  public async getAllTotalWorkloadPointsApproved() {
+    const extensionWorkloads = await extensionWorkloadRepository.findBy({
+      status: 'approved',
+    });
+    const researchWorkloads = await researchWorkloadRepository.findBy({
+      status: 'approved',
+    });
+    const strategicWorkloads = await strategicWorkloadRepository.findBy({
+      status: 'approved',
+    });
+    const teachingWorkloads = await teachingWorkloadRepository.findBy({
+      status: 'approved',
+    });
+    const users = [];
+    const filteredUsers = [];
+    for (let i = 0; i < extensionWorkloads.length; i++) {
+      const user = await userRepository.findOneBy({
+        id: extensionWorkloads[i].userID,
+      });
+      users.push(user);
+    }
+    for (let i = 0; i < researchWorkloads.length; i++) {
+      const user = await userRepository.findOneBy({
+        id: researchWorkloads[i].userID,
+      });
+      users.push(user);
+    }
+    for (let i = 0; i < strategicWorkloads.length; i++) {
+      const user = await userRepository.findOneBy({
+        id: strategicWorkloads[i].userID,
+      });
+      users.push(user);
+    }
+    for (let i = 0; i < teachingWorkloads.length; i++) {
+      const user = await userRepository.findOneBy({
+        id: teachingWorkloads[i].userID,
+      });
+      users.push(user);
+    }
+    const filtered = users.filter((element) => {
+      const isDuplicate = filteredUsers.includes(element.id);
+
+      if (!isDuplicate) {
+        filteredUsers.push(element.id);
+        return true;
+      }
+      return false;
+    });
+    return filtered;
   }
 }

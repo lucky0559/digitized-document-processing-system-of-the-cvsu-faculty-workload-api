@@ -85,4 +85,16 @@ export class User {
 
   @Column({ nullable: true })
   public remarks?: string;
+
+  @Column({ nullable: true, type: 'decimal' })
+  public ewlPoints: number;
+
+  @Column({ nullable: true })
+  public rwlPoints: number;
+
+  @Column({ nullable: true, type: 'decimal' })
+  public sfwlPoints: number;
+
+  @Column({ nullable: true, type: 'decimal' })
+  public twlPoints: number;
 }
