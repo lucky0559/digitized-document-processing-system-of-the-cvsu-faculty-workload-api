@@ -51,7 +51,7 @@ export class StrategicFunctionWorkloadService {
       user.approvedDesignationFilePath =
         pendingStrategicWorkloads[i].approvedDesignationFilePath;
       user.listOfAdviseesFilePath =
-        pendingStrategicWorkloads[i].listOfAdviseesFilePath;
+        pendingStrategicWorkloads[i].academicAdviseesFilePath;
       user.workloadId = pendingStrategicWorkloads[i].id;
       data.push(user);
     }
@@ -89,7 +89,7 @@ export class StrategicFunctionWorkloadService {
       user.approvedDesignationFilePath =
         pendingStrategicWorkloads[i].approvedDesignationFilePath;
       user.listOfAdviseesFilePath =
-        pendingStrategicWorkloads[i].listOfAdviseesFilePath;
+        pendingStrategicWorkloads[i].academicAdviseesFilePath;
       user.workloadId = pendingStrategicWorkloads[i].id;
       data.push(user);
     }
@@ -127,7 +127,7 @@ export class StrategicFunctionWorkloadService {
       user.approvedDesignationFilePath =
         pendingStrategicWorkloads[i].approvedDesignationFilePath;
       user.listOfAdviseesFilePath =
-        pendingStrategicWorkloads[i].listOfAdviseesFilePath;
+        pendingStrategicWorkloads[i].academicAdviseesFilePath;
       user.workloadId = pendingStrategicWorkloads[i].id;
       data.push(user);
     }
@@ -185,7 +185,7 @@ export class StrategicFunctionWorkloadService {
         workloadRemarks[i].coachAdviserCertificateFilePath;
       user.approvedDesignationFilePath =
         workloadRemarks[i].approvedDesignationFilePath;
-      user.listOfAdviseesFilePath = workloadRemarks[i].listOfAdviseesFilePath;
+      user.listOfAdviseesFilePath = workloadRemarks[i].academicAdviseesFilePath;
       user.workloadId = workloadRemarks[i].id;
       data.push(user);
     }

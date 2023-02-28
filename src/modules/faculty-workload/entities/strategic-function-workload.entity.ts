@@ -11,23 +11,26 @@ export class StrategicFunctionWorkload {
   @Column({ nullable: true, array: true })
   public designationUniversityLevel: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, array: true })
   public approvedUniversityDesignationFilePath: string;
 
   @Column({ nullable: true, array: true })
   public designationCollegeCampusLevel: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, array: true })
   public approvedCollegeCampusDesignationFilePath: string;
 
   @Column({ nullable: true, array: true })
   public designationDepartmentLevel: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, array: true })
   public approvedDepartmentDesignationFilePath: string;
 
   @Column({ nullable: true })
   public designationAsSportTrainorAcademic: string;
+
+  @Column({ nullable: true })
+  public designationAsSportTrainorAcademicFilePath: string;
 
   @Column({ nullable: true })
   public coachAdviserCertificateFilePath: string;
@@ -36,13 +39,16 @@ export class StrategicFunctionWorkload {
   public designationAsMemberOfAdhoc: string;
 
   @Column({ nullable: true })
+  public designationAsMemberOfAdhocFilePath: string;
+
+  @Column({ nullable: true })
   public approvedDesignationFilePath: string;
 
   @Column({ nullable: true })
-  public totalOfAcademicAdvisees: string;
+  public academicAdvisees: string;
 
   @Column({ nullable: true })
-  public listOfAdviseesFilePath: string;
+  public academicAdviseesFilePath: string;
 
   @Column({ nullable: true, type: 'decimal' })
   public sfwPoints: number;
