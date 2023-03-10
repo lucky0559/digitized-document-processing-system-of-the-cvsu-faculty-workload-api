@@ -34,7 +34,8 @@ export class ResearchWorkloadService {
         .getOne();
       user.rwlFilePath = pendingResearchWorkloads[i].rwlFilePath;
       user.rwlFilePath1 = pendingResearchWorkloads[i].rwlFilePath1;
-      user.rwlFilePath2 = pendingResearchWorkloads[i].rwlFilePath2;
+      user.disseminatedResearchFilesPath =
+        pendingResearchWorkloads[i].disseminatedResearchFilesPath;
       user.workloadId = pendingResearchWorkloads[i].id;
       data.push(user);
     }
@@ -58,7 +59,8 @@ export class ResearchWorkloadService {
         .getOne();
       user.rwlFilePath = pendingResearchWorkloads[i].rwlFilePath;
       user.rwlFilePath1 = pendingResearchWorkloads[i].rwlFilePath1;
-      user.rwlFilePath2 = pendingResearchWorkloads[i].rwlFilePath2;
+      user.disseminatedResearchFilesPath =
+        pendingResearchWorkloads[i].disseminatedResearchFilesPath;
       user.workloadId = pendingResearchWorkloads[i].id;
       data.push(user);
     }
@@ -82,7 +84,8 @@ export class ResearchWorkloadService {
         .getOne();
       user.rwlFilePath = pendingResearchWorkloads[i].rwlFilePath;
       user.rwlFilePath1 = pendingResearchWorkloads[i].rwlFilePath1;
-      user.rwlFilePath2 = pendingResearchWorkloads[i].rwlFilePath2;
+      user.disseminatedResearchFilesPath =
+        pendingResearchWorkloads[i].disseminatedResearchFilesPath;
       user.workloadId = pendingResearchWorkloads[i].id;
       data.push(user);
     }
@@ -130,7 +133,8 @@ export class ResearchWorkloadService {
       user.remarks = workloadRemarks[i].remarks;
       user.rwlFilePath = workloadRemarks[i].rwlFilePath;
       user.rwlFilePath1 = workloadRemarks[i].rwlFilePath1;
-      user.rwlFilePath2 = workloadRemarks[i].rwlFilePath2;
+      user.disseminatedResearchFilesPath =
+        workloadRemarks[i].disseminatedResearchFilesPath;
       user.workloadId = workloadRemarks[i].id;
       data.push(user);
     }
