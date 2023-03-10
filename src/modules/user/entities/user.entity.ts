@@ -53,8 +53,8 @@ export class User {
   @Column({ nullable: true })
   public rwlFilePath1?: string;
 
-  @Column({ nullable: true })
-  public disseminatedResearchFilesPath?: string[];
+  @Column({ nullable: true, array: true })
+  public disseminatedResearchFilesPath?: string;
 
   @Column({ nullable: true })
   public extensionActivityFilePath?: string;

@@ -23,8 +23,8 @@ export class ResearchWorkload {
   @Column({ nullable: true })
   public fundGenerated: string;
 
-  @Column({ nullable: true })
-  public disseminatedResearch: string[];
+  @Column({ nullable: true, array: true })
+  public disseminatedResearch: string;
 
   @Column({ nullable: true })
   public rwlFilePath: string;
@@ -32,8 +32,8 @@ export class ResearchWorkload {
   @Column({ nullable: true })
   public rwlFilePath1: string;
 
-  @Column({ nullable: true })
-  public disseminatedResearchFilesPath: string[];
+  @Column({ nullable: true, array: true })
+  public disseminatedResearchFilesPath: string;
 
   @Column({ nullable: true })
   public rwlPoints: number;
