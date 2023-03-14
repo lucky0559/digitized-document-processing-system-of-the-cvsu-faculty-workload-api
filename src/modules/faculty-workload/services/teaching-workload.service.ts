@@ -16,6 +16,7 @@ export class TeachingWorkloadService {
   ) {
     teachingWorkload.userID = userId;
     teachingWorkload.status = 'pending';
+    teachingWorkload.currentProcessRole = 'Department Chairperson';
     return await teachingWorkloadRepository.save(teachingWorkload);
   }
 

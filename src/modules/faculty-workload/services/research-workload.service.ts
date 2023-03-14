@@ -15,6 +15,7 @@ export class ResearchWorkloadService {
   ) {
     researchWorkload.userID = userId;
     researchWorkload.status = 'pending';
+    researchWorkload.currentProcessRole = 'Department Chairperson';
     return await researchWorkloadRepository.save(researchWorkload);
   }
 

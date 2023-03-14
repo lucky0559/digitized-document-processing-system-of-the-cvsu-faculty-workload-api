@@ -25,6 +25,7 @@ export class ExtensionWorkloadService {
   ) {
     extensionWorkload.userID = userId;
     extensionWorkload.status = 'pending';
+    extensionWorkload.currentProcessRole = 'Department Chairperson';
     return await extensionWorkloadRepository.save(extensionWorkload);
   }
 
