@@ -77,4 +77,12 @@ export class UserController {
   ): Promise<any> {
     return this.userService.changePassword(username, oldPassword, password);
   }
+
+  @Patch(':email/:role/change-role')
+  public async changeUserRole(
+    @Param('email') email: string,
+    @Param('role') role: string,
+  ): Promise<any> {
+    return this.userService.changeUserRole(email, role);
+  }
 }

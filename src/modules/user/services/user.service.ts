@@ -203,4 +203,16 @@ export class UserService {
       throw new UnauthorizedException('Invalid Old Password');
     }
   }
+
+  public async changeUserRole(email: string, role: string) {
+    const user = await userRepository.findOneBy({ email });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    user.role = role;
+    await userRepository.update(user.id, user);
+    return 'Role Updated Successfully';
+  }
 }
