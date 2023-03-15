@@ -33,12 +33,14 @@ export class ResearchWorkloadService {
         .createQueryBuilder('user')
         .where('user.id = :id', { id: pendingResearchWorkloads[i].userID })
         .getOne();
-      user.rwlFilePath = pendingResearchWorkloads[i].rwlFilePath;
-      user.rwlFilePath1 = pendingResearchWorkloads[i].rwlFilePath1;
-      user.disseminatedResearchFilesPath =
-        pendingResearchWorkloads[i].disseminatedResearchFilesPath;
-      user.workloadId = pendingResearchWorkloads[i].id;
-      data.push(user);
+      if (user) {
+        user.rwlFilePath = pendingResearchWorkloads[i].rwlFilePath;
+        user.rwlFilePath1 = pendingResearchWorkloads[i].rwlFilePath1;
+        user.disseminatedResearchFilesPath =
+          pendingResearchWorkloads[i].disseminatedResearchFilesPath;
+        user.workloadId = pendingResearchWorkloads[i].id;
+        data.push(user);
+      }
     }
 
     return data;

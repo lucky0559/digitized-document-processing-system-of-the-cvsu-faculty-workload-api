@@ -41,20 +41,22 @@ export class StrategicFunctionWorkloadService {
         .createQueryBuilder('user')
         .where('user.id = :id', { id: pendingStrategicWorkloads[i].userID })
         .getOne();
-      user.approvedUniversityDesignationFilePath =
-        pendingStrategicWorkloads[i].approvedUniversityDesignationFilePath;
-      user.approvedCollegeCampusDesignationFilePath =
-        pendingStrategicWorkloads[i].approvedCollegeCampusDesignationFilePath;
-      user.approvedDepartmentDesignationFilePath =
-        pendingStrategicWorkloads[i].approvedDepartmentDesignationFilePath;
-      user.coachAdviserCertificateFilePath =
-        pendingStrategicWorkloads[i].coachAdviserCertificateFilePath;
-      user.approvedDesignationFilePath =
-        pendingStrategicWorkloads[i].approvedDesignationFilePath;
-      user.listOfAdviseesFilePath =
-        pendingStrategicWorkloads[i].academicAdviseesFilePath;
-      user.workloadId = pendingStrategicWorkloads[i].id;
-      data.push(user);
+      if (user) {
+        user.approvedUniversityDesignationFilePath =
+          pendingStrategicWorkloads[i].approvedUniversityDesignationFilePath;
+        user.approvedCollegeCampusDesignationFilePath =
+          pendingStrategicWorkloads[i].approvedCollegeCampusDesignationFilePath;
+        user.approvedDepartmentDesignationFilePath =
+          pendingStrategicWorkloads[i].approvedDepartmentDesignationFilePath;
+        user.coachAdviserCertificateFilePath =
+          pendingStrategicWorkloads[i].coachAdviserCertificateFilePath;
+        user.approvedDesignationFilePath =
+          pendingStrategicWorkloads[i].approvedDesignationFilePath;
+        user.listOfAdviseesFilePath =
+          pendingStrategicWorkloads[i].academicAdviseesFilePath;
+        user.workloadId = pendingStrategicWorkloads[i].id;
+        data.push(user);
+      }
     }
 
     return data;

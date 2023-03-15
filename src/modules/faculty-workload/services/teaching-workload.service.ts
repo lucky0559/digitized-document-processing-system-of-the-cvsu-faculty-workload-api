@@ -36,9 +36,11 @@ export class TeachingWorkloadService {
         .createQueryBuilder('user')
         .where('user.id = :id', { id: pendingTeachingWorkloads[i].userID })
         .getOne();
-      user.twlFilePath = pendingTeachingWorkloads[i].twlFilePath;
-      user.workloadId = pendingTeachingWorkloads[i].id;
-      data.push(user);
+      if (user) {
+        user.twlFilePath = pendingTeachingWorkloads[i].twlFilePath;
+        user.workloadId = pendingTeachingWorkloads[i].id;
+        data.push(user);
+      }
     }
 
     return data;
