@@ -72,14 +72,16 @@ export class ExtensionWorkloadService {
         .createQueryBuilder('user')
         .where('user.id = :id', { id: pendingExtensionWorkloads[i].userID })
         .getOne();
-      user.extensionActivityFilePath =
-        pendingExtensionWorkloads[i].extensionActivityFilePath;
-      user.certificateFilePath =
-        pendingExtensionWorkloads[i].certificateFilePath;
-      user.summaryOfHoursFilePath =
-        pendingExtensionWorkloads[i].summaryOfHoursFilePath;
-      user.workloadId = pendingExtensionWorkloads[i].id;
-      data.push(user);
+      if (user) {
+        user.extensionActivityFilePath =
+          pendingExtensionWorkloads[i].extensionActivityFilePath;
+        user.certificateFilePath =
+          pendingExtensionWorkloads[i].certificateFilePath;
+        user.summaryOfHoursFilePath =
+          pendingExtensionWorkloads[i].summaryOfHoursFilePath;
+        user.workloadId = pendingExtensionWorkloads[i].id;
+        data.push(user);
+      }
     }
 
     return data;
@@ -99,14 +101,16 @@ export class ExtensionWorkloadService {
         .createQueryBuilder('user')
         .where('user.id = :id', { id: pendingExtensionWorkloads[i].userID })
         .getOne();
-      user.extensionActivityFilePath =
-        pendingExtensionWorkloads[i].extensionActivityFilePath;
-      user.certificateFilePath =
-        pendingExtensionWorkloads[i].certificateFilePath;
-      user.summaryOfHoursFilePath =
-        pendingExtensionWorkloads[i].summaryOfHoursFilePath;
-      user.workloadId = pendingExtensionWorkloads[i].id;
-      data.push(user);
+      if (user) {
+        user.extensionActivityFilePath =
+          pendingExtensionWorkloads[i].extensionActivityFilePath;
+        user.certificateFilePath =
+          pendingExtensionWorkloads[i].certificateFilePath;
+        user.summaryOfHoursFilePath =
+          pendingExtensionWorkloads[i].summaryOfHoursFilePath;
+        user.workloadId = pendingExtensionWorkloads[i].id;
+        data.push(user);
+      }
     }
 
     return data;
