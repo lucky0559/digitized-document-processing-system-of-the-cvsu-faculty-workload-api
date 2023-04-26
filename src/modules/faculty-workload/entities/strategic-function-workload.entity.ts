@@ -30,25 +30,49 @@ export class StrategicFunctionWorkload {
   public designationAsSportTrainorAcademic: string;
 
   @Column({ nullable: true })
+  public designationAsSportTrainorAcademic1: string;
+
+  @Column({ nullable: true })
   public designationAsSportTrainorAcademicFilePath: string;
 
   @Column({ nullable: true })
-  public coachAdviserCertificateFilePath: string;
+  public designationAsSportTrainorAcademicFilePath1: string;
+
+  // @Column({ nullable: true })
+  // public coachAdviserCertificateFilePath: string;
+
+  // @Column({ nullable: true })
+  // public coachAdviserCertificateFilePath1: string;
 
   @Column({ nullable: true })
   public designationAsMemberOfAdhoc: string;
 
   @Column({ nullable: true })
+  public designationAsMemberOfAdhoc1: string;
+
+  @Column({ nullable: true })
   public designationAsMemberOfAdhocFilePath: string;
 
   @Column({ nullable: true })
-  public approvedDesignationFilePath: string;
+  public designationAsMemberOfAdhocFilePath1: string;
+
+  // @Column({ nullable: true })
+  // public approvedDesignationFilePath: string;
+
+  // @Column({ nullable: true })
+  // public approvedDesignationFilePath1: string;
 
   @Column({ nullable: true })
   public academicAdvisees: string;
 
   @Column({ nullable: true })
+  public academicAdvisees1: string;
+
+  @Column({ nullable: true })
   public academicAdviseesFilePath: string;
+
+  @Column({ nullable: true })
+  public academicAdviseesFilePath1: string;
 
   @Column({ nullable: true, type: 'decimal' })
   public sfwPoints: number;

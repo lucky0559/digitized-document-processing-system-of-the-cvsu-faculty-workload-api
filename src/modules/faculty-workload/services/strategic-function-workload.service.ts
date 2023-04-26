@@ -48,10 +48,10 @@ export class StrategicFunctionWorkloadService {
           pendingStrategicWorkloads[i].approvedCollegeCampusDesignationFilePath;
         user.approvedDepartmentDesignationFilePath =
           pendingStrategicWorkloads[i].approvedDepartmentDesignationFilePath;
-        user.coachAdviserCertificateFilePath =
-          pendingStrategicWorkloads[i].coachAdviserCertificateFilePath;
-        user.approvedDesignationFilePath =
-          pendingStrategicWorkloads[i].approvedDesignationFilePath;
+        // user.coachAdviserCertificateFilePath =
+        //   pendingStrategicWorkloads[i].coachAdviserCertificateFilePath;
+        // user.approvedDesignationFilePath =
+        //   pendingStrategicWorkloads[i].approvedDesignationFilePath;
         user.listOfAdviseesFilePath =
           pendingStrategicWorkloads[i].academicAdviseesFilePath;
         user.workloadId = pendingStrategicWorkloads[i].id;
@@ -88,10 +88,10 @@ export class StrategicFunctionWorkloadService {
           pendingStrategicWorkloads[i].approvedCollegeCampusDesignationFilePath;
         user.approvedDepartmentDesignationFilePath =
           pendingStrategicWorkloads[i].approvedDepartmentDesignationFilePath;
-        user.coachAdviserCertificateFilePath =
-          pendingStrategicWorkloads[i].coachAdviserCertificateFilePath;
-        user.approvedDesignationFilePath =
-          pendingStrategicWorkloads[i].approvedDesignationFilePath;
+        // user.coachAdviserCertificateFilePath =
+        //   pendingStrategicWorkloads[i].coachAdviserCertificateFilePath;
+        // user.approvedDesignationFilePath =
+        //   pendingStrategicWorkloads[i].approvedDesignationFilePath;
         user.listOfAdviseesFilePath =
           pendingStrategicWorkloads[i].academicAdviseesFilePath;
         user.workloadId = pendingStrategicWorkloads[i].id;
@@ -128,10 +128,10 @@ export class StrategicFunctionWorkloadService {
           pendingStrategicWorkloads[i].approvedCollegeCampusDesignationFilePath;
         user.approvedDepartmentDesignationFilePath =
           pendingStrategicWorkloads[i].approvedDepartmentDesignationFilePath;
-        user.coachAdviserCertificateFilePath =
-          pendingStrategicWorkloads[i].coachAdviserCertificateFilePath;
-        user.approvedDesignationFilePath =
-          pendingStrategicWorkloads[i].approvedDesignationFilePath;
+        // user.coachAdviserCertificateFilePath =
+        //   pendingStrategicWorkloads[i].coachAdviserCertificateFilePath;
+        // user.approvedDesignationFilePath =
+        //   pendingStrategicWorkloads[i].approvedDesignationFilePath;
         user.listOfAdviseesFilePath =
           pendingStrategicWorkloads[i].academicAdviseesFilePath;
         user.workloadId = pendingStrategicWorkloads[i].id;
@@ -188,10 +188,10 @@ export class StrategicFunctionWorkloadService {
         workloadRemarks[i].approvedCollegeCampusDesignationFilePath;
       user.approvedDepartmentDesignationFilePath =
         workloadRemarks[i].approvedDepartmentDesignationFilePath;
-      user.coachAdviserCertificateFilePath =
-        workloadRemarks[i].coachAdviserCertificateFilePath;
-      user.approvedDesignationFilePath =
-        workloadRemarks[i].approvedDesignationFilePath;
+      // user.coachAdviserCertificateFilePath =
+      //   workloadRemarks[i].coachAdviserCertificateFilePath;
+      // user.approvedDesignationFilePath =
+      //   workloadRemarks[i].approvedDesignationFilePath;
       user.listOfAdviseesFilePath = workloadRemarks[i].academicAdviseesFilePath;
       user.workloadId = workloadRemarks[i].id;
       data.push(user);
