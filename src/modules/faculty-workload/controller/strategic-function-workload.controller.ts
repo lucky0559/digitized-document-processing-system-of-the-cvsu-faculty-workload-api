@@ -60,4 +60,9 @@ export class StrategicFunctionWorkloadController {
       userId,
     );
   }
+
+  @Get(':email/all-pending-workloads')
+  public async getAllPendingWorkload(@Param('email') email: string) {
+    return this.strategicFunctionWorkloadService.getAllPendingWorkload(email);
+  }
 }

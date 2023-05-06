@@ -60,4 +60,9 @@ export class ExtensionWorkloadController {
   public async getAllTotalWorkloadPointsApproved() {
     return this.extensionWorkloadService.getAllTotalWorkloadPointsApproved();
   }
+
+  @Get(':email/all-pending-workloads')
+  public async getAllPendingWorkload(@Param('email') email: string) {
+    return this.extensionWorkloadService.getAllPendingWorkload(email);
+  }
 }

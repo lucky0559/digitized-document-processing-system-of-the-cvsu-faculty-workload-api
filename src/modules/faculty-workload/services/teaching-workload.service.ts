@@ -144,4 +144,13 @@ export class TeachingWorkloadService {
     }
     return data;
   }
+
+  public async getAllPendingWorkload(email: string) {
+    const user = await userRepository.findOneBy({ email: email });
+    const strategicWorkload = await teachingWorkloadRepository.findBy({
+      userID: user.id,
+      status: 'pending',
+    });
+    return strategicWorkload;
+  }
 }

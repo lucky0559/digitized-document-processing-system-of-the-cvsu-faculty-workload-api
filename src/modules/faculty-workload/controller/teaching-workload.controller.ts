@@ -55,4 +55,9 @@ export class TeachingWorkloadController {
   public async getWorkloadRemarksFaculty(@Param('userId') userId: string) {
     return this.teachingWorkloadService.getWorkloadRemarksFaculty(userId);
   }
+
+  @Get(':email/all-pending-workloads')
+  public async getAllPendingWorkload(@Param('email') email: string) {
+    return this.teachingWorkloadService.getAllPendingWorkload(email);
+  }
 }

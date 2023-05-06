@@ -147,4 +147,13 @@ export class ResearchWorkloadService {
     }
     return data;
   }
+
+  public async getAllPendingWorkload(email: string) {
+    const user = await userRepository.findOneBy({ email: email });
+    const strategicWorkload = await researchWorkloadRepository.findBy({
+      userID: user.id,
+      status: 'pending',
+    });
+    return strategicWorkload;
+  }
 }

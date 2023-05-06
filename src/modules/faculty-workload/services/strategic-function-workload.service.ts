@@ -198,4 +198,13 @@ export class StrategicFunctionWorkloadService {
     }
     return data;
   }
+
+  public async getAllPendingWorkload(email: string) {
+    const user = await userRepository.findOneBy({ email: email });
+    const strategicWorkload = await strategicFunctionWorkloadRepository.findBy({
+      userID: user.id,
+      status: 'pending',
+    });
+    return strategicWorkload;
+  }
 }

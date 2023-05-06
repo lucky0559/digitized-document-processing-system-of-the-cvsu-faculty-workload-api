@@ -220,4 +220,13 @@ export class ExtensionWorkloadService {
     });
     return filtered;
   }
+
+  public async getAllPendingWorkload(email: string) {
+    const user = await userRepository.findOneBy({ email: email });
+    const strategicWorkload = await extensionWorkloadRepository.findBy({
+      userID: user.id,
+      status: 'pending',
+    });
+    return strategicWorkload;
+  }
 }
