@@ -150,10 +150,21 @@ export class ResearchWorkloadService {
 
   public async getAllPendingWorkload(email: string) {
     const user = await userRepository.findOneBy({ email: email });
-    const strategicWorkload = await researchWorkloadRepository.findBy({
+    const researchWorkload = await researchWorkloadRepository.findBy({
       userID: user.id,
       status: 'pending',
     });
-    return strategicWorkload;
+    return researchWorkload;
+  }
+
+  public async getAllPendingWorkloadByIdAndCurrentProcessRole(
+    userId: string,
+    currentProcessRole: string,
+  ) {
+    const researchWorkload = await researchWorkloadRepository.findBy({
+      userID: userId,
+      currentProcessRole: currentProcessRole,
+    });
+    return researchWorkload;
   }
 }

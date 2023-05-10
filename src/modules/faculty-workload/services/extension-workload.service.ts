@@ -229,4 +229,15 @@ export class ExtensionWorkloadService {
     });
     return strategicWorkload;
   }
+
+  public async getAllPendingWorkloadByIdAndCurrentProcessRole(
+    userId: string,
+    currentProcessRole: string,
+  ) {
+    const extensionWorkload = await extensionWorkloadRepository.findBy({
+      userID: userId,
+      currentProcessRole: currentProcessRole,
+    });
+    return extensionWorkload;
+  }
 }

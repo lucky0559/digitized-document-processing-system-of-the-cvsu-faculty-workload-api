@@ -65,4 +65,15 @@ export class StrategicFunctionWorkloadController {
   public async getAllPendingWorkload(@Param('email') email: string) {
     return this.strategicFunctionWorkloadService.getAllPendingWorkload(email);
   }
+
+  @Get(':userId/:currentProcessRole/all-pending-by-process-role')
+  public async getAllPendingWorkloadByIdAndCurrentProcessRole(
+    @Param('userId') userId: string,
+    @Param('currentProcessRole') currentProcessRole: string,
+  ) {
+    return this.strategicFunctionWorkloadService.getAllPendingWorkloadByIdAndCurrentProcessRole(
+      userId,
+      currentProcessRole,
+    );
+  }
 }

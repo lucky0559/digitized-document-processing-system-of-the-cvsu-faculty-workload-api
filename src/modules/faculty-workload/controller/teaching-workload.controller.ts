@@ -60,4 +60,15 @@ export class TeachingWorkloadController {
   public async getAllPendingWorkload(@Param('email') email: string) {
     return this.teachingWorkloadService.getAllPendingWorkload(email);
   }
+
+  @Get(':userId/:currentProcessRole/all-pending-by-process-role')
+  public async getAllPendingWorkloadByIdAndCurrentProcessRole(
+    @Param('userId') userId: string,
+    @Param('currentProcessRole') currentProcessRole: string,
+  ) {
+    return this.teachingWorkloadService.getAllPendingWorkloadByIdAndCurrentProcessRole(
+      userId,
+      currentProcessRole,
+    );
+  }
 }

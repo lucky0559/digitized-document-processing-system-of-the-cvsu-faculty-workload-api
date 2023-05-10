@@ -207,4 +207,16 @@ export class StrategicFunctionWorkloadService {
     });
     return strategicWorkload;
   }
+
+  public async getAllPendingWorkloadByIdAndCurrentProcessRole(
+    userId: string,
+    currentProcessRole: string,
+  ) {
+    const strategicFunctionWorkload =
+      await strategicFunctionWorkloadRepository.findBy({
+        userID: userId,
+        currentProcessRole: currentProcessRole,
+      });
+    return strategicFunctionWorkload;
+  }
 }
