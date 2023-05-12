@@ -8,7 +8,7 @@ export class ExtensionWorkload {
   @Column({ nullable: true })
   public userID: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, array: true })
   public designationExtensionActivity: string;
 
   @Column({ nullable: true })
