@@ -85,4 +85,24 @@ export class UserController {
   ): Promise<any> {
     return this.userService.changeUserRole(email, role);
   }
+
+  @Post(':email/reset-password')
+  public async resetPassword(@Param('email') email: string): Promise<any> {
+    return this.userService.resetPassword(email);
+  }
+
+  @Get(':passwordResetCode/find-by-passwordResetCode')
+  public async findUserByPasswordCode(
+    @Param('passwordResetCode') passwordResetCode: string,
+  ): Promise<User> {
+    return this.userService.findUserByPasswordCode(passwordResetCode);
+  }
+
+  @Patch(':username/:password/reset-change-password')
+  public async resetChangePassword(
+    @Param('username') username: string,
+    @Param('password') password: string,
+  ): Promise<any> {
+    return this.userService.resetChangePassword(username, password);
+  }
 }

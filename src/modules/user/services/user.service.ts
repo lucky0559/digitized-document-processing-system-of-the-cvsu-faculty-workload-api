@@ -14,10 +14,6 @@ import { User } from '../entities/user.entity';
 import { config } from '../../../../config';
 import { ESignature } from '../entities/e-signature.entity';
 
-// type LoginDto = {
-//   email: string;
-//   password: string;
-// };
 const userRepository = AppDataSource.getRepository(User);
 const eSignatureRepository = AppDataSource.getRepository(ESignature);
 
@@ -197,6 +193,7 @@ export class UserService {
     if (await bcrypt.compare(oldPassword, user.password)) {
       const newPassword = await this.hashPassword(password);
       user.password = newPassword;
+      user.passwordResetCode = null;
       await userRepository.update(user.id, user);
       return 'Change Password Successfully!';
     } else {
@@ -214,5 +211,84 @@ export class UserService {
     user.role = role;
     await userRepository.update(user.id, user);
     return 'Role Updated Successfully';
+  }
+
+  public async resetPassword(email: string) {
+    const user = await userRepository.findOneBy({ email });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const resetPasswordCode = crypto.randomBytes(64).toString('hex');
+
+    user.passwordResetCode = resetPasswordCode;
+    await userRepository.update(user.id, user);
+
+    const oAuthClient = new google.auth.OAuth2(
+      config.email.CLIENT_ID,
+      config.email.CLIENT_SECRET,
+      config.email.REDIRECT_URI,
+    );
+
+    oAuthClient.setCredentials({ refresh_token: config.email.REFRESH_TOKEN });
+
+    const sendMail = async () => {
+      try {
+        const accessToken = await oAuthClient.getAccessToken();
+
+        const transport = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            type: 'OAuth2',
+            user: 'luckyangelo.rabosa@cvsu.edu.ph',
+            clientId: config.email.CLIENT_ID,
+            clientSecret: config.email.CLIENT_SECRET,
+            refreshToken: config.email.REFRESH_TOKEN,
+            accessToken: accessToken.token,
+          },
+        });
+
+        const mailOption = {
+          from: 'DDPS <ddps.cvsu.edu.ph>',
+          to: email,
+          subject: 'DDPS Reset Password',
+          text: `
+            <h1>Hello ${user.firstName}</h1>
+            <p>Please click the link below to reset your password.</p>
+            <p>${config.client_url}reset-password/${resetPasswordCode}</p>
+          `,
+          html: `
+          <h1>Hello ${user.firstName}!</h1>
+          <p>Please click the link below to reset your email.</p>
+          <p>${config.client_url}reset-password/${resetPasswordCode}</p>
+          <button><h2><a href="${config.client_url}reset-password/${resetPasswordCode}">Reset Password</a></h2></button>
+          `,
+        };
+        const result = await transport.sendMail(mailOption);
+        return result;
+      } catch (error) {
+        return error;
+      }
+    };
+
+    sendMail()
+      .then((result) => console.log('Email sent', result))
+      .catch((error) => console.log(error.message));
+  }
+
+  public async findUserByPasswordCode(passwordResetCode: string) {
+    const user = await userRepository.findOneBy({ passwordResetCode });
+
+    return user;
+  }
+
+  public async resetChangePassword(username: string, password: string) {
+    const user = await userRepository.findOneBy({ username });
+    const newPassword = await this.hashPassword(password);
+    user.password = newPassword;
+    user.passwordResetCode = null;
+    await userRepository.update(user.id, user);
+    return 'Reset Change Password Successfully!';
   }
 }

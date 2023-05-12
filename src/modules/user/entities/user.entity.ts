@@ -97,4 +97,7 @@ export class User {
 
   @Column({ nullable: true, type: 'decimal' })
   public twlPoints: number;
+
+  @Column({ nullable: true })
+  public passwordResetCode: string;
 }
