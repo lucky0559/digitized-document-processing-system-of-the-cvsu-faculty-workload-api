@@ -14,10 +14,10 @@ export class ExtensionWorkload {
   @Column({ nullable: true })
   public extensionActivityFilePath: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, array: true })
   public resourcePerson: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, array: true })
   public certificateFilePath: string;
 
   @Column({ nullable: true })

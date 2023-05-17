@@ -56,23 +56,11 @@ export class StrategicFunctionWorkload {
   @Column({ nullable: true })
   public designationAsMemberOfAdhocFilePath1: string;
 
-  // @Column({ nullable: true })
-  // public approvedDesignationFilePath: string;
-
-  // @Column({ nullable: true })
-  // public approvedDesignationFilePath1: string;
-
   @Column({ nullable: true })
   public academicAdvisees: string;
 
   @Column({ nullable: true })
-  public academicAdvisees1: string;
-
-  @Column({ nullable: true })
   public academicAdviseesFilePath: string;
-
-  @Column({ nullable: true })
-  public academicAdviseesFilePath1: string;
 
   @Column({ nullable: true, type: 'decimal' })
   public sfwPoints: number;
