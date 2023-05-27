@@ -33,10 +33,16 @@ export class StrategicFunctionWorkload {
   public designationAsSportTrainorAcademic1: string;
 
   @Column({ nullable: true })
+  public designationAsSportTrainorAcademic2: string;
+
+  @Column({ nullable: true })
   public designationAsSportTrainorAcademicFilePath: string;
 
   @Column({ nullable: true })
   public designationAsSportTrainorAcademicFilePath1: string;
+
+  @Column({ nullable: true })
+  public designationAsSportTrainorAcademicFilePath2: string;
 
   // @Column({ nullable: true })
   // public coachAdviserCertificateFilePath: string;
