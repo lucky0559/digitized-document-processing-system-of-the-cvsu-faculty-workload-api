@@ -4,11 +4,14 @@ import 'reflect-metadata';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors({
-    allowedHeaders: ['content-type'],
-    origin: 'http://localhost:3001',
+  const options = {
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
     credentials: true,
-  });
+  };
+  app.enableCors(options);
   await app.listen(3000);
 }
 bootstrap();
