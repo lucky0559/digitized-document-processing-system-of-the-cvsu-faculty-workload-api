@@ -272,7 +272,7 @@ export class UserService {
       }
     };
 
-    sendMail()
+    await sendMail()
       .then((result) => console.log('Email sent', result))
       .catch((error) => console.log(error.message));
   }
