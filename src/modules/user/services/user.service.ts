@@ -84,9 +84,7 @@ export class UserService {
   }
 
   public async getUser(userId: string): Promise<User> {
-    await AppDataSource.initialize();
     const user = await userRepository.findOneBy({ id: userId });
-    await AppDataSource.destroy();
     return user;
   }
 
@@ -121,22 +119,17 @@ export class UserService {
   }
 
   public async login(username: string, password: string): Promise<User> {
-    await AppDataSource.initialize();
     const user = await userRepository.findOneBy({ username });
     if (!user) {
-      await AppDataSource.destroy();
       throw new NotFoundException('User not found');
     }
     if (await bcrypt.compare(password, user.password)) {
       if (user.verified) {
-        await AppDataSource.destroy();
         return user;
       } else {
-        await AppDataSource.destroy();
         throw new UnauthorizedException('Please verify your email first');
       }
     }
-    await AppDataSource.destroy();
     throw new UnauthorizedException('Invalid email or password');
   }
 

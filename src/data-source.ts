@@ -24,6 +24,4 @@ export const AppDataSource = new DataSource({
   synchronize: true,
 });
 
-if (!AppDataSource.isInitialized) {
-  AppDataSource.initialize();
-}
+AppDataSource.initialize();

@@ -30,7 +30,6 @@ export class ExtensionWorkloadService {
   }
 
   public async getAllPendingExtensionWorkloadDC() {
-    await AppDataSource.initialize();
     const pendingExtensionWorkloads = await extensionWorkloadRepository
       .createQueryBuilder('extension-workload')
       .where('extension-workload.status = :status', { status: 'pending' })
@@ -55,7 +54,6 @@ export class ExtensionWorkloadService {
         data.push(user);
       }
     }
-    await AppDataSource.destroy();
     return data;
   }
 
@@ -223,13 +221,11 @@ export class ExtensionWorkloadService {
   }
 
   public async getAllPendingWorkload(email: string) {
-    await AppDataSource.initialize();
     const user = await userRepository.findOneBy({ email: email });
     const strategicWorkload = await extensionWorkloadRepository.findBy({
       userID: user.id,
       status: 'pending',
     });
-    await AppDataSource.destroy();
     return strategicWorkload;
   }
 

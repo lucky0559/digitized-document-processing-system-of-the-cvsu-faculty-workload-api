@@ -21,7 +21,6 @@ export class TeachingWorkloadService {
   }
 
   public async getAllPendingTeachingWorkloadDC() {
-    await AppDataSource.initialize();
     const pendingTeachingWorkloads = await teachingWorkloadRepository
       .createQueryBuilder('teaching-workload')
       .where('teaching-workload.status = :status', {
@@ -43,7 +42,6 @@ export class TeachingWorkloadService {
         data.push(user);
       }
     }
-    await AppDataSource.destroy();
     return data;
   }
 
@@ -147,13 +145,11 @@ export class TeachingWorkloadService {
   }
 
   public async getAllPendingWorkload(email: string) {
-    await AppDataSource.initialize();
     const user = await userRepository.findOneBy({ email: email });
     const teachingWorkload = await teachingWorkloadRepository.findBy({
       userID: user.id,
       status: 'pending',
     });
-    await AppDataSource.destroy();
     return teachingWorkload;
   }
 
