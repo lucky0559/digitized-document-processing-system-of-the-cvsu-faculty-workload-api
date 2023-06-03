@@ -149,11 +149,13 @@ export class ResearchWorkloadService {
   }
 
   public async getAllPendingWorkload(email: string) {
+    await AppDataSource.initialize();
     const user = await userRepository.findOneBy({ email: email });
     const researchWorkload = await researchWorkloadRepository.findBy({
       userID: user.id,
       status: 'pending',
     });
+    await AppDataSource.destroy();
     return researchWorkload;
   }
 

@@ -23,6 +23,7 @@ export class StrategicFunctionWorkloadService {
   }
 
   public async getAllPendingStrategicWorkloadDC() {
+    await AppDataSource.initialize();
     const pendingStrategicWorkloads = await strategicFunctionWorkloadRepository
       .createQueryBuilder('strategic-function-workload')
       .where('strategic-function-workload.status = :status', {
@@ -58,7 +59,7 @@ export class StrategicFunctionWorkloadService {
         data.push(user);
       }
     }
-
+    await AppDataSource.destroy();
     return data;
   }
 
@@ -200,11 +201,13 @@ export class StrategicFunctionWorkloadService {
   }
 
   public async getAllPendingWorkload(email: string) {
+    await AppDataSource.initialize();
     const user = await userRepository.findOneBy({ email: email });
     const strategicWorkload = await strategicFunctionWorkloadRepository.findBy({
       userID: user.id,
       status: 'pending',
     });
+    await AppDataSource.destroy();
     return strategicWorkload;
   }
 

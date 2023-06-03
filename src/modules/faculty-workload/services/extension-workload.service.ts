@@ -222,11 +222,13 @@ export class ExtensionWorkloadService {
   }
 
   public async getAllPendingWorkload(email: string) {
+    await AppDataSource.initialize();
     const user = await userRepository.findOneBy({ email: email });
     const strategicWorkload = await extensionWorkloadRepository.findBy({
       userID: user.id,
       status: 'pending',
     });
+    await AppDataSource.destroy();
     return strategicWorkload;
   }
 
