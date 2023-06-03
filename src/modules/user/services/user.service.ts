@@ -84,7 +84,10 @@ export class UserService {
   }
 
   public async getUser(userId: string): Promise<User> {
-    return await userRepository.findOneBy({ id: userId });
+    await AppDataSource.initialize();
+    const user = await userRepository.findOneBy({ id: userId });
+    await AppDataSource.destroy();
+    return user;
   }
 
   public async register(user: User): Promise<User> {
