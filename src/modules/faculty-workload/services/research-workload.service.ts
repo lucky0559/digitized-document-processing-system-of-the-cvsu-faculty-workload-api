@@ -20,6 +20,7 @@ export class ResearchWorkloadService {
   }
 
   public async getAllPendingResearchWorkloadDC() {
+    await AppDataSource.initialize();
     const pendingResearchWorkloads = await researchWorkloadRepository
       .createQueryBuilder('research-workload')
       .where('research-workload.status = :status', { status: 'pending' })
@@ -42,7 +43,7 @@ export class ResearchWorkloadService {
         data.push(user);
       }
     }
-
+    await AppDataSource.destroy();
     return data;
   }
 
