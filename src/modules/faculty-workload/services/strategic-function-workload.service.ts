@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
+import * as nodemailer from 'nodemailer';
 import { AppDataSource } from '../../../data-source';
 import { User } from '../../user/entities/user.entity';
 import { StrategicFunctionWorkload } from '../entities/strategic-function-workload.entity';
+import { config } from '../../../../config';
+import { google } from 'googleapis';
 
 const strategicFunctionWorkloadRepository = AppDataSource.getRepository(
   StrategicFunctionWorkload,
@@ -145,6 +148,7 @@ export class StrategicFunctionWorkloadService {
     const workload = await strategicFunctionWorkloadRepository.findBy({
       id: workloadId,
     });
+
     if (workload[0].currentProcessRole === 'Department Chairperson') {
       workload[0].currentProcessRole = 'Dean';
     } else if (workload[0].currentProcessRole === 'Dean') {

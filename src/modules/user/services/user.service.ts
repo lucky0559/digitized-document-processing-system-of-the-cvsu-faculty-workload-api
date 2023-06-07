@@ -292,4 +292,63 @@ export class UserService {
     await userRepository.update(user.id, user);
     return 'Reset Change Password Successfully!';
   }
+
+  public async sendRemarks(
+    currentProcessRole: string,
+    userId: string,
+    remarks: string,
+  ) {
+    const user = await userRepository.findOneBy({
+      id: userId,
+    });
+    const oAuthClient = new google.auth.OAuth2(
+      config.email.CLIENT_ID,
+      config.email.CLIENT_SECRET,
+      config.email.REDIRECT_URI,
+    );
+
+    oAuthClient.setCredentials({ refresh_token: config.email.REFRESH_TOKEN });
+
+    const sendMail = async () => {
+      try {
+        const accessToken = await oAuthClient.getAccessToken();
+
+        const transport = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            type: 'OAuth2',
+            user: 'luckyangelo.rabosa@cvsu.edu.ph',
+            clientId: config.email.CLIENT_ID,
+            clientSecret: config.email.CLIENT_SECRET,
+            refreshToken: config.email.REFRESH_TOKEN,
+            accessToken: accessToken.token,
+          },
+        });
+
+        const mailOption = {
+          from: 'DDPS <ddps.cvsu.edu.ph>',
+          to: user.email,
+          subject: 'DDPS Workload Remarks',
+          text: `
+            <h1>Hello ${user.firstName}</h1>
+            <p>Remarks from ${currentProcessRole}</p>
+            <p>${remarks}</p>
+          `,
+          html: `
+          <h1>Hello ${user.firstName}!</h1>
+          <p>Remarks from ${currentProcessRole}</p>
+          <p>${remarks}</p>
+          `,
+        };
+        const result = await transport.sendMail(mailOption);
+        return result;
+      } catch (error) {
+        return error;
+      }
+    };
+
+    await sendMail()
+      .then((result) => console.log('Email sent', result))
+      .catch((error) => console.log(error.message));
+  }
 }

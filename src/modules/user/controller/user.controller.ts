@@ -105,4 +105,13 @@ export class UserController {
   ): Promise<any> {
     return this.userService.resetChangePassword(username, password);
   }
+
+  @Post(':currentProcessRole/:email/:remarks/send-remarks')
+  public async sendRemarks(
+    @Param('currentProcessRole') currentProcessRole: string,
+    @Param('email') email: string,
+    @Param('remarks') remarks: string,
+  ): Promise<any> {
+    return this.userService.sendRemarks(currentProcessRole, email, remarks);
+  }
 }
