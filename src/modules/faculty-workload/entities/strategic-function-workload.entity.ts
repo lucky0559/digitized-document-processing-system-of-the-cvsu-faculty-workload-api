@@ -57,10 +57,16 @@ export class StrategicFunctionWorkload {
   public designationAsMemberOfAdhoc1: string;
 
   @Column({ nullable: true })
+  public designationAsMemberOfAdhoc2: string;
+
+  @Column({ nullable: true })
   public designationAsMemberOfAdhocFilePath: string;
 
   @Column({ nullable: true })
   public designationAsMemberOfAdhocFilePath1: string;
+
+  @Column({ nullable: true })
+  public designationAsMemberOfAdhocFilePath2: string;
 
   @Column({ nullable: true })
   public academicAdvisees: string;

@@ -112,6 +112,14 @@ export class TeachingWorkloadService {
     return await teachingWorkloadRepository.save(workload);
   }
 
+  public async disapproveWorkload(workloadId: string) {
+    const workload = await teachingWorkloadRepository.findBy({
+      id: workloadId,
+    });
+    workload[0].status = 'disapproved';
+    return await teachingWorkloadRepository.save(workload);
+  }
+
   public async remarksWorkload(workloadId: string, remarks: string) {
     const workload = await teachingWorkloadRepository.findBy({
       id: workloadId,
