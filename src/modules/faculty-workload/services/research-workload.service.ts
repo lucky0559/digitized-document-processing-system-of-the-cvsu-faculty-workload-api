@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { AppDataSource } from '../../../data-source';
 import { User } from '../../user/entities/user.entity';
 import { ResearchWorkload } from '../entities/research-workload.entity';
+import { RemarksAndPoints } from '../entities/teaching-workload.entity';
 
 const researchWorkloadRepository =
   AppDataSource.getRepository(ResearchWorkload);
@@ -107,21 +108,28 @@ export class ResearchWorkloadService {
       workload[0].currentProcessRole = 'Dean';
     } else if (workload[0].currentProcessRole === 'Dean') {
       workload[0].currentProcessRole = 'OVPAA';
-    } else if (workload[0].currentProcessRole === 'OVPAA') {
-      workload[0].status = 'approved';
-      workload[0].currentProcessRole = '';
     }
     return await researchWorkloadRepository.save(workload);
   }
 
-  public async remarksWorkload(workloadId: string, remarks: string) {
+  public async ovpaaApproveWorkload(remarks: RemarksAndPoints) {
     const workload = await researchWorkloadRepository.findBy({
-      id: workloadId,
+      id: remarks.key,
     });
+    workload[0].status = 'approved';
+    workload[0].currentProcessRole = '';
     workload[0].remarks = remarks;
-    workload[0].status = 'remarks';
     return await researchWorkloadRepository.save(workload);
   }
+
+  // public async remarksWorkload(workloadId: string, remarks: string) {
+  //   const workload = await researchWorkloadRepository.findBy({
+  //     id: workloadId,
+  //   });
+  //   workload[0].remarks = remarks;
+  //   workload[0].status = 'remarks';
+  //   return await researchWorkloadRepository.save(workload);
+  // }
 
   public async getWorkloadRemarksFaculty(userId: string) {
     const workloadRemarks = await researchWorkloadRepository
@@ -136,7 +144,6 @@ export class ResearchWorkloadService {
       id: userId,
     });
     for (let i = 0; workloadRemarks.length > i; i++) {
-      user.remarks = workloadRemarks[i].remarks;
       user.rwlFilePath = workloadRemarks[i].rwlFilePath;
       user.rwlFilePath1 = workloadRemarks[i].rwlFilePath1;
       user.disseminatedResearchFilesPath =

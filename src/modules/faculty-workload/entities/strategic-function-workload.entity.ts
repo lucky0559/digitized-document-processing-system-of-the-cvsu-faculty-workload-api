@@ -1,4 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { RemarksAndPoints } from './teaching-workload.entity';
 
 @Entity('strategic-function-workload')
 export class StrategicFunctionWorkload {
@@ -83,6 +84,6 @@ export class StrategicFunctionWorkload {
   @Column({ nullable: true })
   public currentProcessRole: string;
 
-  @Column({ nullable: true })
-  public remarks: string;
+  @Column('jsonb', { nullable: true, array: true })
+  public remarks: RemarksAndPoints;
 }

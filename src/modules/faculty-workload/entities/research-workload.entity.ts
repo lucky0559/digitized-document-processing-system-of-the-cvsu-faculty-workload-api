@@ -1,4 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { RemarksAndPoints } from './teaching-workload.entity';
 
 @Entity('research-workload')
 export class ResearchWorkload {
@@ -44,6 +45,6 @@ export class ResearchWorkload {
   @Column({ nullable: true })
   public currentProcessRole: string;
 
-  @Column({ nullable: true })
-  public remarks: string;
+  @Column('jsonb', { nullable: true, array: true })
+  public remarks: RemarksAndPoints;
 }

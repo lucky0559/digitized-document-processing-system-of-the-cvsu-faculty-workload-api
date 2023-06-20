@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { AppDataSource } from '../../../data-source';
 import { User } from '../../user/entities/user.entity';
-import { TeachingWorkload } from '../entities/teaching-workload.entity';
+import {
+  RemarksAndPoints,
+  TeachingWorkload,
+} from '../entities/teaching-workload.entity';
 
 const teachingWorkloadRepository =
   AppDataSource.getRepository(TeachingWorkload);
@@ -105,10 +108,17 @@ export class TeachingWorkloadService {
       workload[0].currentProcessRole = 'Dean';
     } else if (workload[0].currentProcessRole === 'Dean') {
       workload[0].currentProcessRole = 'OVPAA';
-    } else if (workload[0].currentProcessRole === 'OVPAA') {
-      workload[0].status = 'approved';
-      workload[0].currentProcessRole = '';
     }
+    return await teachingWorkloadRepository.save(workload);
+  }
+
+  public async ovpaaApproveWorkload(remarks: RemarksAndPoints) {
+    const workload = await teachingWorkloadRepository.findBy({
+      id: remarks.key,
+    });
+    workload[0].status = 'approved';
+    workload[0].currentProcessRole = '';
+    workload[0].remarks = remarks;
     return await teachingWorkloadRepository.save(workload);
   }
 
@@ -120,14 +130,14 @@ export class TeachingWorkloadService {
     return await teachingWorkloadRepository.save(workload);
   }
 
-  public async remarksWorkload(workloadId: string, remarks: string) {
-    const workload = await teachingWorkloadRepository.findBy({
-      id: workloadId,
-    });
-    workload[0].remarks = remarks;
-    workload[0].status = 'remarks';
-    return await teachingWorkloadRepository.save(workload);
-  }
+  // public async remarksWorkload(workloadId: string, remarks: string) {
+  //   const workload = await teachingWorkloadRepository.findBy({
+  //     id: workloadId,
+  //   });
+  //   workload[0].remarks = remarks;
+  //   workload[0].status = 'remarks';
+  //   return await teachingWorkloadRepository.save(workload);
+  // }
 
   public async getWorkloadRemarksFaculty(userId: string) {
     const workloadRemarks = await teachingWorkloadRepository
@@ -144,7 +154,6 @@ export class TeachingWorkloadService {
       id: userId,
     });
     for (let i = 0; workloadRemarks.length > i; i++) {
-      user.remarks = workloadRemarks[i].remarks;
       user.twlFilePath = workloadRemarks[i].twlFilePath;
       user.workloadId = workloadRemarks[i].id;
       data.push(user);

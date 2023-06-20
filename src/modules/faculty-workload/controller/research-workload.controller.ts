@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { ResearchWorkloadService } from '../services/research-workload.service';
+import { RemarksAndPoints } from '../entities/teaching-workload.entity';
 
 @Controller('/research-workload')
 export class ResearchWorkloadController {
@@ -43,18 +44,25 @@ export class ResearchWorkloadController {
     return this.researchWorkloadService.approveWorkload(workloadId);
   }
 
-  @Patch(':workloadId/:remarks/remarks-workload')
-  public async remarksWorkload(
-    @Param('workloadId') workloadId: string,
-    @Param('remarks') remarks: string,
+  @Patch(':remarks/ovpaa-approve-workload')
+  public async ovpaaApproveWorkload(
+    @Param('remarks') remarks: RemarksAndPoints,
   ) {
-    return this.researchWorkloadService.remarksWorkload(workloadId, remarks);
+    return this.researchWorkloadService.ovpaaApproveWorkload(remarks);
   }
 
-  @Get(':userId/workload-remarks')
-  public async getWorkloadRemarksFaculty(@Param('userId') userId: string) {
-    return this.researchWorkloadService.getWorkloadRemarksFaculty(userId);
-  }
+  // @Patch(':workloadId/:remarks/remarks-workload')
+  // public async remarksWorkload(
+  //   @Param('workloadId') workloadId: string,
+  //   @Param('remarks') remarks: string,
+  // ) {
+  //   return this.researchWorkloadService.remarksWorkload(workloadId, remarks);
+  // }
+
+  // @Get(':userId/workload-remarks')
+  // public async getWorkloadRemarksFaculty(@Param('userId') userId: string) {
+  //   return this.researchWorkloadService.getWorkloadRemarksFaculty(userId);
+  // }
 
   @Get(':email/all-pending-workloads')
   public async getAllPendingWorkload(@Param('email') email: string) {

@@ -4,7 +4,10 @@ import { User } from '../../user/entities/user.entity';
 import { ExtensionWorkload } from '../entities/extension-workload.entity';
 import { ResearchWorkload } from '../entities/research-workload.entity';
 import { StrategicFunctionWorkload } from '../entities/strategic-function-workload.entity';
-import { TeachingWorkload } from '../entities/teaching-workload.entity';
+import {
+  RemarksAndPoints,
+  TeachingWorkload,
+} from '../entities/teaching-workload.entity';
 
 const extensionWorkloadRepository =
   AppDataSource.getRepository(ExtensionWorkload);
@@ -119,31 +122,32 @@ export class ExtensionWorkloadService {
     const workload = await extensionWorkloadRepository.findBy({
       id: workloadId,
     });
-    const user = await userRepository.findOneBy({
-      id: workload[0].userID,
-    });
     if (workload[0].currentProcessRole === 'Department Chairperson') {
       workload[0].currentProcessRole = 'Dean';
     } else if (workload[0].currentProcessRole === 'Dean') {
       workload[0].currentProcessRole = 'OVPAA';
-    } else if (workload[0].currentProcessRole === 'OVPAA') {
-      workload[0].status = 'approved';
-      workload[0].currentProcessRole = '';
-      user.ewlPoints = workload[0].ewlPoints + user.ewlPoints;
     }
-    workload[0].remarks = '';
-    userRepository.save(user);
     return await extensionWorkloadRepository.save(workload);
   }
 
-  public async remarksWorkload(workloadId: string, remarks: string) {
+  public async ovpaaApproveWorkload(remarks: RemarksAndPoints) {
     const workload = await extensionWorkloadRepository.findBy({
-      id: workloadId,
+      id: remarks.key,
     });
+    workload[0].status = 'approved';
+    workload[0].currentProcessRole = '';
     workload[0].remarks = remarks;
-    workload[0].status = 'remarks';
     return await extensionWorkloadRepository.save(workload);
   }
+
+  // public async remarksWorkload(workloadId: string, remarks: string) {
+  //   const workload = await extensionWorkloadRepository.findBy({
+  //     id: workloadId,
+  //   });
+  //   workload[0].remarks = remarks;
+  //   workload[0].status = 'remarks';
+  //   return await extensionWorkloadRepository.save(workload);
+  // }
 
   public async getWorkloadRemarksFaculty(userId: string) {
     const workloadRemarks = await extensionWorkloadRepository
@@ -158,7 +162,6 @@ export class ExtensionWorkloadService {
       id: userId,
     });
     for (let i = 0; workloadRemarks.length > i; i++) {
-      user.remarks = workloadRemarks[i].remarks;
       user.extensionActivityFilePath =
         workloadRemarks[i].extensionActivityFilePath;
       user.certificateFilePath = workloadRemarks[i].certificateFilePath;

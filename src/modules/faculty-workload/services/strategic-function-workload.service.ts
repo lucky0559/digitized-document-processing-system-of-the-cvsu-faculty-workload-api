@@ -5,6 +5,7 @@ import { User } from '../../user/entities/user.entity';
 import { StrategicFunctionWorkload } from '../entities/strategic-function-workload.entity';
 import { config } from '../../../../config';
 import { google } from 'googleapis';
+import { RemarksAndPoints } from '../entities/teaching-workload.entity';
 
 const strategicFunctionWorkloadRepository = AppDataSource.getRepository(
   StrategicFunctionWorkload,
@@ -153,21 +154,28 @@ export class StrategicFunctionWorkloadService {
       workload[0].currentProcessRole = 'Dean';
     } else if (workload[0].currentProcessRole === 'Dean') {
       workload[0].currentProcessRole = 'OVPAA';
-    } else if (workload[0].currentProcessRole === 'OVPAA') {
-      workload[0].status = 'approved';
-      workload[0].currentProcessRole = '';
     }
     return await strategicFunctionWorkloadRepository.save(workload);
   }
 
-  public async remarksWorkload(workloadId: string, remarks: string) {
+  public async ovpaaApproveWorkload(remarks: RemarksAndPoints) {
     const workload = await strategicFunctionWorkloadRepository.findBy({
-      id: workloadId,
+      id: remarks.key,
     });
+    workload[0].status = 'approved';
+    workload[0].currentProcessRole = '';
     workload[0].remarks = remarks;
-    workload[0].status = 'remarks';
     return await strategicFunctionWorkloadRepository.save(workload);
   }
+
+  // public async remarksWorkload(workloadId: string, remarks: string) {
+  //   const workload = await strategicFunctionWorkloadRepository.findBy({
+  //     id: workloadId,
+  //   });
+  //   workload[0].remarks = remarks;
+  //   workload[0].status = 'remarks';
+  //   return await strategicFunctionWorkloadRepository.save(workload);
+  // }
 
   public async getWorkloadRemarksFaculty(userId: string) {
     const workloadRemarks = await strategicFunctionWorkloadRepository
@@ -184,7 +192,6 @@ export class StrategicFunctionWorkloadService {
       id: userId,
     });
     for (let i = 0; workloadRemarks.length > i; i++) {
-      user.remarks = workloadRemarks[i].remarks;
       user.approvedUniversityDesignationFilePath =
         workloadRemarks[i].approvedUniversityDesignationFilePath;
       user.approvedCollegeCampusDesignationFilePath =
