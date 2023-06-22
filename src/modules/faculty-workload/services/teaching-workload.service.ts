@@ -142,10 +142,7 @@ export class TeachingWorkloadService {
   public async getWorkloadRemarksFaculty(userId: string) {
     const workloadRemarks = await teachingWorkloadRepository
       .createQueryBuilder('teaching-workload')
-      .where('teaching-workload.status = :status', {
-        status: 'remarks',
-      })
-      .andWhere('teaching-workload.userID = :userId', {
+      .where('teaching-workload.userID = :userId', {
         userId,
       })
       .getMany();
@@ -165,7 +162,6 @@ export class TeachingWorkloadService {
     const user = await userRepository.findOneBy({ email: email });
     const teachingWorkload = await teachingWorkloadRepository.findBy({
       userID: user.id,
-      status: 'pending',
     });
     return teachingWorkload;
   }

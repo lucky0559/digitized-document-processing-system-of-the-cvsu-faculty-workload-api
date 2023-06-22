@@ -62,12 +62,12 @@ export class StrategicFunctionWorkloadController {
   //   );
   // }
 
-  // @Get(':userId/workload-remarks')
-  // public async getWorkloadRemarksFaculty(@Param('userId') userId: string) {
-  //   return this.strategicFunctionWorkloadService.getWorkloadRemarksFaculty(
-  //     userId,
-  //   );
-  // }
+  @Get(':userId/workload-remarks')
+  public async getWorkloadRemarksFaculty(@Param('userId') userId: string) {
+    return this.strategicFunctionWorkloadService.getWorkloadRemarksFaculty(
+      userId,
+    );
+  }
 
   @Get(':email/all-pending-workloads')
   public async getAllPendingWorkload(@Param('email') email: string) {
