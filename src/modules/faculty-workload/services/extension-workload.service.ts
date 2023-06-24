@@ -131,12 +131,12 @@ export class ExtensionWorkloadService {
   }
 
   public async ovpaaApproveWorkload(remarks: RemarksAndPoints) {
-    const workload = await extensionWorkloadRepository.findBy({
+    const workload = await extensionWorkloadRepository.findOneBy({
       id: remarks.key,
     });
-    workload[0].status = 'approved';
-    workload[0].currentProcessRole = '';
-    workload[0].remarks = remarks;
+    workload.status = 'approved';
+    workload.currentProcessRole = '';
+    workload.remarks = remarks;
     return await extensionWorkloadRepository.save(workload);
   }
 
@@ -225,11 +225,10 @@ export class ExtensionWorkloadService {
 
   public async getAllPendingWorkload(email: string) {
     const user = await userRepository.findOneBy({ email: email });
-    const strategicWorkload = await extensionWorkloadRepository.findBy({
+    const extensionWorkload = await extensionWorkloadRepository.findBy({
       userID: user.id,
-      status: 'pending',
     });
-    return strategicWorkload;
+    return extensionWorkload;
   }
 
   public async getAllPendingWorkloadByIdAndCurrentProcessRole(

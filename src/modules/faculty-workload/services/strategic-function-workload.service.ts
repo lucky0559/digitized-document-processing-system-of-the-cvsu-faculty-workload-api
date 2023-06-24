@@ -159,12 +159,12 @@ export class StrategicFunctionWorkloadService {
   }
 
   public async ovpaaApproveWorkload(remarks: RemarksAndPoints) {
-    const workload = await strategicFunctionWorkloadRepository.findBy({
+    const workload = await strategicFunctionWorkloadRepository.findOneBy({
       id: remarks.key,
     });
-    workload[0].status = 'approved';
-    workload[0].currentProcessRole = '';
-    workload[0].remarks = remarks;
+    workload.status = 'approved';
+    workload.currentProcessRole = '';
+    workload.remarks = remarks;
     return await strategicFunctionWorkloadRepository.save(workload);
   }
 
@@ -213,7 +213,6 @@ export class StrategicFunctionWorkloadService {
     const user = await userRepository.findOneBy({ email: email });
     const strategicWorkload = await strategicFunctionWorkloadRepository.findBy({
       userID: user.id,
-      status: 'pending',
     });
     return strategicWorkload;
   }

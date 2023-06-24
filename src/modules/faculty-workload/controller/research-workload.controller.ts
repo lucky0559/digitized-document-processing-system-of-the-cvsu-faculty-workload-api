@@ -44,10 +44,8 @@ export class ResearchWorkloadController {
     return this.researchWorkloadService.approveWorkload(workloadId);
   }
 
-  @Patch(':remarks/ovpaa-approve-workload')
-  public async ovpaaApproveWorkload(
-    @Param('remarks') remarks: RemarksAndPoints,
-  ) {
+  @Patch('ovpaa-approve-workload')
+  public async ovpaaApproveWorkload(@Body() remarks: RemarksAndPoints) {
     return this.researchWorkloadService.ovpaaApproveWorkload(remarks);
   }
 

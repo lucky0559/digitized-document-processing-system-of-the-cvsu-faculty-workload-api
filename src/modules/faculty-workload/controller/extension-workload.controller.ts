@@ -44,10 +44,8 @@ export class ExtensionWorkloadController {
     return this.extensionWorkloadService.approveWorkload(workloadId);
   }
 
-  @Patch(':remarks/ovpaa-approve-workload')
-  public async ovpaaApproveWorkload(
-    @Param('remarks') remarks: RemarksAndPoints,
-  ) {
+  @Patch('ovpaa-approve-workload')
+  public async ovpaaApproveWorkload(@Body() remarks: RemarksAndPoints) {
     return this.extensionWorkloadService.ovpaaApproveWorkload(remarks);
   }
 

@@ -36,6 +36,6 @@ export class ExtensionWorkload {
   @Column({ nullable: true })
   public currentProcessRole: string;
 
-  @Column('jsonb', { nullable: true, array: true })
+  @Column('jsonb', { nullable: true })
   public remarks: RemarksAndPoints;
 }

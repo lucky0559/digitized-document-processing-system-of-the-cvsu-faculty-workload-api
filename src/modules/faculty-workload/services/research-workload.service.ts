@@ -113,12 +113,12 @@ export class ResearchWorkloadService {
   }
 
   public async ovpaaApproveWorkload(remarks: RemarksAndPoints) {
-    const workload = await researchWorkloadRepository.findBy({
+    const workload = await researchWorkloadRepository.findOneBy({
       id: remarks.key,
     });
-    workload[0].status = 'approved';
-    workload[0].currentProcessRole = '';
-    workload[0].remarks = remarks;
+    workload.status = 'approved';
+    workload.currentProcessRole = '';
+    workload.remarks = remarks;
     return await researchWorkloadRepository.save(workload);
   }
 
@@ -158,7 +158,6 @@ export class ResearchWorkloadService {
     const user = await userRepository.findOneBy({ email: email });
     const researchWorkload = await researchWorkloadRepository.findBy({
       userID: user.id,
-      status: 'pending',
     });
     return researchWorkload;
   }
