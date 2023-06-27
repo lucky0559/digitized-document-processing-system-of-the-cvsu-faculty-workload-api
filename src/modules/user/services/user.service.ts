@@ -93,6 +93,7 @@ export class UserService {
     const email_token = crypto.randomBytes(64).toString('hex');
     user.password = hashPassword;
     user.emailToken = email_token;
+    user.role = 'Faculty';
     const isUsernameNotAvailable = await userRepository.findOneBy({
       username: user.username,
     });
@@ -109,9 +110,6 @@ export class UserService {
       await userRepository.save(user);
       await this.sendEmail(user.email, email_token);
       const userData = await userRepository.findOneBy({ email: user.email });
-      // await tokenRepository.save({
-      //   token: email_token,
-      // });
       return userData;
     } catch {
       throw new UnauthorizedException('Response error');
