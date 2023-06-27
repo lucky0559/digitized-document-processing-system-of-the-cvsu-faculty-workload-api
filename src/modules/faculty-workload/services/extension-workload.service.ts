@@ -32,7 +32,10 @@ export class ExtensionWorkloadService {
     return await extensionWorkloadRepository.save(extensionWorkload);
   }
 
-  public async getAllPendingExtensionWorkloadDC() {
+  public async getAllPendingExtensionWorkloadDC(userId: string) {
+    const reviewee = await userRepository.findOneBy({
+      id: userId,
+    });
     const pendingExtensionWorkloads = await extensionWorkloadRepository
       .createQueryBuilder('extension-workload')
       .where('extension-workload.status = :status', { status: 'pending' })
@@ -45,6 +48,12 @@ export class ExtensionWorkloadService {
       const user = await userRepository
         .createQueryBuilder('user')
         .where('user.id = :id', { id: pendingExtensionWorkloads[i].userID })
+        .andWhere('user.campus = :campus', {
+          campus: reviewee.campus,
+        })
+        .andWhere('user.department = :department', {
+          department: reviewee.department,
+        })
         .getOne();
       if (user) {
         user.extensionActivityFilePath =
@@ -60,7 +69,10 @@ export class ExtensionWorkloadService {
     return data;
   }
 
-  public async getAllPendingExtensionWorkloadDean() {
+  public async getAllPendingExtensionWorkloadDean(userId: string) {
+    const reviewee = await userRepository.findOneBy({
+      id: userId,
+    });
     const pendingExtensionWorkloads = await extensionWorkloadRepository
       .createQueryBuilder('extension-workload')
       .where('extension-workload.status = :status', { status: 'pending' })
@@ -73,6 +85,9 @@ export class ExtensionWorkloadService {
       const user = await userRepository
         .createQueryBuilder('user')
         .where('user.id = :id', { id: pendingExtensionWorkloads[i].userID })
+        .andWhere('user.campus = :campus', {
+          campus: reviewee.campus,
+        })
         .getOne();
       if (user) {
         user.extensionActivityFilePath =

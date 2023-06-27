@@ -23,7 +23,10 @@ export class TeachingWorkloadService {
     return await teachingWorkloadRepository.save(teachingWorkload);
   }
 
-  public async getAllPendingTeachingWorkloadDC() {
+  public async getAllPendingTeachingWorkloadDC(userId: string) {
+    const reviewee = await userRepository.findOneBy({
+      id: userId,
+    });
     const pendingTeachingWorkloads = await teachingWorkloadRepository
       .createQueryBuilder('teaching-workload')
       .where('teaching-workload.status = :status', {
@@ -38,6 +41,12 @@ export class TeachingWorkloadService {
       const user = await userRepository
         .createQueryBuilder('user')
         .where('user.id = :id', { id: pendingTeachingWorkloads[i].userID })
+        .andWhere('user.campus = :campus', {
+          campus: reviewee.campus,
+        })
+        .andWhere('user.department = :department', {
+          department: reviewee.department,
+        })
         .getOne();
       if (user) {
         user.twlFilePath = pendingTeachingWorkloads[i].twlFilePath;
@@ -48,7 +57,10 @@ export class TeachingWorkloadService {
     return data;
   }
 
-  public async getAllPendingTeachingWorkloadDean() {
+  public async getAllPendingTeachingWorkloadDean(userId: string) {
+    const reviewee = await userRepository.findOneBy({
+      id: userId,
+    });
     const pendingTeachingWorkloads = await teachingWorkloadRepository
       .createQueryBuilder('teaching-workload')
       .where('teaching-workload.status = :status', {
@@ -63,6 +75,9 @@ export class TeachingWorkloadService {
       const user = await userRepository
         .createQueryBuilder('user')
         .where('user.id = :id', { id: pendingTeachingWorkloads[i].userID })
+        .andWhere('user.campus = :campus', {
+          campus: reviewee.campus,
+        })
         .getOne();
       if (user) {
         user.twlFilePath = pendingTeachingWorkloads[i].twlFilePath;

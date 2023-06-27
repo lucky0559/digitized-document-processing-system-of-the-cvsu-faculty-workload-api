@@ -26,7 +26,10 @@ export class StrategicFunctionWorkloadService {
     );
   }
 
-  public async getAllPendingStrategicWorkloadDC() {
+  public async getAllPendingStrategicWorkloadDC(userId: string) {
+    const reviewee = await userRepository.findOneBy({
+      id: userId,
+    });
     const pendingStrategicWorkloads = await strategicFunctionWorkloadRepository
       .createQueryBuilder('strategic-function-workload')
       .where('strategic-function-workload.status = :status', {
@@ -44,6 +47,12 @@ export class StrategicFunctionWorkloadService {
       const user = await userRepository
         .createQueryBuilder('user')
         .where('user.id = :id', { id: pendingStrategicWorkloads[i].userID })
+        .andWhere('user.campus = :campus', {
+          campus: reviewee.campus,
+        })
+        .andWhere('user.department = :department', {
+          department: reviewee.department,
+        })
         .getOne();
       if (user) {
         user.approvedUniversityDesignationFilePath =
@@ -65,7 +74,10 @@ export class StrategicFunctionWorkloadService {
     return data;
   }
 
-  public async getAllPendingStrategicWorkloadDean() {
+  public async getAllPendingStrategicWorkloadDean(userId: string) {
+    const reviewee = await userRepository.findOneBy({
+      id: userId,
+    });
     const pendingStrategicWorkloads = await strategicFunctionWorkloadRepository
       .createQueryBuilder('strategic-function-workload')
       .where('strategic-function-workload.status = :status', {
@@ -83,6 +95,9 @@ export class StrategicFunctionWorkloadService {
       const user = await userRepository
         .createQueryBuilder('user')
         .where('user.id = :id', { id: pendingStrategicWorkloads[i].userID })
+        .andWhere('user.campus = :campus', {
+          campus: reviewee.campus,
+        })
         .getOne();
       if (user) {
         user.approvedUniversityDesignationFilePath =

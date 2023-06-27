@@ -20,7 +20,10 @@ export class ResearchWorkloadService {
     return await researchWorkloadRepository.save(researchWorkload);
   }
 
-  public async getAllPendingResearchWorkloadDC() {
+  public async getAllPendingResearchWorkloadDC(userId: string) {
+    const reviewee = await userRepository.findOneBy({
+      id: userId,
+    });
     const pendingResearchWorkloads = await researchWorkloadRepository
       .createQueryBuilder('research-workload')
       .where('research-workload.status = :status', { status: 'pending' })
@@ -33,6 +36,12 @@ export class ResearchWorkloadService {
       const user = await userRepository
         .createQueryBuilder('user')
         .where('user.id = :id', { id: pendingResearchWorkloads[i].userID })
+        .andWhere('user.campus = :campus', {
+          campus: reviewee.campus,
+        })
+        .andWhere('user.department = :department', {
+          department: reviewee.department,
+        })
         .getOne();
       if (user) {
         user.rwlFilePath = pendingResearchWorkloads[i].rwlFilePath;
@@ -46,7 +55,10 @@ export class ResearchWorkloadService {
     return data;
   }
 
-  public async getAllPendingResearchWorkloadDean() {
+  public async getAllPendingResearchWorkloadDean(userId: string) {
+    const reviewee = await userRepository.findOneBy({
+      id: userId,
+    });
     const pendingResearchWorkloads = await researchWorkloadRepository
       .createQueryBuilder('research-workload')
       .where('research-workload.status = :status', { status: 'pending' })
@@ -59,6 +71,9 @@ export class ResearchWorkloadService {
       const user = await userRepository
         .createQueryBuilder('user')
         .where('user.id = :id', { id: pendingResearchWorkloads[i].userID })
+        .andWhere('user.campus = :campus', {
+          campus: reviewee.campus,
+        })
         .getOne();
       if (user) {
         user.rwlFilePath = pendingResearchWorkloads[i].rwlFilePath;

@@ -24,14 +24,22 @@ export class ExtensionWorkloadController {
     );
   }
 
-  @Get('all-pending-extension-workload-dc')
-  public async getAllPendingExtensionWorkloadDC() {
-    return this.extensionWorkloadService.getAllPendingExtensionWorkloadDC();
+  @Get(':userId/all-pending-extension-workload-dc')
+  public async getAllPendingExtensionWorkloadDC(
+    @Param('userId') userId: string,
+  ) {
+    return this.extensionWorkloadService.getAllPendingExtensionWorkloadDC(
+      userId,
+    );
   }
 
-  @Get('all-pending-extension-workload-dean')
-  public async getAllPendingExtensionWorkloadDean() {
-    return this.extensionWorkloadService.getAllPendingExtensionWorkloadDean();
+  @Get(':userId/all-pending-extension-workload-dean')
+  public async getAllPendingExtensionWorkloadDean(
+    @Param('userId') userId: string,
+  ) {
+    return this.extensionWorkloadService.getAllPendingExtensionWorkloadDean(
+      userId,
+    );
   }
 
   @Get('all-pending-extension-workload-ovpaa')
