@@ -118,16 +118,31 @@ export class UserService {
     }
   }
 
-  public async login(username: string, password: string): Promise<User> {
-    const user = await userRepository.findOneBy({ username });
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-    if (await bcrypt.compare(password, user.password)) {
-      if (user.verified) {
-        return user;
-      } else {
-        throw new UnauthorizedException('Please verify your email first');
+  public async login(usernameEmail: string, password: string): Promise<User> {
+    if (usernameEmail.includes('@cvsu.edu.ph')) {
+      const user = await userRepository.findOneBy({ email: usernameEmail });
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
+
+      if (await bcrypt.compare(password, user.password)) {
+        if (user.verified) {
+          return user;
+        } else {
+          throw new UnauthorizedException('Please verify your email first');
+        }
+      }
+    } else {
+      const user = await userRepository.findOneBy({ username: usernameEmail });
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
+      if (await bcrypt.compare(password, user.password)) {
+        if (user.verified) {
+          return user;
+        } else {
+          throw new UnauthorizedException('Please verify your email first');
+        }
       }
     }
     throw new UnauthorizedException('Invalid email or password');
