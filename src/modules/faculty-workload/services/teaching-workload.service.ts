@@ -112,7 +112,12 @@ export class TeachingWorkloadService {
       }
     }
 
-    return data;
+    return data.reduce((group, workload) => {
+      const { campus } = workload;
+      group[campus] = group[campus] ?? [];
+      group[campus].push(workload);
+      return group;
+    }, {});
   }
 
   public async approveWorkload(workloadId: string) {
