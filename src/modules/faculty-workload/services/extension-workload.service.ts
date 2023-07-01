@@ -205,30 +205,35 @@ export class ExtensionWorkloadService {
     const teachingWorkloads = await teachingWorkloadRepository.findBy({
       status: 'approved',
     });
+    console.log(teachingWorkloads);
     const users = [];
     const filteredUsers = [];
     for (let i = 0; i < extensionWorkloads.length; i++) {
       const user = await userRepository.findOneBy({
         id: extensionWorkloads[i].userID,
       });
+      user.ewlPoints = extensionWorkloads[i].ewlPoints;
       users.push(user);
     }
     for (let i = 0; i < researchWorkloads.length; i++) {
       const user = await userRepository.findOneBy({
         id: researchWorkloads[i].userID,
       });
+      user.rwlPoints = researchWorkloads[i].rwlPoints;
       users.push(user);
     }
     for (let i = 0; i < strategicWorkloads.length; i++) {
       const user = await userRepository.findOneBy({
         id: strategicWorkloads[i].userID,
       });
+      user.sfwPoints = strategicWorkloads[i].sfwPoints;
       users.push(user);
     }
     for (let i = 0; i < teachingWorkloads.length; i++) {
       const user = await userRepository.findOneBy({
         id: teachingWorkloads[i].userID,
       });
+      user.twlPoints = teachingWorkloads[i].totalTeachingWorkload;
       users.push(user);
     }
     const filtered = users.filter((element) => {

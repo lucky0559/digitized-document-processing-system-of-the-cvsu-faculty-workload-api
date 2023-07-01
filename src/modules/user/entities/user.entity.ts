@@ -93,7 +93,7 @@ export class User {
   public rwlPoints: number;
 
   @Column({ nullable: true, type: 'decimal' })
-  public sfwlPoints: number;
+  public sfwPoints: number;
 
   @Column({ nullable: true, type: 'decimal' })
   public twlPoints: number;
