@@ -205,38 +205,33 @@ export class ExtensionWorkloadService {
     const teachingWorkloads = await teachingWorkloadRepository.findBy({
       status: 'approved',
     });
-    console.log(teachingWorkloads);
-    const users = [];
+    const users: User[] = [];
     const filteredUsers = [];
     for (let i = 0; i < extensionWorkloads.length; i++) {
       const user = await userRepository.findOneBy({
         id: extensionWorkloads[i].userID,
       });
-      user.ewlPoints = extensionWorkloads[i].ewlPoints;
       users.push(user);
     }
     for (let i = 0; i < researchWorkloads.length; i++) {
       const user = await userRepository.findOneBy({
         id: researchWorkloads[i].userID,
       });
-      user.rwlPoints = researchWorkloads[i].rwlPoints;
       users.push(user);
     }
     for (let i = 0; i < strategicWorkloads.length; i++) {
       const user = await userRepository.findOneBy({
         id: strategicWorkloads[i].userID,
       });
-      user.sfwPoints = strategicWorkloads[i].sfwPoints;
       users.push(user);
     }
     for (let i = 0; i < teachingWorkloads.length; i++) {
       const user = await userRepository.findOneBy({
         id: teachingWorkloads[i].userID,
       });
-      user.twlPoints = teachingWorkloads[i].totalTeachingWorkload;
       users.push(user);
     }
-    const filtered = users.filter((element) => {
+    const filtered: User[] = users.filter((element) => {
       const isDuplicate = filteredUsers.includes(element.id);
 
       if (!isDuplicate) {
@@ -245,7 +240,32 @@ export class ExtensionWorkloadService {
       }
       return false;
     });
-    return filtered;
+
+    const setter = filtered;
+    for (let b = 0; setter.length > b; b++) {
+      for (let c = 0; teachingWorkloads.length > c; c++) {
+        if (setter[b].id === teachingWorkloads[c].userID) {
+          setter[b].twlPoints = Number(teachingWorkloads[c].remarks.points);
+        }
+      }
+      for (let d = 0; researchWorkloads.length > d; d++) {
+        if (setter[b].id === researchWorkloads[d].userID) {
+          setter[b].rwlPoints = Number(researchWorkloads[d].remarks.points);
+        }
+      }
+      for (let e = 0; setter.length > e; e++) {
+        if (setter[b].id === extensionWorkloads[e].userID) {
+          setter[b].ewlPoints = Number(extensionWorkloads[e].remarks.points);
+        }
+      }
+      for (let f = 0; setter.length > f; f++) {
+        if (setter[b].id === strategicWorkloads[f].userID) {
+          setter[b].sfwPoints = Number(strategicWorkloads[f].remarks.points);
+        }
+      }
+    }
+
+    return setter;
   }
 
   public async getAllPendingWorkload(email: string) {
