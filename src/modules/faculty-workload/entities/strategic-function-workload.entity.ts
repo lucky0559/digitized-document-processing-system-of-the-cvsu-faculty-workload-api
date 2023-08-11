@@ -1,4 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { RemarksAndPoints } from './teaching-workload.entity';
 
 @Entity('strategic-function-workload')
 export class StrategicFunctionWorkload {
@@ -11,38 +12,68 @@ export class StrategicFunctionWorkload {
   @Column({ nullable: true, array: true })
   public designationUniversityLevel: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, array: true })
   public approvedUniversityDesignationFilePath: string;
 
   @Column({ nullable: true, array: true })
   public designationCollegeCampusLevel: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, array: true })
   public approvedCollegeCampusDesignationFilePath: string;
 
   @Column({ nullable: true, array: true })
   public designationDepartmentLevel: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, array: true })
   public approvedDepartmentDesignationFilePath: string;
 
   @Column({ nullable: true })
   public designationAsSportTrainorAcademic: string;
 
   @Column({ nullable: true })
-  public coachAdviserCertificateFilePath: string;
+  public designationAsSportTrainorAcademic1: string;
+
+  @Column({ nullable: true })
+  public designationAsSportTrainorAcademic2: string;
+
+  @Column({ nullable: true })
+  public designationAsSportTrainorAcademicFilePath: string;
+
+  @Column({ nullable: true })
+  public designationAsSportTrainorAcademicFilePath1: string;
+
+  @Column({ nullable: true })
+  public designationAsSportTrainorAcademicFilePath2: string;
+
+  // @Column({ nullable: true })
+  // public coachAdviserCertificateFilePath: string;
+
+  // @Column({ nullable: true })
+  // public coachAdviserCertificateFilePath1: string;
 
   @Column({ nullable: true })
   public designationAsMemberOfAdhoc: string;
 
   @Column({ nullable: true })
-  public approvedDesignationFilePath: string;
+  public designationAsMemberOfAdhoc1: string;
 
   @Column({ nullable: true })
-  public totalOfAcademicAdvisees: string;
+  public designationAsMemberOfAdhoc2: string;
 
   @Column({ nullable: true })
-  public listOfAdviseesFilePath: string;
+  public designationAsMemberOfAdhocFilePath: string;
+
+  @Column({ nullable: true })
+  public designationAsMemberOfAdhocFilePath1: string;
+
+  @Column({ nullable: true })
+  public designationAsMemberOfAdhocFilePath2: string;
+
+  @Column({ nullable: true })
+  public academicAdvisees: string;
+
+  @Column({ nullable: true })
+  public academicAdviseesFilePath: string;
 
   @Column({ nullable: true, type: 'decimal' })
   public sfwPoints: number;
@@ -53,6 +84,6 @@ export class StrategicFunctionWorkload {
   @Column({ nullable: true })
   public currentProcessRole: string;
 
-  @Column({ nullable: true })
-  public remarks: string;
+  @Column('jsonb', { nullable: true })
+  public remarks: RemarksAndPoints;
 }

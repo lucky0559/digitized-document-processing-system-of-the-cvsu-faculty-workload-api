@@ -17,9 +17,13 @@ let TeachingWorkloadService = class TeachingWorkloadService {
     async saveTeachingWorkload(teachingWorkload, userId) {
         teachingWorkload.userID = userId;
         teachingWorkload.status = 'pending';
+        teachingWorkload.currentProcessRole = 'Department Chairperson';
         return await teachingWorkloadRepository.save(teachingWorkload);
     }
-    async getAllPendingTeachingWorkloadDC() {
+    async getAllPendingTeachingWorkloadDC(userId) {
+        const reviewee = await userRepository.findOneBy({
+            id: userId,
+        });
         const pendingTeachingWorkloads = await teachingWorkloadRepository
             .createQueryBuilder('teaching-workload')
             .where('teaching-workload.status = :status', {
@@ -34,14 +38,25 @@ let TeachingWorkloadService = class TeachingWorkloadService {
             const user = await userRepository
                 .createQueryBuilder('user')
                 .where('user.id = :id', { id: pendingTeachingWorkloads[i].userID })
+                .andWhere('user.campus = :campus', {
+                campus: reviewee.campus,
+            })
+                .andWhere('user.department = :department', {
+                department: reviewee.department,
+            })
                 .getOne();
-            user.twlFilePath = pendingTeachingWorkloads[i].twlFilePath;
-            user.workloadId = pendingTeachingWorkloads[i].id;
-            data.push(user);
+            if (user) {
+                user.twlFilePath = pendingTeachingWorkloads[i].twlFilePath;
+                user.workloadId = pendingTeachingWorkloads[i].id;
+                data.push(user);
+            }
         }
         return data;
     }
-    async getAllPendingTeachingWorkloadDean() {
+    async getAllPendingTeachingWorkloadDean(userId) {
+        const reviewee = await userRepository.findOneBy({
+            id: userId,
+        });
         const pendingTeachingWorkloads = await teachingWorkloadRepository
             .createQueryBuilder('teaching-workload')
             .where('teaching-workload.status = :status', {
@@ -56,10 +71,15 @@ let TeachingWorkloadService = class TeachingWorkloadService {
             const user = await userRepository
                 .createQueryBuilder('user')
                 .where('user.id = :id', { id: pendingTeachingWorkloads[i].userID })
+                .andWhere('user.campus = :campus', {
+                campus: reviewee.campus,
+            })
                 .getOne();
-            user.twlFilePath = pendingTeachingWorkloads[i].twlFilePath;
-            user.workloadId = pendingTeachingWorkloads[i].id;
-            data.push(user);
+            if (user) {
+                user.twlFilePath = pendingTeachingWorkloads[i].twlFilePath;
+                user.workloadId = pendingTeachingWorkloads[i].id;
+                data.push(user);
+            }
         }
         return data;
     }
@@ -79,11 +99,19 @@ let TeachingWorkloadService = class TeachingWorkloadService {
                 .createQueryBuilder('user')
                 .where('user.id = :id', { id: pendingTeachingWorkloads[i].userID })
                 .getOne();
-            user.twlFilePath = pendingTeachingWorkloads[i].twlFilePath;
-            user.workloadId = pendingTeachingWorkloads[i].id;
-            data.push(user);
+            if (user) {
+                user.twlFilePath = pendingTeachingWorkloads[i].twlFilePath;
+                user.workloadId = pendingTeachingWorkloads[i].id;
+                data.push(user);
+            }
         }
-        return data;
+        return data.reduce((group, workload) => {
+            var _a;
+            const { campus } = workload;
+            group[campus] = (_a = group[campus]) !== null && _a !== void 0 ? _a : [];
+            group[campus].push(workload);
+            return group;
+        }, {});
     }
     async approveWorkload(workloadId) {
         const workload = await teachingWorkloadRepository.findBy({
@@ -95,27 +123,28 @@ let TeachingWorkloadService = class TeachingWorkloadService {
         else if (workload[0].currentProcessRole === 'Dean') {
             workload[0].currentProcessRole = 'OVPAA';
         }
-        else if (workload[0].currentProcessRole === 'OVPAA') {
-            workload[0].status = 'approved';
-            workload[0].currentProcessRole = '';
-        }
         return await teachingWorkloadRepository.save(workload);
     }
-    async remarksWorkload(workloadId, remarks) {
+    async ovpaaApproveWorkload(remarks) {
+        const workload = await teachingWorkloadRepository.findBy({
+            id: remarks.key,
+        });
+        workload[0].status = 'approved';
+        workload[0].currentProcessRole = '';
+        workload[0].remarks = remarks;
+        return await teachingWorkloadRepository.save(workload);
+    }
+    async disapproveWorkload(workloadId) {
         const workload = await teachingWorkloadRepository.findBy({
             id: workloadId,
         });
-        workload[0].remarks = remarks;
-        workload[0].status = 'remarks';
+        workload[0].status = 'disapproved';
         return await teachingWorkloadRepository.save(workload);
     }
     async getWorkloadRemarksFaculty(userId) {
         const workloadRemarks = await teachingWorkloadRepository
             .createQueryBuilder('teaching-workload')
-            .where('teaching-workload.status = :status', {
-            status: 'remarks',
-        })
-            .andWhere('teaching-workload.userID = :userId', {
+            .where('teaching-workload.userID = :userId', {
             userId,
         })
             .getMany();
@@ -124,12 +153,25 @@ let TeachingWorkloadService = class TeachingWorkloadService {
             id: userId,
         });
         for (let i = 0; workloadRemarks.length > i; i++) {
-            user.remarks = workloadRemarks[i].remarks;
             user.twlFilePath = workloadRemarks[i].twlFilePath;
             user.workloadId = workloadRemarks[i].id;
             data.push(user);
         }
         return data;
+    }
+    async getAllPendingWorkload(email) {
+        const user = await userRepository.findOneBy({ email: email });
+        const teachingWorkload = await teachingWorkloadRepository.findBy({
+            userID: user.id,
+        });
+        return teachingWorkload;
+    }
+    async getAllPendingWorkloadByIdAndCurrentProcessRole(userId, currentProcessRole) {
+        const teachingWorkload = await teachingWorkloadRepository.findBy({
+            userID: userId,
+            currentProcessRole: currentProcessRole,
+        });
+        return teachingWorkload;
     }
 };
 TeachingWorkloadService = __decorate([

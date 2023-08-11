@@ -1,3 +1,8 @@
+export declare type RemarksAndPoints = {
+    key: string;
+    points: string;
+    remarks: string;
+};
 export declare class TeachingWorkload {
     id: string;
     userID: string;
@@ -8,5 +13,6 @@ export declare class TeachingWorkload {
     totalTeachingWorkload: number;
     status: string;
     currentProcessRole: string;
-    remarks: string;
+    remarks: RemarksAndPoints;
+    isSubmitted: boolean;
 }

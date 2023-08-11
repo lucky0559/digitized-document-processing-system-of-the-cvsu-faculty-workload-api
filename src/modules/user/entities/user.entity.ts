@@ -53,8 +53,8 @@ export class User {
   @Column({ nullable: true })
   public rwlFilePath1?: string;
 
-  @Column({ nullable: true })
-  public rwlFilePath2?: string;
+  @Column({ nullable: true, array: true })
+  public disseminatedResearchFilesPath?: string;
 
   @Column({ nullable: true })
   public extensionActivityFilePath?: string;
@@ -85,4 +85,19 @@ export class User {
 
   @Column({ nullable: true })
   public remarks?: string;
+
+  @Column({ nullable: true, type: 'decimal' })
+  public ewlPoints: number;
+
+  @Column({ nullable: true })
+  public rwlPoints: number;
+
+  @Column({ nullable: true, type: 'decimal' })
+  public sfwPoints: number;
+
+  @Column({ nullable: true, type: 'decimal' })
+  public twlPoints: number;
+
+  @Column({ nullable: true })
+  public passwordResetCode: string;
 }

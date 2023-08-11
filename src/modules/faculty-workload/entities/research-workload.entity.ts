@@ -1,4 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { RemarksAndPoints } from './teaching-workload.entity';
 
 @Entity('research-workload')
 export class ResearchWorkload {
@@ -23,7 +24,7 @@ export class ResearchWorkload {
   @Column({ nullable: true })
   public fundGenerated: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, array: true })
   public disseminatedResearch: string;
 
   @Column({ nullable: true })
@@ -32,8 +33,8 @@ export class ResearchWorkload {
   @Column({ nullable: true })
   public rwlFilePath1: string;
 
-  @Column({ nullable: true })
-  public rwlFilePath2: string;
+  @Column({ nullable: true, array: true })
+  public disseminatedResearchFilesPath: string;
 
   @Column({ nullable: true })
   public rwlPoints: number;
@@ -44,6 +45,6 @@ export class ResearchWorkload {
   @Column({ nullable: true })
   public currentProcessRole: string;
 
-  @Column({ nullable: true })
-  public remarks: string;
+  @Column('jsonb', { nullable: true })
+  public remarks: RemarksAndPoints;
 }

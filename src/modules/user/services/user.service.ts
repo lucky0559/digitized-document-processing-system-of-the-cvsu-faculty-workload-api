@@ -14,10 +14,6 @@ import { User } from '../entities/user.entity';
 import { config } from '../../../../config';
 import { ESignature } from '../entities/e-signature.entity';
 
-// type LoginDto = {
-//   email: string;
-//   password: string;
-// };
 const userRepository = AppDataSource.getRepository(User);
 const eSignatureRepository = AppDataSource.getRepository(ESignature);
 
@@ -78,7 +74,7 @@ export class UserService {
       }
     };
 
-    sendMail()
+    await sendMail()
       .then((result) => console.log('Email sent', result))
       .catch((error) => console.log(error.message));
   }
@@ -88,7 +84,8 @@ export class UserService {
   }
 
   public async getUser(userId: string): Promise<User> {
-    return await userRepository.findOneBy({ id: userId });
+    const user = await userRepository.findOneBy({ id: userId });
+    return user;
   }
 
   public async register(user: User): Promise<User> {
@@ -96,6 +93,7 @@ export class UserService {
     const email_token = crypto.randomBytes(64).toString('hex');
     user.password = hashPassword;
     user.emailToken = email_token;
+    user.role = 'Faculty';
     const isUsernameNotAvailable = await userRepository.findOneBy({
       username: user.username,
     });
@@ -112,25 +110,37 @@ export class UserService {
       await userRepository.save(user);
       await this.sendEmail(user.email, email_token);
       const userData = await userRepository.findOneBy({ email: user.email });
-      // await tokenRepository.save({
-      //   token: email_token,
-      // });
       return userData;
     } catch {
       throw new UnauthorizedException('Response error');
     }
   }
 
-  public async login(username: string, password: string): Promise<User> {
-    const user = await userRepository.findOneBy({ username });
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-    if (await bcrypt.compare(password, user.password)) {
-      if (user.verified) {
-        return user;
-      } else {
-        throw new UnauthorizedException('Please verify your email first');
+  public async login(usernameEmail: string, password: string): Promise<User> {
+    if (usernameEmail.includes('@cvsu.edu.ph')) {
+      const user = await userRepository.findOneBy({ email: usernameEmail });
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
+
+      if (await bcrypt.compare(password, user.password)) {
+        if (user.verified) {
+          return user;
+        } else {
+          throw new UnauthorizedException('Please verify your email first');
+        }
+      }
+    } else {
+      const user = await userRepository.findOneBy({ username: usernameEmail });
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
+      if (await bcrypt.compare(password, user.password)) {
+        if (user.verified) {
+          return user;
+        } else {
+          throw new UnauthorizedException('Please verify your email first');
+        }
       }
     }
     throw new UnauthorizedException('Invalid email or password');
@@ -197,10 +207,161 @@ export class UserService {
     if (await bcrypt.compare(oldPassword, user.password)) {
       const newPassword = await this.hashPassword(password);
       user.password = newPassword;
+      user.passwordResetCode = null;
       await userRepository.update(user.id, user);
       return 'Change Password Successfully!';
     } else {
       throw new UnauthorizedException('Invalid Old Password');
     }
+  }
+
+  public async changeUserRole(email: string, role: string) {
+    const user = await userRepository.findOneBy({ email });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    user.role = role;
+    await userRepository.update(user.id, user);
+    return 'Role Updated Successfully';
+  }
+
+  public async resetPassword(email: string) {
+    const user = await userRepository.findOneBy({ email });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const resetPasswordCode = crypto.randomBytes(64).toString('hex');
+
+    user.passwordResetCode = resetPasswordCode;
+    await userRepository.update(user.id, user);
+
+    const oAuthClient = new google.auth.OAuth2(
+      config.email.CLIENT_ID,
+      config.email.CLIENT_SECRET,
+      config.email.REDIRECT_URI,
+    );
+
+    oAuthClient.setCredentials({ refresh_token: config.email.REFRESH_TOKEN });
+
+    const sendMail = async () => {
+      try {
+        const accessToken = await oAuthClient.getAccessToken();
+
+        const transport = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            type: 'OAuth2',
+            user: 'luckyangelo.rabosa@cvsu.edu.ph',
+            clientId: config.email.CLIENT_ID,
+            clientSecret: config.email.CLIENT_SECRET,
+            refreshToken: config.email.REFRESH_TOKEN,
+            accessToken: accessToken.token,
+          },
+        });
+
+        const mailOption = {
+          from: 'DDPS <ddps.cvsu.edu.ph>',
+          to: email,
+          subject: 'DDPS Reset Password',
+          text: `
+            <h1>Hello ${user.firstName}</h1>
+            <p>Please click the link below to reset your password.</p>
+            <p>${config.client_url}reset-password/${resetPasswordCode}</p>
+          `,
+          html: `
+          <h1>Hello ${user.firstName}!</h1>
+          <p>Please click the link below to reset your email.</p>
+          <p>${config.client_url}reset-password/${resetPasswordCode}</p>
+          <button><h2><a href="${config.client_url}reset-password/${resetPasswordCode}">Reset Password</a></h2></button>
+          `,
+        };
+        const result = await transport.sendMail(mailOption);
+        return result;
+      } catch (error) {
+        return error;
+      }
+    };
+
+    await sendMail()
+      .then((result) => console.log('Email sent', result))
+      .catch((error) => console.log(error.message));
+  }
+
+  public async findUserByPasswordCode(passwordResetCode: string) {
+    const user = await userRepository.findOneBy({ passwordResetCode });
+
+    return user;
+  }
+
+  public async resetChangePassword(username: string, password: string) {
+    const user = await userRepository.findOneBy({ username });
+    const newPassword = await this.hashPassword(password);
+    user.password = newPassword;
+    user.passwordResetCode = null;
+    await userRepository.update(user.id, user);
+    return 'Reset Change Password Successfully!';
+  }
+
+  public async sendRemarks(
+    currentProcessRole: string,
+    userId: string,
+    remarks: string,
+  ) {
+    const user = await userRepository.findOneBy({
+      id: userId,
+    });
+    const oAuthClient = new google.auth.OAuth2(
+      config.email.CLIENT_ID,
+      config.email.CLIENT_SECRET,
+      config.email.REDIRECT_URI,
+    );
+
+    oAuthClient.setCredentials({ refresh_token: config.email.REFRESH_TOKEN });
+
+    const sendMail = async () => {
+      try {
+        const accessToken = await oAuthClient.getAccessToken();
+
+        const transport = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            type: 'OAuth2',
+            user: 'luckyangelo.rabosa@cvsu.edu.ph',
+            clientId: config.email.CLIENT_ID,
+            clientSecret: config.email.CLIENT_SECRET,
+            refreshToken: config.email.REFRESH_TOKEN,
+            accessToken: accessToken.token,
+          },
+        });
+
+        const mailOption = {
+          from: 'DDPS <ddps.cvsu.edu.ph>',
+          to: user.email,
+          subject: 'DDPS Workload Remarks',
+          text: `
+            <h1>Hello ${user.firstName}</h1>
+            <p>Remarks from ${currentProcessRole}</p>
+            <p>${remarks}</p>
+          `,
+          html: `
+          <h1>Hello ${user.firstName}!</h1>
+          <p>Remarks from ${currentProcessRole}</p>
+          <p>${remarks}</p>
+          `,
+        };
+        const result = await transport.sendMail(mailOption);
+        return result;
+      } catch (error) {
+        return error;
+      }
+    };
+
+    await sendMail()
+      .then((result) => console.log('Email sent', result))
+      .catch((error) => console.log(error.message));
   }
 }

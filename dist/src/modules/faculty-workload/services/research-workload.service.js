@@ -17,9 +17,13 @@ let ResearchWorkloadService = class ResearchWorkloadService {
     async saveResearchWorkload(researchWorkload, userId) {
         researchWorkload.userID = userId;
         researchWorkload.status = 'pending';
+        researchWorkload.currentProcessRole = 'Department Chairperson';
         return await researchWorkloadRepository.save(researchWorkload);
     }
-    async getAllPendingResearchWorkloadDC() {
+    async getAllPendingResearchWorkloadDC(userId) {
+        const reviewee = await userRepository.findOneBy({
+            id: userId,
+        });
         const pendingResearchWorkloads = await researchWorkloadRepository
             .createQueryBuilder('research-workload')
             .where('research-workload.status = :status', { status: 'pending' })
@@ -32,16 +36,28 @@ let ResearchWorkloadService = class ResearchWorkloadService {
             const user = await userRepository
                 .createQueryBuilder('user')
                 .where('user.id = :id', { id: pendingResearchWorkloads[i].userID })
+                .andWhere('user.campus = :campus', {
+                campus: reviewee.campus,
+            })
+                .andWhere('user.department = :department', {
+                department: reviewee.department,
+            })
                 .getOne();
-            user.rwlFilePath = pendingResearchWorkloads[i].rwlFilePath;
-            user.rwlFilePath1 = pendingResearchWorkloads[i].rwlFilePath1;
-            user.rwlFilePath2 = pendingResearchWorkloads[i].rwlFilePath2;
-            user.workloadId = pendingResearchWorkloads[i].id;
-            data.push(user);
+            if (user) {
+                user.rwlFilePath = pendingResearchWorkloads[i].rwlFilePath;
+                user.rwlFilePath1 = pendingResearchWorkloads[i].rwlFilePath1;
+                user.disseminatedResearchFilesPath =
+                    pendingResearchWorkloads[i].disseminatedResearchFilesPath;
+                user.workloadId = pendingResearchWorkloads[i].id;
+                data.push(user);
+            }
         }
         return data;
     }
-    async getAllPendingResearchWorkloadDean() {
+    async getAllPendingResearchWorkloadDean(userId) {
+        const reviewee = await userRepository.findOneBy({
+            id: userId,
+        });
         const pendingResearchWorkloads = await researchWorkloadRepository
             .createQueryBuilder('research-workload')
             .where('research-workload.status = :status', { status: 'pending' })
@@ -54,12 +70,18 @@ let ResearchWorkloadService = class ResearchWorkloadService {
             const user = await userRepository
                 .createQueryBuilder('user')
                 .where('user.id = :id', { id: pendingResearchWorkloads[i].userID })
+                .andWhere('user.campus = :campus', {
+                campus: reviewee.campus,
+            })
                 .getOne();
-            user.rwlFilePath = pendingResearchWorkloads[i].rwlFilePath;
-            user.rwlFilePath1 = pendingResearchWorkloads[i].rwlFilePath1;
-            user.rwlFilePath2 = pendingResearchWorkloads[i].rwlFilePath2;
-            user.workloadId = pendingResearchWorkloads[i].id;
-            data.push(user);
+            if (user) {
+                user.rwlFilePath = pendingResearchWorkloads[i].rwlFilePath;
+                user.rwlFilePath1 = pendingResearchWorkloads[i].rwlFilePath1;
+                user.disseminatedResearchFilesPath =
+                    pendingResearchWorkloads[i].disseminatedResearchFilesPath;
+                user.workloadId = pendingResearchWorkloads[i].id;
+                data.push(user);
+            }
         }
         return data;
     }
@@ -77,13 +99,22 @@ let ResearchWorkloadService = class ResearchWorkloadService {
                 .createQueryBuilder('user')
                 .where('user.id = :id', { id: pendingResearchWorkloads[i].userID })
                 .getOne();
-            user.rwlFilePath = pendingResearchWorkloads[i].rwlFilePath;
-            user.rwlFilePath1 = pendingResearchWorkloads[i].rwlFilePath1;
-            user.rwlFilePath2 = pendingResearchWorkloads[i].rwlFilePath2;
-            user.workloadId = pendingResearchWorkloads[i].id;
-            data.push(user);
+            if (user) {
+                user.rwlFilePath = pendingResearchWorkloads[i].rwlFilePath;
+                user.rwlFilePath1 = pendingResearchWorkloads[i].rwlFilePath1;
+                user.disseminatedResearchFilesPath =
+                    pendingResearchWorkloads[i].disseminatedResearchFilesPath;
+                user.workloadId = pendingResearchWorkloads[i].id;
+                data.push(user);
+            }
         }
-        return data;
+        return data.reduce((group, workload) => {
+            var _a;
+            const { campus } = workload;
+            group[campus] = (_a = group[campus]) !== null && _a !== void 0 ? _a : [];
+            group[campus].push(workload);
+            return group;
+        }, {});
     }
     async approveWorkload(workloadId) {
         const workload = await researchWorkloadRepository.findBy({
@@ -95,18 +126,15 @@ let ResearchWorkloadService = class ResearchWorkloadService {
         else if (workload[0].currentProcessRole === 'Dean') {
             workload[0].currentProcessRole = 'OVPAA';
         }
-        else if (workload[0].currentProcessRole === 'OVPAA') {
-            workload[0].status = 'approved';
-            workload[0].currentProcessRole = '';
-        }
         return await researchWorkloadRepository.save(workload);
     }
-    async remarksWorkload(workloadId, remarks) {
-        const workload = await researchWorkloadRepository.findBy({
-            id: workloadId,
+    async ovpaaApproveWorkload(remarks) {
+        const workload = await researchWorkloadRepository.findOneBy({
+            id: remarks.key,
         });
-        workload[0].remarks = remarks;
-        workload[0].status = 'remarks';
+        workload.status = 'approved';
+        workload.currentProcessRole = '';
+        workload.remarks = remarks;
         return await researchWorkloadRepository.save(workload);
     }
     async getWorkloadRemarksFaculty(userId) {
@@ -122,14 +150,28 @@ let ResearchWorkloadService = class ResearchWorkloadService {
             id: userId,
         });
         for (let i = 0; workloadRemarks.length > i; i++) {
-            user.remarks = workloadRemarks[i].remarks;
             user.rwlFilePath = workloadRemarks[i].rwlFilePath;
             user.rwlFilePath1 = workloadRemarks[i].rwlFilePath1;
-            user.rwlFilePath2 = workloadRemarks[i].rwlFilePath2;
+            user.disseminatedResearchFilesPath =
+                workloadRemarks[i].disseminatedResearchFilesPath;
             user.workloadId = workloadRemarks[i].id;
             data.push(user);
         }
         return data;
+    }
+    async getAllPendingWorkload(email) {
+        const user = await userRepository.findOneBy({ email: email });
+        const researchWorkload = await researchWorkloadRepository.findBy({
+            userID: user.id,
+        });
+        return researchWorkload;
+    }
+    async getAllPendingWorkloadByIdAndCurrentProcessRole(userId, currentProcessRole) {
+        const researchWorkload = await researchWorkloadRepository.findBy({
+            userID: userId,
+            currentProcessRole: currentProcessRole,
+        });
+        return researchWorkload;
     }
 };
 ResearchWorkloadService = __decorate([

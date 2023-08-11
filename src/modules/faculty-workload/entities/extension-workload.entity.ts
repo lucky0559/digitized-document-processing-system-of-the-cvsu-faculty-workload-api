@@ -1,4 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { RemarksAndPoints } from './teaching-workload.entity';
 
 @Entity('extension-workload')
 export class ExtensionWorkload {
@@ -8,16 +9,16 @@ export class ExtensionWorkload {
   @Column({ nullable: true })
   public userID: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, array: true })
   public designationExtensionActivity: string;
 
   @Column({ nullable: true })
   public extensionActivityFilePath: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, array: true })
   public resourcePerson: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, array: true })
   public certificateFilePath: string;
 
   @Column({ nullable: true })
@@ -35,6 +36,6 @@ export class ExtensionWorkload {
   @Column({ nullable: true })
   public currentProcessRole: string;
 
-  @Column({ nullable: true })
-  public remarks: string;
+  @Column('jsonb', { nullable: true })
+  public remarks: RemarksAndPoints;
 }

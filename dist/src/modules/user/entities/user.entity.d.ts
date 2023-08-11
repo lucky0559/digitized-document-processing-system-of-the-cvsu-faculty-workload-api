@@ -16,7 +16,7 @@ export declare class User {
     twlFilePath?: string;
     rwlFilePath?: string;
     rwlFilePath1?: string;
-    rwlFilePath2?: string;
+    disseminatedResearchFilesPath?: string;
     extensionActivityFilePath?: string;
     certificateFilePath?: string;
     summaryOfHoursFilePath?: string;
@@ -27,4 +27,9 @@ export declare class User {
     approvedDesignationFilePath?: string;
     listOfAdviseesFilePath?: string;
     remarks?: string;
+    ewlPoints: number;
+    rwlPoints: number;
+    sfwPoints: number;
+    twlPoints: number;
+    passwordResetCode: string;
 }

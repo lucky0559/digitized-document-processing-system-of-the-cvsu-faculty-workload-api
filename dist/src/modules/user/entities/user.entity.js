@@ -82,9 +82,9 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "rwlFilePath1", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
+    (0, typeorm_1.Column)({ nullable: true, array: true }),
     __metadata("design:type", String)
-], User.prototype, "rwlFilePath2", void 0);
+], User.prototype, "disseminatedResearchFilesPath", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
@@ -125,6 +125,26 @@ __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], User.prototype, "remarks", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true, type: 'decimal' }),
+    __metadata("design:type", Number)
+], User.prototype, "ewlPoints", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Number)
+], User.prototype, "rwlPoints", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true, type: 'decimal' }),
+    __metadata("design:type", Number)
+], User.prototype, "sfwPoints", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true, type: 'decimal' }),
+    __metadata("design:type", Number)
+], User.prototype, "twlPoints", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "passwordResetCode", void 0);
 User = __decorate([
     (0, typeorm_1.Entity)('user')
 ], User);

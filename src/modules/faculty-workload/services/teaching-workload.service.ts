@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { AppDataSource } from '../../../data-source';
 import { User } from '../../user/entities/user.entity';
-import { TeachingWorkload } from '../entities/teaching-workload.entity';
+import {
+  RemarksAndPoints,
+  TeachingWorkload,
+} from '../entities/teaching-workload.entity';
 
 const teachingWorkloadRepository =
   AppDataSource.getRepository(TeachingWorkload);
@@ -16,10 +19,14 @@ export class TeachingWorkloadService {
   ) {
     teachingWorkload.userID = userId;
     teachingWorkload.status = 'pending';
+    teachingWorkload.currentProcessRole = 'Department Chairperson';
     return await teachingWorkloadRepository.save(teachingWorkload);
   }
 
-  public async getAllPendingTeachingWorkloadDC() {
+  public async getAllPendingTeachingWorkloadDC(userId: string) {
+    const reviewee = await userRepository.findOneBy({
+      id: userId,
+    });
     const pendingTeachingWorkloads = await teachingWorkloadRepository
       .createQueryBuilder('teaching-workload')
       .where('teaching-workload.status = :status', {
@@ -34,16 +41,26 @@ export class TeachingWorkloadService {
       const user = await userRepository
         .createQueryBuilder('user')
         .where('user.id = :id', { id: pendingTeachingWorkloads[i].userID })
+        .andWhere('user.campus = :campus', {
+          campus: reviewee.campus,
+        })
+        .andWhere('user.department = :department', {
+          department: reviewee.department,
+        })
         .getOne();
-      user.twlFilePath = pendingTeachingWorkloads[i].twlFilePath;
-      user.workloadId = pendingTeachingWorkloads[i].id;
-      data.push(user);
+      if (user) {
+        user.twlFilePath = pendingTeachingWorkloads[i].twlFilePath;
+        user.workloadId = pendingTeachingWorkloads[i].id;
+        data.push(user);
+      }
     }
-
     return data;
   }
 
-  public async getAllPendingTeachingWorkloadDean() {
+  public async getAllPendingTeachingWorkloadDean(userId: string) {
+    const reviewee = await userRepository.findOneBy({
+      id: userId,
+    });
     const pendingTeachingWorkloads = await teachingWorkloadRepository
       .createQueryBuilder('teaching-workload')
       .where('teaching-workload.status = :status', {
@@ -58,10 +75,15 @@ export class TeachingWorkloadService {
       const user = await userRepository
         .createQueryBuilder('user')
         .where('user.id = :id', { id: pendingTeachingWorkloads[i].userID })
+        .andWhere('user.campus = :campus', {
+          campus: reviewee.campus,
+        })
         .getOne();
-      user.twlFilePath = pendingTeachingWorkloads[i].twlFilePath;
-      user.workloadId = pendingTeachingWorkloads[i].id;
-      data.push(user);
+      if (user) {
+        user.twlFilePath = pendingTeachingWorkloads[i].twlFilePath;
+        user.workloadId = pendingTeachingWorkloads[i].id;
+        data.push(user);
+      }
     }
 
     return data;
@@ -83,12 +105,19 @@ export class TeachingWorkloadService {
         .createQueryBuilder('user')
         .where('user.id = :id', { id: pendingTeachingWorkloads[i].userID })
         .getOne();
-      user.twlFilePath = pendingTeachingWorkloads[i].twlFilePath;
-      user.workloadId = pendingTeachingWorkloads[i].id;
-      data.push(user);
+      if (user) {
+        user.twlFilePath = pendingTeachingWorkloads[i].twlFilePath;
+        user.workloadId = pendingTeachingWorkloads[i].id;
+        data.push(user);
+      }
     }
 
-    return data;
+    return data.reduce((group, workload) => {
+      const { campus } = workload;
+      group[campus] = group[campus] ?? [];
+      group[campus].push(workload);
+      return group;
+    }, {});
   }
 
   public async approveWorkload(workloadId: string) {
@@ -99,29 +128,41 @@ export class TeachingWorkloadService {
       workload[0].currentProcessRole = 'Dean';
     } else if (workload[0].currentProcessRole === 'Dean') {
       workload[0].currentProcessRole = 'OVPAA';
-    } else if (workload[0].currentProcessRole === 'OVPAA') {
-      workload[0].status = 'approved';
-      workload[0].currentProcessRole = '';
     }
     return await teachingWorkloadRepository.save(workload);
   }
 
-  public async remarksWorkload(workloadId: string, remarks: string) {
+  public async ovpaaApproveWorkload(remarks: RemarksAndPoints) {
+    const workload = await teachingWorkloadRepository.findBy({
+      id: remarks.key,
+    });
+    workload[0].status = 'approved';
+    workload[0].currentProcessRole = '';
+    workload[0].remarks = remarks;
+    return await teachingWorkloadRepository.save(workload);
+  }
+
+  public async disapproveWorkload(workloadId: string) {
     const workload = await teachingWorkloadRepository.findBy({
       id: workloadId,
     });
-    workload[0].remarks = remarks;
-    workload[0].status = 'remarks';
+    workload[0].status = 'disapproved';
     return await teachingWorkloadRepository.save(workload);
   }
+
+  // public async remarksWorkload(workloadId: string, remarks: string) {
+  //   const workload = await teachingWorkloadRepository.findBy({
+  //     id: workloadId,
+  //   });
+  //   workload[0].remarks = remarks;
+  //   workload[0].status = 'remarks';
+  //   return await teachingWorkloadRepository.save(workload);
+  // }
 
   public async getWorkloadRemarksFaculty(userId: string) {
     const workloadRemarks = await teachingWorkloadRepository
       .createQueryBuilder('teaching-workload')
-      .where('teaching-workload.status = :status', {
-        status: 'remarks',
-      })
-      .andWhere('teaching-workload.userID = :userId', {
+      .where('teaching-workload.userID = :userId', {
         userId,
       })
       .getMany();
@@ -130,11 +171,29 @@ export class TeachingWorkloadService {
       id: userId,
     });
     for (let i = 0; workloadRemarks.length > i; i++) {
-      user.remarks = workloadRemarks[i].remarks;
       user.twlFilePath = workloadRemarks[i].twlFilePath;
       user.workloadId = workloadRemarks[i].id;
       data.push(user);
     }
     return data;
+  }
+
+  public async getAllPendingWorkload(email: string) {
+    const user = await userRepository.findOneBy({ email: email });
+    const teachingWorkload = await teachingWorkloadRepository.findBy({
+      userID: user.id,
+    });
+    return teachingWorkload;
+  }
+
+  public async getAllPendingWorkloadByIdAndCurrentProcessRole(
+    userId: string,
+    currentProcessRole: string,
+  ) {
+    const teachingWorkload = await teachingWorkloadRepository.findBy({
+      userID: userId,
+      currentProcessRole: currentProcessRole,
+    });
+    return teachingWorkload;
   }
 }

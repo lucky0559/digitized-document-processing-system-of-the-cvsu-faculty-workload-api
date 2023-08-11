@@ -65,7 +65,7 @@ let UserService = class UserService {
                 return error;
             }
         };
-        sendMail()
+        await sendMail()
             .then((result) => console.log('Email sent', result))
             .catch((error) => console.log(error.message));
     }
@@ -73,13 +73,15 @@ let UserService = class UserService {
         return await userRepository.find();
     }
     async getUser(userId) {
-        return await userRepository.findOneBy({ id: userId });
+        const user = await userRepository.findOneBy({ id: userId });
+        return user;
     }
     async register(user) {
         const hashPassword = await this.hashPassword(user.password);
         const email_token = crypto.randomBytes(64).toString('hex');
         user.password = hashPassword;
         user.emailToken = email_token;
+        user.role = 'Faculty';
         const isUsernameNotAvailable = await userRepository.findOneBy({
             username: user.username,
         });
@@ -102,17 +104,33 @@ let UserService = class UserService {
             throw new common_1.UnauthorizedException('Response error');
         }
     }
-    async login(username, password) {
-        const user = await userRepository.findOneBy({ username });
-        if (!user) {
-            throw new common_1.NotFoundException('User not found');
-        }
-        if (await bcrypt.compare(password, user.password)) {
-            if (user.verified) {
-                return user;
+    async login(usernameEmail, password) {
+        if (usernameEmail.includes('@cvsu.edu.ph')) {
+            const user = await userRepository.findOneBy({ email: usernameEmail });
+            if (!user) {
+                throw new common_1.NotFoundException('User not found');
             }
-            else {
-                throw new common_1.UnauthorizedException('Please verify your email first');
+            if (await bcrypt.compare(password, user.password)) {
+                if (user.verified) {
+                    return user;
+                }
+                else {
+                    throw new common_1.UnauthorizedException('Please verify your email first');
+                }
+            }
+        }
+        else {
+            const user = await userRepository.findOneBy({ username: usernameEmail });
+            if (!user) {
+                throw new common_1.NotFoundException('User not found');
+            }
+            if (await bcrypt.compare(password, user.password)) {
+                if (user.verified) {
+                    return user;
+                }
+                else {
+                    throw new common_1.UnauthorizedException('Please verify your email first');
+                }
             }
         }
         throw new common_1.UnauthorizedException('Invalid email or password');
@@ -168,12 +186,131 @@ let UserService = class UserService {
         if (await bcrypt.compare(oldPassword, user.password)) {
             const newPassword = await this.hashPassword(password);
             user.password = newPassword;
+            user.passwordResetCode = null;
             await userRepository.update(user.id, user);
             return 'Change Password Successfully!';
         }
         else {
             throw new common_1.UnauthorizedException('Invalid Old Password');
         }
+    }
+    async changeUserRole(email, role) {
+        const user = await userRepository.findOneBy({ email });
+        if (!user) {
+            throw new common_1.NotFoundException('User not found');
+        }
+        user.role = role;
+        await userRepository.update(user.id, user);
+        return 'Role Updated Successfully';
+    }
+    async resetPassword(email) {
+        const user = await userRepository.findOneBy({ email });
+        if (!user) {
+            throw new common_1.NotFoundException('User not found');
+        }
+        const resetPasswordCode = crypto.randomBytes(64).toString('hex');
+        user.passwordResetCode = resetPasswordCode;
+        await userRepository.update(user.id, user);
+        const oAuthClient = new googleapis_1.google.auth.OAuth2(config_1.config.email.CLIENT_ID, config_1.config.email.CLIENT_SECRET, config_1.config.email.REDIRECT_URI);
+        oAuthClient.setCredentials({ refresh_token: config_1.config.email.REFRESH_TOKEN });
+        const sendMail = async () => {
+            try {
+                const accessToken = await oAuthClient.getAccessToken();
+                const transport = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        type: 'OAuth2',
+                        user: 'luckyangelo.rabosa@cvsu.edu.ph',
+                        clientId: config_1.config.email.CLIENT_ID,
+                        clientSecret: config_1.config.email.CLIENT_SECRET,
+                        refreshToken: config_1.config.email.REFRESH_TOKEN,
+                        accessToken: accessToken.token,
+                    },
+                });
+                const mailOption = {
+                    from: 'DDPS <ddps.cvsu.edu.ph>',
+                    to: email,
+                    subject: 'DDPS Reset Password',
+                    text: `
+            <h1>Hello ${user.firstName}</h1>
+            <p>Please click the link below to reset your password.</p>
+            <p>${config_1.config.client_url}reset-password/${resetPasswordCode}</p>
+          `,
+                    html: `
+          <h1>Hello ${user.firstName}!</h1>
+          <p>Please click the link below to reset your email.</p>
+          <p>${config_1.config.client_url}reset-password/${resetPasswordCode}</p>
+          <button><h2><a href="${config_1.config.client_url}reset-password/${resetPasswordCode}">Reset Password</a></h2></button>
+          `,
+                };
+                const result = await transport.sendMail(mailOption);
+                return result;
+            }
+            catch (error) {
+                return error;
+            }
+        };
+        await sendMail()
+            .then((result) => console.log('Email sent', result))
+            .catch((error) => console.log(error.message));
+    }
+    async findUserByPasswordCode(passwordResetCode) {
+        const user = await userRepository.findOneBy({ passwordResetCode });
+        return user;
+    }
+    async resetChangePassword(username, password) {
+        const user = await userRepository.findOneBy({ username });
+        const newPassword = await this.hashPassword(password);
+        user.password = newPassword;
+        user.passwordResetCode = null;
+        await userRepository.update(user.id, user);
+        return 'Reset Change Password Successfully!';
+    }
+    async sendRemarks(currentProcessRole, userId, remarks) {
+        const user = await userRepository.findOneBy({
+            id: userId,
+        });
+        const oAuthClient = new googleapis_1.google.auth.OAuth2(config_1.config.email.CLIENT_ID, config_1.config.email.CLIENT_SECRET, config_1.config.email.REDIRECT_URI);
+        oAuthClient.setCredentials({ refresh_token: config_1.config.email.REFRESH_TOKEN });
+        const sendMail = async () => {
+            try {
+                const accessToken = await oAuthClient.getAccessToken();
+                const transport = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        type: 'OAuth2',
+                        user: 'luckyangelo.rabosa@cvsu.edu.ph',
+                        clientId: config_1.config.email.CLIENT_ID,
+                        clientSecret: config_1.config.email.CLIENT_SECRET,
+                        refreshToken: config_1.config.email.REFRESH_TOKEN,
+                        accessToken: accessToken.token,
+                    },
+                });
+                const mailOption = {
+                    from: 'DDPS <ddps.cvsu.edu.ph>',
+                    to: user.email,
+                    subject: 'DDPS Workload Remarks',
+                    text: `
+            <h1>Hello ${user.firstName}</h1>
+            <p>Remarks from ${currentProcessRole}</p>
+            <p>${remarks}</p>
+          `,
+                    html: `
+          <h1>Hello ${user.firstName}!</h1>
+          <p>Remarks from ${currentProcessRole}</p>
+          <p>${remarks}</p>
+          `,
+                };
+                const result = await transport.sendMail(mailOption);
+                return result;
+            }
+            catch (error) {
+                return error;
+            }
+        };
+        await sendMail()
+            .then((result) => console.log('Email sent', result))
+            .catch((error) => console.log(error.message));
     }
 };
 UserService = __decorate([

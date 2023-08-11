@@ -17,9 +17,13 @@ let StrategicFunctionWorkloadService = class StrategicFunctionWorkloadService {
     async saveStrategicFunctinWorkload(strategicFunctionWorkload, userId) {
         strategicFunctionWorkload.userID = userId;
         strategicFunctionWorkload.status = 'pending';
+        strategicFunctionWorkload.currentProcessRole = 'Department Chairperson';
         return await strategicFunctionWorkloadRepository.save(strategicFunctionWorkload);
     }
-    async getAllPendingStrategicWorkloadDC() {
+    async getAllPendingStrategicWorkloadDC(userId) {
+        const reviewee = await userRepository.findOneBy({
+            id: userId,
+        });
         const pendingStrategicWorkloads = await strategicFunctionWorkloadRepository
             .createQueryBuilder('strategic-function-workload')
             .where('strategic-function-workload.status = :status', {
@@ -34,25 +38,32 @@ let StrategicFunctionWorkloadService = class StrategicFunctionWorkloadService {
             const user = await userRepository
                 .createQueryBuilder('user')
                 .where('user.id = :id', { id: pendingStrategicWorkloads[i].userID })
+                .andWhere('user.campus = :campus', {
+                campus: reviewee.campus,
+            })
+                .andWhere('user.department = :department', {
+                department: reviewee.department,
+            })
                 .getOne();
-            user.approvedUniversityDesignationFilePath =
-                pendingStrategicWorkloads[i].approvedUniversityDesignationFilePath;
-            user.approvedCollegeCampusDesignationFilePath =
-                pendingStrategicWorkloads[i].approvedCollegeCampusDesignationFilePath;
-            user.approvedDepartmentDesignationFilePath =
-                pendingStrategicWorkloads[i].approvedDepartmentDesignationFilePath;
-            user.coachAdviserCertificateFilePath =
-                pendingStrategicWorkloads[i].coachAdviserCertificateFilePath;
-            user.approvedDesignationFilePath =
-                pendingStrategicWorkloads[i].approvedDesignationFilePath;
-            user.listOfAdviseesFilePath =
-                pendingStrategicWorkloads[i].listOfAdviseesFilePath;
-            user.workloadId = pendingStrategicWorkloads[i].id;
-            data.push(user);
+            if (user) {
+                user.approvedUniversityDesignationFilePath =
+                    pendingStrategicWorkloads[i].approvedUniversityDesignationFilePath;
+                user.approvedCollegeCampusDesignationFilePath =
+                    pendingStrategicWorkloads[i].approvedCollegeCampusDesignationFilePath;
+                user.approvedDepartmentDesignationFilePath =
+                    pendingStrategicWorkloads[i].approvedDepartmentDesignationFilePath;
+                user.listOfAdviseesFilePath =
+                    pendingStrategicWorkloads[i].academicAdviseesFilePath;
+                user.workloadId = pendingStrategicWorkloads[i].id;
+                data.push(user);
+            }
         }
         return data;
     }
-    async getAllPendingStrategicWorkloadDean() {
+    async getAllPendingStrategicWorkloadDean(userId) {
+        const reviewee = await userRepository.findOneBy({
+            id: userId,
+        });
         const pendingStrategicWorkloads = await strategicFunctionWorkloadRepository
             .createQueryBuilder('strategic-function-workload')
             .where('strategic-function-workload.status = :status', {
@@ -67,21 +78,22 @@ let StrategicFunctionWorkloadService = class StrategicFunctionWorkloadService {
             const user = await userRepository
                 .createQueryBuilder('user')
                 .where('user.id = :id', { id: pendingStrategicWorkloads[i].userID })
+                .andWhere('user.campus = :campus', {
+                campus: reviewee.campus,
+            })
                 .getOne();
-            user.approvedUniversityDesignationFilePath =
-                pendingStrategicWorkloads[i].approvedUniversityDesignationFilePath;
-            user.approvedCollegeCampusDesignationFilePath =
-                pendingStrategicWorkloads[i].approvedCollegeCampusDesignationFilePath;
-            user.approvedDepartmentDesignationFilePath =
-                pendingStrategicWorkloads[i].approvedDepartmentDesignationFilePath;
-            user.coachAdviserCertificateFilePath =
-                pendingStrategicWorkloads[i].coachAdviserCertificateFilePath;
-            user.approvedDesignationFilePath =
-                pendingStrategicWorkloads[i].approvedDesignationFilePath;
-            user.listOfAdviseesFilePath =
-                pendingStrategicWorkloads[i].listOfAdviseesFilePath;
-            user.workloadId = pendingStrategicWorkloads[i].id;
-            data.push(user);
+            if (user) {
+                user.approvedUniversityDesignationFilePath =
+                    pendingStrategicWorkloads[i].approvedUniversityDesignationFilePath;
+                user.approvedCollegeCampusDesignationFilePath =
+                    pendingStrategicWorkloads[i].approvedCollegeCampusDesignationFilePath;
+                user.approvedDepartmentDesignationFilePath =
+                    pendingStrategicWorkloads[i].approvedDepartmentDesignationFilePath;
+                user.listOfAdviseesFilePath =
+                    pendingStrategicWorkloads[i].academicAdviseesFilePath;
+                user.workloadId = pendingStrategicWorkloads[i].id;
+                data.push(user);
+            }
         }
         return data;
     }
@@ -101,22 +113,26 @@ let StrategicFunctionWorkloadService = class StrategicFunctionWorkloadService {
                 .createQueryBuilder('user')
                 .where('user.id = :id', { id: pendingStrategicWorkloads[i].userID })
                 .getOne();
-            user.approvedUniversityDesignationFilePath =
-                pendingStrategicWorkloads[i].approvedUniversityDesignationFilePath;
-            user.approvedCollegeCampusDesignationFilePath =
-                pendingStrategicWorkloads[i].approvedCollegeCampusDesignationFilePath;
-            user.approvedDepartmentDesignationFilePath =
-                pendingStrategicWorkloads[i].approvedDepartmentDesignationFilePath;
-            user.coachAdviserCertificateFilePath =
-                pendingStrategicWorkloads[i].coachAdviserCertificateFilePath;
-            user.approvedDesignationFilePath =
-                pendingStrategicWorkloads[i].approvedDesignationFilePath;
-            user.listOfAdviseesFilePath =
-                pendingStrategicWorkloads[i].listOfAdviseesFilePath;
-            user.workloadId = pendingStrategicWorkloads[i].id;
-            data.push(user);
+            if (user) {
+                user.approvedUniversityDesignationFilePath =
+                    pendingStrategicWorkloads[i].approvedUniversityDesignationFilePath;
+                user.approvedCollegeCampusDesignationFilePath =
+                    pendingStrategicWorkloads[i].approvedCollegeCampusDesignationFilePath;
+                user.approvedDepartmentDesignationFilePath =
+                    pendingStrategicWorkloads[i].approvedDepartmentDesignationFilePath;
+                user.listOfAdviseesFilePath =
+                    pendingStrategicWorkloads[i].academicAdviseesFilePath;
+                user.workloadId = pendingStrategicWorkloads[i].id;
+                data.push(user);
+            }
         }
-        return data;
+        return data.reduce((group, workload) => {
+            var _a;
+            const { campus } = workload;
+            group[campus] = (_a = group[campus]) !== null && _a !== void 0 ? _a : [];
+            group[campus].push(workload);
+            return group;
+        }, {});
     }
     async approveWorkload(workloadId) {
         const workload = await strategicFunctionWorkloadRepository.findBy({
@@ -128,18 +144,15 @@ let StrategicFunctionWorkloadService = class StrategicFunctionWorkloadService {
         else if (workload[0].currentProcessRole === 'Dean') {
             workload[0].currentProcessRole = 'OVPAA';
         }
-        else if (workload[0].currentProcessRole === 'OVPAA') {
-            workload[0].status = 'approved';
-            workload[0].currentProcessRole = '';
-        }
         return await strategicFunctionWorkloadRepository.save(workload);
     }
-    async remarksWorkload(workloadId, remarks) {
-        const workload = await strategicFunctionWorkloadRepository.findBy({
-            id: workloadId,
+    async ovpaaApproveWorkload(remarks) {
+        const workload = await strategicFunctionWorkloadRepository.findOneBy({
+            id: remarks.key,
         });
-        workload[0].remarks = remarks;
-        workload[0].status = 'remarks';
+        workload.status = 'approved';
+        workload.currentProcessRole = '';
+        workload.remarks = remarks;
         return await strategicFunctionWorkloadRepository.save(workload);
     }
     async getWorkloadRemarksFaculty(userId) {
@@ -157,22 +170,31 @@ let StrategicFunctionWorkloadService = class StrategicFunctionWorkloadService {
             id: userId,
         });
         for (let i = 0; workloadRemarks.length > i; i++) {
-            user.remarks = workloadRemarks[i].remarks;
             user.approvedUniversityDesignationFilePath =
                 workloadRemarks[i].approvedUniversityDesignationFilePath;
             user.approvedCollegeCampusDesignationFilePath =
                 workloadRemarks[i].approvedCollegeCampusDesignationFilePath;
             user.approvedDepartmentDesignationFilePath =
                 workloadRemarks[i].approvedDepartmentDesignationFilePath;
-            user.coachAdviserCertificateFilePath =
-                workloadRemarks[i].coachAdviserCertificateFilePath;
-            user.approvedDesignationFilePath =
-                workloadRemarks[i].approvedDesignationFilePath;
-            user.listOfAdviseesFilePath = workloadRemarks[i].listOfAdviseesFilePath;
+            user.listOfAdviseesFilePath = workloadRemarks[i].academicAdviseesFilePath;
             user.workloadId = workloadRemarks[i].id;
             data.push(user);
         }
         return data;
+    }
+    async getAllPendingWorkload(email) {
+        const user = await userRepository.findOneBy({ email: email });
+        const strategicWorkload = await strategicFunctionWorkloadRepository.findBy({
+            userID: user.id,
+        });
+        return strategicWorkload;
+    }
+    async getAllPendingWorkloadByIdAndCurrentProcessRole(userId, currentProcessRole) {
+        const strategicFunctionWorkload = await strategicFunctionWorkloadRepository.findBy({
+            userID: userId,
+            currentProcessRole: currentProcessRole,
+        });
+        return strategicFunctionWorkload;
     }
 };
 StrategicFunctionWorkloadService = __decorate([

@@ -25,11 +25,11 @@ let ResearchWorkloadController = class ResearchWorkloadController {
     async saveResearchWorkload(userId, researchWorkload) {
         return this.researchWorkloadService.saveResearchWorkload(researchWorkload, userId);
     }
-    async getAllPendingResearchWorkloadDC() {
-        return this.researchWorkloadService.getAllPendingResearchWorkloadDC();
+    async getAllPendingResearchWorkloadDC(userId) {
+        return this.researchWorkloadService.getAllPendingResearchWorkloadDC(userId);
     }
-    async getAllPendingResearchWorkloadDean() {
-        return this.researchWorkloadService.getAllPendingResearchWorkloadDean();
+    async getAllPendingResearchWorkloadDean(userId) {
+        return this.researchWorkloadService.getAllPendingResearchWorkloadDean(userId);
     }
     async getAllPendingResearchWorkloadOVPAA() {
         return this.researchWorkloadService.getAllPendingResearchWorkloadOVPAA();
@@ -37,11 +37,17 @@ let ResearchWorkloadController = class ResearchWorkloadController {
     async approveWorkload(workloadId) {
         return this.researchWorkloadService.approveWorkload(workloadId);
     }
-    async remarksWorkload(workloadId, remarks) {
-        return this.researchWorkloadService.remarksWorkload(workloadId, remarks);
+    async ovpaaApproveWorkload(remarks) {
+        return this.researchWorkloadService.ovpaaApproveWorkload(remarks);
     }
     async getWorkloadRemarksFaculty(userId) {
         return this.researchWorkloadService.getWorkloadRemarksFaculty(userId);
+    }
+    async getAllPendingWorkload(email) {
+        return this.researchWorkloadService.getAllPendingWorkload(email);
+    }
+    async getAllPendingWorkloadByIdAndCurrentProcessRole(userId, currentProcessRole) {
+        return this.researchWorkloadService.getAllPendingWorkloadByIdAndCurrentProcessRole(userId, currentProcessRole);
     }
 };
 __decorate([
@@ -59,15 +65,17 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ResearchWorkloadController.prototype, "saveResearchWorkload", null);
 __decorate([
-    (0, common_1.Get)('all-pending-research-workload-dc'),
+    (0, common_1.Get)(':userId/all-pending-research-workload-dc'),
+    __param(0, (0, common_1.Param)('userId')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], ResearchWorkloadController.prototype, "getAllPendingResearchWorkloadDC", null);
 __decorate([
-    (0, common_1.Get)('all-pending-research-workload-dean'),
+    (0, common_1.Get)(':userId/all-pending-research-workload-dean'),
+    __param(0, (0, common_1.Param)('userId')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], ResearchWorkloadController.prototype, "getAllPendingResearchWorkloadDean", null);
 __decorate([
@@ -84,13 +92,12 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ResearchWorkloadController.prototype, "approveWorkload", null);
 __decorate([
-    (0, common_1.Patch)(':workloadId/:remarks/remarks-workload'),
-    __param(0, (0, common_1.Param)('workloadId')),
-    __param(1, (0, common_1.Param)('remarks')),
+    (0, common_1.Patch)('ovpaa-approve-workload'),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], ResearchWorkloadController.prototype, "remarksWorkload", null);
+], ResearchWorkloadController.prototype, "ovpaaApproveWorkload", null);
 __decorate([
     (0, common_1.Get)(':userId/workload-remarks'),
     __param(0, (0, common_1.Param)('userId')),
@@ -98,6 +105,21 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], ResearchWorkloadController.prototype, "getWorkloadRemarksFaculty", null);
+__decorate([
+    (0, common_1.Get)(':email/all-pending-workloads'),
+    __param(0, (0, common_1.Param)('email')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ResearchWorkloadController.prototype, "getAllPendingWorkload", null);
+__decorate([
+    (0, common_1.Get)(':userId/:currentProcessRole/all-pending-by-process-role'),
+    __param(0, (0, common_1.Param)('userId')),
+    __param(1, (0, common_1.Param)('currentProcessRole')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], ResearchWorkloadController.prototype, "getAllPendingWorkloadByIdAndCurrentProcessRole", null);
 ResearchWorkloadController = __decorate([
     (0, common_1.Controller)('/research-workload'),
     __metadata("design:paramtypes", [research_workload_service_1.ResearchWorkloadService])

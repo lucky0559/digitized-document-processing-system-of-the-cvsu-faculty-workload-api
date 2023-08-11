@@ -25,11 +25,11 @@ let TeachingWorkloadController = class TeachingWorkloadController {
     async saveTeachingWorkload(userId, teachingWorkload) {
         return this.teachingWorkloadService.saveTeachingWorkload(teachingWorkload, userId);
     }
-    async getAllPendingTeachingWorkloadDC() {
-        return this.teachingWorkloadService.getAllPendingTeachingWorkloadDC();
+    async getAllPendingTeachingWorkloadDC(userId) {
+        return this.teachingWorkloadService.getAllPendingTeachingWorkloadDC(userId);
     }
-    async getAllPendingTeachingWorkloadDean() {
-        return this.teachingWorkloadService.getAllPendingTeachingWorkloadDean();
+    async getAllPendingTeachingWorkloadDean(userId) {
+        return this.teachingWorkloadService.getAllPendingTeachingWorkloadDean(userId);
     }
     async getAllPendingTeachingWorkloadOVPAA() {
         return this.teachingWorkloadService.getAllPendingTeachingWorkloadOVPAA();
@@ -37,11 +37,17 @@ let TeachingWorkloadController = class TeachingWorkloadController {
     async approveWorkload(workloadId) {
         return this.teachingWorkloadService.approveWorkload(workloadId);
     }
-    async remarksWorkload(workloadId, remarks) {
-        return this.teachingWorkloadService.remarksWorkload(workloadId, remarks);
+    async ovpaaApproveWorkload(remarks) {
+        return this.teachingWorkloadService.ovpaaApproveWorkload(remarks);
     }
     async getWorkloadRemarksFaculty(userId) {
         return this.teachingWorkloadService.getWorkloadRemarksFaculty(userId);
+    }
+    async getAllPendingWorkload(email) {
+        return this.teachingWorkloadService.getAllPendingWorkload(email);
+    }
+    async getAllPendingWorkloadByIdAndCurrentProcessRole(userId, currentProcessRole) {
+        return this.teachingWorkloadService.getAllPendingWorkloadByIdAndCurrentProcessRole(userId, currentProcessRole);
     }
 };
 __decorate([
@@ -59,15 +65,17 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], TeachingWorkloadController.prototype, "saveTeachingWorkload", null);
 __decorate([
-    (0, common_1.Get)('all-pending-teaching-workload-dc'),
+    (0, common_1.Get)(':userId/all-pending-teaching-workload-dc'),
+    __param(0, (0, common_1.Param)('userId')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], TeachingWorkloadController.prototype, "getAllPendingTeachingWorkloadDC", null);
 __decorate([
-    (0, common_1.Get)('all-pending-teaching-workload-dean'),
+    (0, common_1.Get)(':userId/all-pending-teaching-workload-dean'),
+    __param(0, (0, common_1.Param)('userId')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], TeachingWorkloadController.prototype, "getAllPendingTeachingWorkloadDean", null);
 __decorate([
@@ -84,13 +92,12 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], TeachingWorkloadController.prototype, "approveWorkload", null);
 __decorate([
-    (0, common_1.Patch)(':workloadId/:remarks/remarks-workload'),
-    __param(0, (0, common_1.Param)('workloadId')),
-    __param(1, (0, common_1.Param)('remarks')),
+    (0, common_1.Patch)('ovpaa-approve-workload'),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], TeachingWorkloadController.prototype, "remarksWorkload", null);
+], TeachingWorkloadController.prototype, "ovpaaApproveWorkload", null);
 __decorate([
     (0, common_1.Get)(':userId/workload-remarks'),
     __param(0, (0, common_1.Param)('userId')),
@@ -98,6 +105,21 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], TeachingWorkloadController.prototype, "getWorkloadRemarksFaculty", null);
+__decorate([
+    (0, common_1.Get)(':email/all-pending-workloads'),
+    __param(0, (0, common_1.Param)('email')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], TeachingWorkloadController.prototype, "getAllPendingWorkload", null);
+__decorate([
+    (0, common_1.Get)(':userId/:currentProcessRole/all-pending-by-process-role'),
+    __param(0, (0, common_1.Param)('userId')),
+    __param(1, (0, common_1.Param)('currentProcessRole')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], TeachingWorkloadController.prototype, "getAllPendingWorkloadByIdAndCurrentProcessRole", null);
 TeachingWorkloadController = __decorate([
     (0, common_1.Controller)('/teaching-workload'),
     __metadata("design:paramtypes", [teaching_workload_service_1.TeachingWorkloadService])

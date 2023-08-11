@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { ExtensionWorkloadService } from '../services/extension-workload.service';
+import { RemarksAndPoints } from '../entities/teaching-workload.entity';
 
 @Controller('/extension-workload')
 export class ExtensionWorkloadController {
@@ -23,14 +24,22 @@ export class ExtensionWorkloadController {
     );
   }
 
-  @Get('all-pending-extension-workload-dc')
-  public async getAllPendingExtensionWorkloadDC() {
-    return this.extensionWorkloadService.getAllPendingExtensionWorkloadDC();
+  @Get(':userId/all-pending-extension-workload-dc')
+  public async getAllPendingExtensionWorkloadDC(
+    @Param('userId') userId: string,
+  ) {
+    return this.extensionWorkloadService.getAllPendingExtensionWorkloadDC(
+      userId,
+    );
   }
 
-  @Get('all-pending-extension-workload-dean')
-  public async getAllPendingExtensionWorkloadDean() {
-    return this.extensionWorkloadService.getAllPendingExtensionWorkloadDean();
+  @Get(':userId/all-pending-extension-workload-dean')
+  public async getAllPendingExtensionWorkloadDean(
+    @Param('userId') userId: string,
+  ) {
+    return this.extensionWorkloadService.getAllPendingExtensionWorkloadDean(
+      userId,
+    );
   }
 
   @Get('all-pending-extension-workload-ovpaa')
@@ -43,16 +52,42 @@ export class ExtensionWorkloadController {
     return this.extensionWorkloadService.approveWorkload(workloadId);
   }
 
-  @Patch(':workloadId/:remarks/remarks-workload')
-  public async remarksWorkload(
-    @Param('workloadId') workloadId: string,
-    @Param('remarks') remarks: string,
-  ) {
-    return this.extensionWorkloadService.remarksWorkload(workloadId, remarks);
+  @Patch('ovpaa-approve-workload')
+  public async ovpaaApproveWorkload(@Body() remarks: RemarksAndPoints) {
+    return this.extensionWorkloadService.ovpaaApproveWorkload(remarks);
   }
+
+  // @Patch(':workloadId/:remarks/remarks-workload')
+  // public async remarksWorkload(
+  //   @Param('workloadId') workloadId: string,
+  //   @Param('remarks') remarks: string,
+  // ) {
+  //   return this.extensionWorkloadService.remarksWorkload(workloadId, remarks);
+  // }
 
   @Get(':userId/workload-remarks')
   public async getWorkloadRemarksFaculty(@Param('userId') userId: string) {
     return this.extensionWorkloadService.getWorkloadRemarksFaculty(userId);
+  }
+
+  @Get('workloads-approved')
+  public async getAllTotalWorkloadPointsApproved() {
+    return this.extensionWorkloadService.getAllTotalWorkloadPointsApproved();
+  }
+
+  @Get(':email/all-pending-workloads')
+  public async getAllPendingWorkload(@Param('email') email: string) {
+    return this.extensionWorkloadService.getAllPendingWorkload(email);
+  }
+
+  @Get(':userId/:currentProcessRole/all-pending-by-process-role')
+  public async getAllPendingWorkloadByIdAndCurrentProcessRole(
+    @Param('userId') userId: string,
+    @Param('currentProcessRole') currentProcessRole: string,
+  ) {
+    return this.extensionWorkloadService.getAllPendingWorkloadByIdAndCurrentProcessRole(
+      userId,
+      currentProcessRole,
+    );
   }
 }

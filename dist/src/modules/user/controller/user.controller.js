@@ -52,6 +52,21 @@ let UserController = class UserController {
     async changePassword(username, oldPassword, password) {
         return this.userService.changePassword(username, oldPassword, password);
     }
+    async changeUserRole(email, role) {
+        return this.userService.changeUserRole(email, role);
+    }
+    async resetPassword(email) {
+        return this.userService.resetPassword(email);
+    }
+    async findUserByPasswordCode(passwordResetCode) {
+        return this.userService.findUserByPasswordCode(passwordResetCode);
+    }
+    async resetChangePassword(username, password) {
+        return this.userService.resetChangePassword(username, password);
+    }
+    async sendRemarks(currentProcessRole, email, remarks) {
+        return this.userService.sendRemarks(currentProcessRole, email, remarks);
+    }
 };
 __decorate([
     (0, common_1.Get)(),
@@ -126,6 +141,45 @@ __decorate([
     __metadata("design:paramtypes", [String, String, String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "changePassword", null);
+__decorate([
+    (0, common_1.Patch)(':email/:role/change-role'),
+    __param(0, (0, common_1.Param)('email')),
+    __param(1, (0, common_1.Param)('role')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "changeUserRole", null);
+__decorate([
+    (0, common_1.Post)(':email/reset-password'),
+    __param(0, (0, common_1.Param)('email')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "resetPassword", null);
+__decorate([
+    (0, common_1.Get)(':passwordResetCode/find-by-passwordResetCode'),
+    __param(0, (0, common_1.Param)('passwordResetCode')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "findUserByPasswordCode", null);
+__decorate([
+    (0, common_1.Patch)(':username/:password/reset-change-password'),
+    __param(0, (0, common_1.Param)('username')),
+    __param(1, (0, common_1.Param)('password')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "resetChangePassword", null);
+__decorate([
+    (0, common_1.Post)(':currentProcessRole/:email/:remarks/send-remarks'),
+    __param(0, (0, common_1.Param)('currentProcessRole')),
+    __param(1, (0, common_1.Param)('email')),
+    __param(2, (0, common_1.Param)('remarks')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String, String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "sendRemarks", null);
 UserController = __decorate([
     (0, common_1.Controller)('/user'),
     __metadata("design:paramtypes", [user_service_1.UserService])

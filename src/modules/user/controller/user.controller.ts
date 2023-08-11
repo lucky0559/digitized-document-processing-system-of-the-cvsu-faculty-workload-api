@@ -77,4 +77,41 @@ export class UserController {
   ): Promise<any> {
     return this.userService.changePassword(username, oldPassword, password);
   }
+
+  @Patch(':email/:role/change-role')
+  public async changeUserRole(
+    @Param('email') email: string,
+    @Param('role') role: string,
+  ): Promise<any> {
+    return this.userService.changeUserRole(email, role);
+  }
+
+  @Post(':email/reset-password')
+  public async resetPassword(@Param('email') email: string): Promise<any> {
+    return this.userService.resetPassword(email);
+  }
+
+  @Get(':passwordResetCode/find-by-passwordResetCode')
+  public async findUserByPasswordCode(
+    @Param('passwordResetCode') passwordResetCode: string,
+  ): Promise<User> {
+    return this.userService.findUserByPasswordCode(passwordResetCode);
+  }
+
+  @Patch(':username/:password/reset-change-password')
+  public async resetChangePassword(
+    @Param('username') username: string,
+    @Param('password') password: string,
+  ): Promise<any> {
+    return this.userService.resetChangePassword(username, password);
+  }
+
+  @Post(':currentProcessRole/:email/:remarks/send-remarks')
+  public async sendRemarks(
+    @Param('currentProcessRole') currentProcessRole: string,
+    @Param('email') email: string,
+    @Param('remarks') remarks: string,
+  ): Promise<any> {
+    return this.userService.sendRemarks(currentProcessRole, email, remarks);
+  }
 }

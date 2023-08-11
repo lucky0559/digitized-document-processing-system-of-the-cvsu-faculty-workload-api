@@ -1,5 +1,11 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
+export type RemarksAndPoints = {
+  key: string;
+  points: string;
+  remarks: string;
+};
+
 @Entity('teaching-workload')
 export class TeachingWorkload {
   @PrimaryGeneratedColumn('uuid')
@@ -29,6 +35,9 @@ export class TeachingWorkload {
   @Column({ nullable: true })
   public currentProcessRole: string;
 
-  @Column({ nullable: true })
-  public remarks: string;
+  @Column('jsonb', { nullable: true })
+  public remarks: RemarksAndPoints;
+
+  @Column()
+  public isSubmitted: boolean;
 }

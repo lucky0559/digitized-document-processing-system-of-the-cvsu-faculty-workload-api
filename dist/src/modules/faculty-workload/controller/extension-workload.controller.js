@@ -25,11 +25,11 @@ let ExtensionWorkloadController = class ExtensionWorkloadController {
     async saveExtensionWorkload(userId, extensionWorkload) {
         return this.extensionWorkloadService.saveExtensionWorkload(extensionWorkload, userId);
     }
-    async getAllPendingExtensionWorkloadDC() {
-        return this.extensionWorkloadService.getAllPendingExtensionWorkloadDC();
+    async getAllPendingExtensionWorkloadDC(userId) {
+        return this.extensionWorkloadService.getAllPendingExtensionWorkloadDC(userId);
     }
-    async getAllPendingExtensionWorkloadDean() {
-        return this.extensionWorkloadService.getAllPendingExtensionWorkloadDean();
+    async getAllPendingExtensionWorkloadDean(userId) {
+        return this.extensionWorkloadService.getAllPendingExtensionWorkloadDean(userId);
     }
     async getAllPendingExtensionWorkloadOVPAA() {
         return this.extensionWorkloadService.getAllPendingExtensionWorkloadOVPAA();
@@ -37,11 +37,20 @@ let ExtensionWorkloadController = class ExtensionWorkloadController {
     async approveWorkload(workloadId) {
         return this.extensionWorkloadService.approveWorkload(workloadId);
     }
-    async remarksWorkload(workloadId, remarks) {
-        return this.extensionWorkloadService.remarksWorkload(workloadId, remarks);
+    async ovpaaApproveWorkload(remarks) {
+        return this.extensionWorkloadService.ovpaaApproveWorkload(remarks);
     }
     async getWorkloadRemarksFaculty(userId) {
         return this.extensionWorkloadService.getWorkloadRemarksFaculty(userId);
+    }
+    async getAllTotalWorkloadPointsApproved() {
+        return this.extensionWorkloadService.getAllTotalWorkloadPointsApproved();
+    }
+    async getAllPendingWorkload(email) {
+        return this.extensionWorkloadService.getAllPendingWorkload(email);
+    }
+    async getAllPendingWorkloadByIdAndCurrentProcessRole(userId, currentProcessRole) {
+        return this.extensionWorkloadService.getAllPendingWorkloadByIdAndCurrentProcessRole(userId, currentProcessRole);
     }
 };
 __decorate([
@@ -59,15 +68,17 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ExtensionWorkloadController.prototype, "saveExtensionWorkload", null);
 __decorate([
-    (0, common_1.Get)('all-pending-extension-workload-dc'),
+    (0, common_1.Get)(':userId/all-pending-extension-workload-dc'),
+    __param(0, (0, common_1.Param)('userId')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], ExtensionWorkloadController.prototype, "getAllPendingExtensionWorkloadDC", null);
 __decorate([
-    (0, common_1.Get)('all-pending-extension-workload-dean'),
+    (0, common_1.Get)(':userId/all-pending-extension-workload-dean'),
+    __param(0, (0, common_1.Param)('userId')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], ExtensionWorkloadController.prototype, "getAllPendingExtensionWorkloadDean", null);
 __decorate([
@@ -84,13 +95,12 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ExtensionWorkloadController.prototype, "approveWorkload", null);
 __decorate([
-    (0, common_1.Patch)(':workloadId/:remarks/remarks-workload'),
-    __param(0, (0, common_1.Param)('workloadId')),
-    __param(1, (0, common_1.Param)('remarks')),
+    (0, common_1.Patch)('ovpaa-approve-workload'),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], ExtensionWorkloadController.prototype, "remarksWorkload", null);
+], ExtensionWorkloadController.prototype, "ovpaaApproveWorkload", null);
 __decorate([
     (0, common_1.Get)(':userId/workload-remarks'),
     __param(0, (0, common_1.Param)('userId')),
@@ -98,6 +108,27 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], ExtensionWorkloadController.prototype, "getWorkloadRemarksFaculty", null);
+__decorate([
+    (0, common_1.Get)('workloads-approved'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], ExtensionWorkloadController.prototype, "getAllTotalWorkloadPointsApproved", null);
+__decorate([
+    (0, common_1.Get)(':email/all-pending-workloads'),
+    __param(0, (0, common_1.Param)('email')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ExtensionWorkloadController.prototype, "getAllPendingWorkload", null);
+__decorate([
+    (0, common_1.Get)(':userId/:currentProcessRole/all-pending-by-process-role'),
+    __param(0, (0, common_1.Param)('userId')),
+    __param(1, (0, common_1.Param)('currentProcessRole')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], ExtensionWorkloadController.prototype, "getAllPendingWorkloadByIdAndCurrentProcessRole", null);
 ExtensionWorkloadController = __decorate([
     (0, common_1.Controller)('/extension-workload'),
     __metadata("design:paramtypes", [extension_workload_service_1.ExtensionWorkloadService])

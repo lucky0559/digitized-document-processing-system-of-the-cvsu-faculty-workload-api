@@ -1,3 +1,4 @@
+import { RemarksAndPoints } from './teaching-workload.entity';
 export declare class ExtensionWorkload {
     id: string;
     userID: string;
@@ -10,5 +11,5 @@ export declare class ExtensionWorkload {
     ewlPoints: number;
     status: string;
     currentProcessRole: string;
-    remarks: string;
+    remarks: RemarksAndPoints;
 }

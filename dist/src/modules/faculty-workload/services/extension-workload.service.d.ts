@@ -1,10 +1,15 @@
+import { User } from '../../user/entities/user.entity';
 import { ExtensionWorkload } from '../entities/extension-workload.entity';
+import { RemarksAndPoints } from '../entities/teaching-workload.entity';
 export declare class ExtensionWorkloadService {
     saveExtensionWorkload(extensionWorkload: ExtensionWorkload, userId: string): Promise<ExtensionWorkload>;
-    getAllPendingExtensionWorkloadDC(): Promise<any[]>;
-    getAllPendingExtensionWorkloadDean(): Promise<any[]>;
-    getAllPendingExtensionWorkloadOVPAA(): Promise<any[]>;
+    getAllPendingExtensionWorkloadDC(userId: string): Promise<any[]>;
+    getAllPendingExtensionWorkloadDean(userId: string): Promise<any[]>;
+    getAllPendingExtensionWorkloadOVPAA(): Promise<any>;
     approveWorkload(workloadId: string): Promise<ExtensionWorkload[]>;
-    remarksWorkload(workloadId: string, remarks: string): Promise<ExtensionWorkload[]>;
+    ovpaaApproveWorkload(remarks: RemarksAndPoints): Promise<ExtensionWorkload>;
     getWorkloadRemarksFaculty(userId: string): Promise<any[]>;
+    getAllTotalWorkloadPointsApproved(): Promise<User[]>;
+    getAllPendingWorkload(email: string): Promise<ExtensionWorkload[]>;
+    getAllPendingWorkloadByIdAndCurrentProcessRole(userId: string, currentProcessRole: string): Promise<ExtensionWorkload[]>;
 }

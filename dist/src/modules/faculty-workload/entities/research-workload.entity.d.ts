@@ -1,3 +1,4 @@
+import { RemarksAndPoints } from './teaching-workload.entity';
 export declare class ResearchWorkload {
     id: string;
     userID: string;
@@ -9,9 +10,9 @@ export declare class ResearchWorkload {
     disseminatedResearch: string;
     rwlFilePath: string;
     rwlFilePath1: string;
-    rwlFilePath2: string;
+    disseminatedResearchFilesPath: string;
     rwlPoints: number;
     status: string;
     currentProcessRole: string;
-    remarks: string;
+    remarks: RemarksAndPoints;
 }

@@ -42,7 +42,7 @@ __decorate([
     __metadata("design:type", String)
 ], ResearchWorkload.prototype, "fundGenerated", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
+    (0, typeorm_1.Column)({ nullable: true, array: true }),
     __metadata("design:type", String)
 ], ResearchWorkload.prototype, "disseminatedResearch", void 0);
 __decorate([
@@ -54,9 +54,9 @@ __decorate([
     __metadata("design:type", String)
 ], ResearchWorkload.prototype, "rwlFilePath1", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
+    (0, typeorm_1.Column)({ nullable: true, array: true }),
     __metadata("design:type", String)
-], ResearchWorkload.prototype, "rwlFilePath2", void 0);
+], ResearchWorkload.prototype, "disseminatedResearchFilesPath", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", Number)
@@ -70,8 +70,8 @@ __decorate([
     __metadata("design:type", String)
 ], ResearchWorkload.prototype, "currentProcessRole", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", String)
+    (0, typeorm_1.Column)('jsonb', { nullable: true }),
+    __metadata("design:type", Object)
 ], ResearchWorkload.prototype, "remarks", void 0);
 ResearchWorkload = __decorate([
     (0, typeorm_1.Entity)('research-workload')

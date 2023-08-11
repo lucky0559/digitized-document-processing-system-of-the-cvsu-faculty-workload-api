@@ -22,7 +22,7 @@ __decorate([
     __metadata("design:type", String)
 ], ExtensionWorkload.prototype, "userID", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
+    (0, typeorm_1.Column)({ nullable: true, array: true }),
     __metadata("design:type", String)
 ], ExtensionWorkload.prototype, "designationExtensionActivity", void 0);
 __decorate([
@@ -30,11 +30,11 @@ __decorate([
     __metadata("design:type", String)
 ], ExtensionWorkload.prototype, "extensionActivityFilePath", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
+    (0, typeorm_1.Column)({ nullable: true, array: true }),
     __metadata("design:type", String)
 ], ExtensionWorkload.prototype, "resourcePerson", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
+    (0, typeorm_1.Column)({ nullable: true, array: true }),
     __metadata("design:type", String)
 ], ExtensionWorkload.prototype, "certificateFilePath", void 0);
 __decorate([
@@ -58,8 +58,8 @@ __decorate([
     __metadata("design:type", String)
 ], ExtensionWorkload.prototype, "currentProcessRole", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", String)
+    (0, typeorm_1.Column)('jsonb', { nullable: true }),
+    __metadata("design:type", Object)
 ], ExtensionWorkload.prototype, "remarks", void 0);
 ExtensionWorkload = __decorate([
     (0, typeorm_1.Entity)('extension-workload')
