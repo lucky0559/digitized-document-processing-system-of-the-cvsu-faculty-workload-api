@@ -37,4 +37,7 @@ export class TeachingWorkload {
 
   @Column('jsonb', { nullable: true })
   public remarks: RemarksAndPoints;
+
+  @Column()
+  public isSubmitted: boolean;
 }
