@@ -47,4 +47,16 @@ export class ResearchWorkload {
 
   @Column('jsonb', { nullable: true })
   public remarks: RemarksAndPoints;
+
+  @Column()
+  public isSubmitted: boolean;
+
+  @Column({ nullable: true, array: true })
+  public disseminatedResearchFilenames: string;
+
+  @Column({ nullable: true })
+  public rwlFilename: string;
+
+  @Column({ nullable: true })
+  public rwlFilename1: string;
 }

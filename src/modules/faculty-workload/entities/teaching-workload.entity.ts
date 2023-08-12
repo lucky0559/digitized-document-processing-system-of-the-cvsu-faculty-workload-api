@@ -40,4 +40,7 @@ export class TeachingWorkload {
 
   @Column()
   public isSubmitted: boolean;
+
+  @Column({ nullable: true })
+  public filename: string;
 }
