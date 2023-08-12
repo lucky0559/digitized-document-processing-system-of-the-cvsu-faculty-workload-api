@@ -1,6 +1,9 @@
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { TeachingWorkloadService } from '../services/teaching-workload.service';
-import { RemarksAndPoints } from '../entities/teaching-workload.entity';
+import {
+  RemarksAndPoints,
+  TeachingWorkload,
+} from '../entities/teaching-workload.entity';
 
 @Controller('/teaching-workload')
 export class TeachingWorkloadController {
@@ -82,5 +85,12 @@ export class TeachingWorkloadController {
       userId,
       currentProcessRole,
     );
+  }
+
+  @Get(':userId/getSavedWorkload')
+  public async getSavedWorkload(
+    @Param('userId') userId: string,
+  ): Promise<TeachingWorkload> {
+    return this.teachingWorkloadService.getSavedWorkload(userId);
   }
 }

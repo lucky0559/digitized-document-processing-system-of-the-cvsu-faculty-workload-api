@@ -196,4 +196,11 @@ export class TeachingWorkloadService {
     });
     return teachingWorkload;
   }
+
+  public async getSavedWorkload(userId: string): Promise<TeachingWorkload> {
+    return await teachingWorkloadRepository.findOneBy({
+      userID: userId,
+      isSubmitted: false,
+    });
+  }
 }

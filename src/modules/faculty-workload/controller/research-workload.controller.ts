@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { ResearchWorkloadService } from '../services/research-workload.service';
 import { RemarksAndPoints } from '../entities/teaching-workload.entity';
+import { ResearchWorkload } from '../entities/research-workload.entity';
 
 @Controller('/research-workload')
 export class ResearchWorkloadController {
@@ -82,5 +83,12 @@ export class ResearchWorkloadController {
       userId,
       currentProcessRole,
     );
+  }
+
+  @Get(':userId/getSavedWorkload')
+  public async getSavedWorkload(
+    @Param('userId') userId: string,
+  ): Promise<ResearchWorkload> {
+    return this.researchWorkloadService.getSavedWorkload(userId);
   }
 }

@@ -192,4 +192,11 @@ export class ResearchWorkloadService {
     });
     return researchWorkload;
   }
+
+  public async getSavedWorkload(userId: string): Promise<ResearchWorkload> {
+    return await researchWorkloadRepository.findOneBy({
+      userID: userId,
+      isSubmitted: false,
+    });
+  }
 }
