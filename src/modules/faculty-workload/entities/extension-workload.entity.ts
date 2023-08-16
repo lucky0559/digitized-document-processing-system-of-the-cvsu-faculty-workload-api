@@ -15,17 +15,26 @@ export class ExtensionWorkload {
   @Column({ nullable: true })
   public extensionActivityFilePath: string;
 
+  @Column({ nullable: true })
+  public extensionActivityFilename: string;
+
   @Column({ nullable: true, array: true })
   public resourcePerson: string;
 
   @Column({ nullable: true, array: true })
   public certificateFilePath: string;
 
+  @Column({ nullable: true, array: true })
+  public certificateFilenames: string;
+
   @Column({ nullable: true })
   public totalNumberHours: string;
 
   @Column({ nullable: true })
   public summaryOfHoursFilePath: string;
+
+  @Column({ nullable: true })
+  public summaryOfHoursFilename: string;
 
   @Column({ nullable: true, type: 'decimal' })
   public ewlPoints: number;
@@ -38,4 +47,7 @@ export class ExtensionWorkload {
 
   @Column('jsonb', { nullable: true })
   public remarks: RemarksAndPoints;
+
+  @Column()
+  public isSubmitted: boolean;
 }
