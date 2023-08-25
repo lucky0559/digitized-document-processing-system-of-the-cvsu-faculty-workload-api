@@ -16,16 +16,25 @@ export class StrategicFunctionWorkload {
   public approvedUniversityDesignationFilePath: string;
 
   @Column({ nullable: true, array: true })
+  public approvedUniversityDesignationFilenames: string;
+
+  @Column({ nullable: true, array: true })
   public designationCollegeCampusLevel: string;
 
   @Column({ nullable: true, array: true })
   public approvedCollegeCampusDesignationFilePath: string;
 
   @Column({ nullable: true, array: true })
+  public approvedCollegeCampusDesignationFilenames: string;
+
+  @Column({ nullable: true, array: true })
   public designationDepartmentLevel: string;
 
   @Column({ nullable: true, array: true })
   public approvedDepartmentDesignationFilePath: string;
+
+  @Column({ nullable: true, array: true })
+  public approvedDepartmentDesignationFilenames: string;
 
   @Column({ nullable: true })
   public designationAsSportTrainorAcademic: string;
@@ -40,10 +49,19 @@ export class StrategicFunctionWorkload {
   public designationAsSportTrainorAcademicFilePath: string;
 
   @Column({ nullable: true })
+  public designationAsSportTrainorAcademicFilename: string;
+
+  @Column({ nullable: true })
   public designationAsSportTrainorAcademicFilePath1: string;
 
   @Column({ nullable: true })
+  public designationAsSportTrainorAcademicFilename1: string;
+
+  @Column({ nullable: true })
   public designationAsSportTrainorAcademicFilePath2: string;
+
+  @Column({ nullable: true })
+  public designationAsSportTrainorAcademicFilename2: string;
 
   // @Column({ nullable: true })
   // public coachAdviserCertificateFilePath: string;
@@ -64,16 +82,28 @@ export class StrategicFunctionWorkload {
   public designationAsMemberOfAdhocFilePath: string;
 
   @Column({ nullable: true })
+  public designationAsMemberOfAdhocFilename: string;
+
+  @Column({ nullable: true })
   public designationAsMemberOfAdhocFilePath1: string;
 
   @Column({ nullable: true })
+  public designationAsMemberOfAdhocFilename1: string;
+
+  @Column({ nullable: true })
   public designationAsMemberOfAdhocFilePath2: string;
+
+  @Column({ nullable: true })
+  public designationAsMemberOfAdhocFilename2: string;
 
   @Column({ nullable: true })
   public academicAdvisees: string;
 
   @Column({ nullable: true })
   public academicAdviseesFilePath: string;
+
+  @Column({ nullable: true })
+  public academicAdviseesFilename: string;
 
   @Column({ nullable: true, type: 'decimal' })
   public sfwPoints: number;
@@ -86,4 +116,7 @@ export class StrategicFunctionWorkload {
 
   @Column('jsonb', { nullable: true })
   public remarks: RemarksAndPoints;
+
+  @Column()
+  public isSubmitted: boolean;
 }
