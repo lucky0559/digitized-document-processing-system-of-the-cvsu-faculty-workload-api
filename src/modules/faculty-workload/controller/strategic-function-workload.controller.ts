@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { StrategicFunctionWorkloadService } from '../services/strategic-function-workload.service';
 import { RemarksAndPoints } from '../entities/teaching-workload.entity';
+import { StrategicFunctionWorkload } from '../entities/strategic-function-workload.entity';
 
 @Controller('/strategic-function-workload')
 export class StrategicFunctionWorkloadController {
@@ -89,5 +90,12 @@ export class StrategicFunctionWorkloadController {
       userId,
       currentProcessRole,
     );
+  }
+
+  @Get(':userId/getSavedWorkload')
+  public async getSavedWorkload(
+    @Param('userId') userId: string,
+  ): Promise<StrategicFunctionWorkload> {
+    return this.strategicFunctionWorkloadService.getSavedWorkload(userId);
   }
 }

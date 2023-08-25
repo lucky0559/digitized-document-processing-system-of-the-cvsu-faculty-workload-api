@@ -286,4 +286,11 @@ export class ExtensionWorkloadService {
     });
     return extensionWorkload;
   }
+
+  public async getSavedWorkload(userId: string): Promise<ExtensionWorkload> {
+    return await extensionWorkloadRepository.findOneBy({
+      userID: userId,
+      isSubmitted: false,
+    });
+  }
 }

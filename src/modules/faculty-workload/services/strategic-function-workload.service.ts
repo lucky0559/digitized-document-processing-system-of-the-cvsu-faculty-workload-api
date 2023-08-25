@@ -248,4 +248,13 @@ export class StrategicFunctionWorkloadService {
       });
     return strategicFunctionWorkload;
   }
+
+  public async getSavedWorkload(
+    userId: string,
+  ): Promise<StrategicFunctionWorkload> {
+    return await strategicFunctionWorkloadRepository.findOneBy({
+      userID: userId,
+      isSubmitted: false,
+    });
+  }
 }
