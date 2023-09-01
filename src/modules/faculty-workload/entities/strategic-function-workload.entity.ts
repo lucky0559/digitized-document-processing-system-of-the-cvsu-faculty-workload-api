@@ -6,7 +6,7 @@ export class StrategicFunctionWorkload {
   @PrimaryGeneratedColumn('uuid')
   public id: string;
 
-  @Column()
+  @Column({ primary: true })
   public userID: string;
 
   @Column({ nullable: true, array: true })
