@@ -15,11 +15,11 @@ export class StrategicFunctionWorkloadController {
   }
 
   @Post(':userId/save')
-  public async saveTeachingWorkload(
+  public async saveStrategicFunctinWorkload(
     @Param('userId') userId: string,
     @Body() strategicFunctionWorkload: any,
   ) {
-    return this.strategicFunctionWorkloadService.saveStrategicFunctinWorkload(
+    return this.strategicFunctionWorkloadService.saveStrategicFunctionWorkload(
       strategicFunctionWorkload,
       userId,
     );

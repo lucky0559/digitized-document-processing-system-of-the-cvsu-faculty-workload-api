@@ -1,10 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import * as nodemailer from 'nodemailer';
 import { AppDataSource } from '../../../data-source';
 import { User } from '../../user/entities/user.entity';
 import { StrategicFunctionWorkload } from '../entities/strategic-function-workload.entity';
-import { config } from '../../../../config';
-import { google } from 'googleapis';
 import { RemarksAndPoints } from '../entities/teaching-workload.entity';
 
 const strategicFunctionWorkloadRepository = AppDataSource.getRepository(
@@ -14,7 +11,7 @@ const userRepository = AppDataSource.getRepository(User);
 
 @Injectable()
 export class StrategicFunctionWorkloadService {
-  public async saveStrategicFunctinWorkload(
+  public async saveStrategicFunctionWorkload(
     strategicFunctionWorkload: StrategicFunctionWorkload,
     userId: string,
   ) {
