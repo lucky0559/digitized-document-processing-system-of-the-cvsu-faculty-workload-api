@@ -18,23 +18,9 @@ export class StrategicFunctionWorkloadService {
     strategicFunctionWorkload.userID = userId;
     strategicFunctionWorkload.status = 'pending';
     strategicFunctionWorkload.currentProcessRole = 'Department Chairperson';
-    return await strategicFunctionWorkloadRepository.save(
+    return await strategicFunctionWorkloadRepository.upsert(
       strategicFunctionWorkload,
-    );
-  }
-
-  public async updateStrategicFunctionWorkload(
-    strategicFunctionWorkload: StrategicFunctionWorkload,
-    userId: string,
-  ) {
-    strategicFunctionWorkload.userID = userId;
-    strategicFunctionWorkload.status = 'pending';
-    strategicFunctionWorkload.currentProcessRole = 'Department Chairperson';
-    return await strategicFunctionWorkloadRepository.update(
-      {
-        userID: userId,
-      },
-      strategicFunctionWorkload,
+      ['userID'],
     );
   }
 

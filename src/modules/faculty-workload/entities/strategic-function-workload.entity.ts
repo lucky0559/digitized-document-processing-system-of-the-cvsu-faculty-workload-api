@@ -1,12 +1,13 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
 import { RemarksAndPoints } from './teaching-workload.entity';
 
 @Entity('strategic-function-workload')
+@Unique('userId', ['userID'])
 export class StrategicFunctionWorkload {
   @PrimaryGeneratedColumn('uuid')
   public id: string;
 
-  @Column({ primary: true })
+  @Column()
   public userID: string;
 
   @Column({ nullable: true, array: true })
