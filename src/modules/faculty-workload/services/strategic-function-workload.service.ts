@@ -23,6 +23,21 @@ export class StrategicFunctionWorkloadService {
     );
   }
 
+  public async updateStrategicFunctionWorkload(
+    strategicFunctionWorkload: StrategicFunctionWorkload,
+    userId: string,
+  ) {
+    strategicFunctionWorkload.userID = userId;
+    strategicFunctionWorkload.status = 'pending';
+    strategicFunctionWorkload.currentProcessRole = 'Department Chairperson';
+    return await strategicFunctionWorkloadRepository.update(
+      {
+        userID: userId,
+      },
+      strategicFunctionWorkload,
+    );
+  }
+
   public async getAllPendingStrategicWorkloadDC(userId: string) {
     const reviewee = await userRepository.findOneBy({
       id: userId,
