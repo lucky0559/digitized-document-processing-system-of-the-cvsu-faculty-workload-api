@@ -25,6 +25,17 @@ export class StrategicFunctionWorkloadController {
     );
   }
 
+  @Post(':userId/update')
+  public async updateStrategicFunctionWorkload(
+    @Param('userId') userId: string,
+    @Body() strategicFunctionWorkload: any,
+  ) {
+    return this.strategicFunctionWorkloadService.updateStrategicFunctionWorkload(
+      strategicFunctionWorkload,
+      userId,
+    );
+  }
+
   @Get(':userId/all-pending-strategic-workload-dc')
   public async getAllPendingStrategicWorkloadDC(
     @Param('userId') userId: string,
