@@ -1,4 +1,8 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  CvsuFunded,
+  ExternallyFunded,
+} from '../../faculty-workload/entities/research-workload.entity';
 
 @Entity('user')
 export class User {
@@ -47,11 +51,11 @@ export class User {
   @Column({ nullable: true })
   public twlFilePath?: string;
 
-  @Column({ nullable: true })
-  public rwlFilePath?: string;
+  @Column('jsonb', { nullable: true, array: true })
+  public cvsuFunded: CvsuFunded;
 
-  @Column({ nullable: true })
-  public rwlFilePath1?: string;
+  @Column('jsonb', { nullable: true, array: true })
+  public externallyFunded: ExternallyFunded;
 
   @Column({ nullable: true, array: true })
   public disseminatedResearchFilesPath?: string;
