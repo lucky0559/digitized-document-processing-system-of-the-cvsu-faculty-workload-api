@@ -5,7 +5,6 @@ export type CvsuFunded = {
   title: string;
   typeOfStudy: string;
   designationStudy: string;
-  file?: File;
   filename?: string;
   filePath?: string;
   points: number;
@@ -14,7 +13,6 @@ export type CvsuFunded = {
 export type ExternallyFunded = {
   title: string;
   fundGenerated: string;
-  file?: File;
   filename?: string;
   filePath?: string;
   points: number;
@@ -28,10 +26,10 @@ export class ResearchWorkload {
   @Column()
   public userID: string;
 
-  @Column('jsonb', { nullable: true, array: true })
+  @Column('jsonb', { nullable: true })
   public cvsuFunded: CvsuFunded;
 
-  @Column('jsonb', { nullable: true, array: true })
+  @Column('jsonb', { nullable: true })
   public externallyFunded: ExternallyFunded;
 
   @Column({ nullable: true, array: true })
