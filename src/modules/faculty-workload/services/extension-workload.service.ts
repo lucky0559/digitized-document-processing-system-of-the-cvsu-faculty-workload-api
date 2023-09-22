@@ -160,15 +160,6 @@ export class ExtensionWorkloadService {
     return await extensionWorkloadRepository.save(workload);
   }
 
-  // public async remarksWorkload(workloadId: string, remarks: string) {
-  //   const workload = await extensionWorkloadRepository.findBy({
-  //     id: workloadId,
-  //   });
-  //   workload[0].remarks = remarks;
-  //   workload[0].status = 'remarks';
-  //   return await extensionWorkloadRepository.save(workload);
-  // }
-
   public async getWorkloadRemarksFaculty(userId: string) {
     const workloadRemarks = await extensionWorkloadRepository
       .createQueryBuilder('extension-workload')
@@ -292,5 +283,11 @@ export class ExtensionWorkloadService {
       userID: userId,
       isSubmitted: false,
     });
+  }
+
+  public async submitWorkload(id: string) {
+    const workload = await extensionWorkloadRepository.findOneBy({ id });
+    workload.isSubmitted = true;
+    return await extensionWorkloadRepository.save(workload);
   }
 }

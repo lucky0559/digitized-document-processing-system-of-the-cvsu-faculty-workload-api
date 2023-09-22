@@ -56,14 +56,6 @@ export class ResearchWorkloadController {
     return this.researchWorkloadService.ovpaaApproveWorkload(remarks);
   }
 
-  // @Patch(':workloadId/:remarks/remarks-workload')
-  // public async remarksWorkload(
-  //   @Param('workloadId') workloadId: string,
-  //   @Param('remarks') remarks: string,
-  // ) {
-  //   return this.researchWorkloadService.remarksWorkload(workloadId, remarks);
-  // }
-
   @Get(':userId/workload-remarks')
   public async getWorkloadRemarksFaculty(@Param('userId') userId: string) {
     return this.researchWorkloadService.getWorkloadRemarksFaculty(userId);
@@ -90,5 +82,10 @@ export class ResearchWorkloadController {
     @Param('userId') userId: string,
   ): Promise<ResearchWorkload> {
     return this.researchWorkloadService.getSavedWorkload(userId);
+  }
+
+  @Patch(':id/submit-workload')
+  public async submitWorkload(@Param('id') id: string) {
+    return this.researchWorkloadService.submitWorkload(id);
   }
 }
