@@ -22,8 +22,8 @@ let StrategicFunctionWorkloadController = class StrategicFunctionWorkloadControl
     async strategicFunction() {
         return 'strategic-function-workload';
     }
-    async saveTeachingWorkload(userId, strategicFunctionWorkload) {
-        return this.strategicFunctionWorkloadService.saveStrategicFunctinWorkload(strategicFunctionWorkload, userId);
+    async saveStrategicFunctinWorkload(userId, strategicFunctionWorkload) {
+        return this.strategicFunctionWorkloadService.saveStrategicFunctionWorkload(strategicFunctionWorkload, userId);
     }
     async getAllPendingStrategicWorkloadDC(userId) {
         return this.strategicFunctionWorkloadService.getAllPendingStrategicWorkloadDC(userId);
@@ -49,6 +49,12 @@ let StrategicFunctionWorkloadController = class StrategicFunctionWorkloadControl
     async getAllPendingWorkloadByIdAndCurrentProcessRole(userId, currentProcessRole) {
         return this.strategicFunctionWorkloadService.getAllPendingWorkloadByIdAndCurrentProcessRole(userId, currentProcessRole);
     }
+    async getSavedWorkload(userId) {
+        return this.strategicFunctionWorkloadService.getSavedWorkload(userId);
+    }
+    async submitWorkload(id) {
+        return this.strategicFunctionWorkloadService.submitWorkload(id);
+    }
 };
 __decorate([
     (0, common_1.Get)(),
@@ -63,7 +69,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
-], StrategicFunctionWorkloadController.prototype, "saveTeachingWorkload", null);
+], StrategicFunctionWorkloadController.prototype, "saveStrategicFunctinWorkload", null);
 __decorate([
     (0, common_1.Get)(':userId/all-pending-strategic-workload-dc'),
     __param(0, (0, common_1.Param)('userId')),
@@ -120,6 +126,20 @@ __decorate([
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], StrategicFunctionWorkloadController.prototype, "getAllPendingWorkloadByIdAndCurrentProcessRole", null);
+__decorate([
+    (0, common_1.Get)(':userId/getSavedWorkload'),
+    __param(0, (0, common_1.Param)('userId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], StrategicFunctionWorkloadController.prototype, "getSavedWorkload", null);
+__decorate([
+    (0, common_1.Patch)(':id/submit-workload'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], StrategicFunctionWorkloadController.prototype, "submitWorkload", null);
 StrategicFunctionWorkloadController = __decorate([
     (0, common_1.Controller)('/strategic-function-workload'),
     __metadata("design:paramtypes", [strategic_function_workload_service_1.StrategicFunctionWorkloadService])

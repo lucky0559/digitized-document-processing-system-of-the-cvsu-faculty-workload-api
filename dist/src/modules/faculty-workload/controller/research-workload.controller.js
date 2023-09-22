@@ -49,6 +49,12 @@ let ResearchWorkloadController = class ResearchWorkloadController {
     async getAllPendingWorkloadByIdAndCurrentProcessRole(userId, currentProcessRole) {
         return this.researchWorkloadService.getAllPendingWorkloadByIdAndCurrentProcessRole(userId, currentProcessRole);
     }
+    async getSavedWorkload(userId) {
+        return this.researchWorkloadService.getSavedWorkload(userId);
+    }
+    async submitWorkload(id) {
+        return this.researchWorkloadService.submitWorkload(id);
+    }
 };
 __decorate([
     (0, common_1.Get)(),
@@ -120,6 +126,20 @@ __decorate([
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], ResearchWorkloadController.prototype, "getAllPendingWorkloadByIdAndCurrentProcessRole", null);
+__decorate([
+    (0, common_1.Get)(':userId/getSavedWorkload'),
+    __param(0, (0, common_1.Param)('userId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ResearchWorkloadController.prototype, "getSavedWorkload", null);
+__decorate([
+    (0, common_1.Patch)(':id/submit-workload'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ResearchWorkloadController.prototype, "submitWorkload", null);
 ResearchWorkloadController = __decorate([
     (0, common_1.Controller)('/research-workload'),
     __metadata("design:paramtypes", [research_workload_service_1.ResearchWorkloadService])

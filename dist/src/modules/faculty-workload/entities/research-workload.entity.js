@@ -22,37 +22,33 @@ __decorate([
     __metadata("design:type", String)
 ], ResearchWorkload.prototype, "userID", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", String)
-], ResearchWorkload.prototype, "titleOfStudy", void 0);
+    (0, typeorm_1.Column)('jsonb', { nullable: true }),
+    __metadata("design:type", Object)
+], ResearchWorkload.prototype, "cvsuFunded", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", String)
-], ResearchWorkload.prototype, "fundingOfStudy", void 0);
+    (0, typeorm_1.Column)('jsonb', { nullable: true }),
+    __metadata("design:type", Object)
+], ResearchWorkload.prototype, "externallyFunded", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
+    (0, typeorm_1.Column)({ nullable: true, array: true }),
     __metadata("design:type", String)
-], ResearchWorkload.prototype, "typeOfStudy", void 0);
+], ResearchWorkload.prototype, "cvsuFundedFilenames", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
+    (0, typeorm_1.Column)({ nullable: true, array: true }),
     __metadata("design:type", String)
-], ResearchWorkload.prototype, "designationStudy", void 0);
+], ResearchWorkload.prototype, "cvsuFundedFilePath", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
+    (0, typeorm_1.Column)({ nullable: true, array: true }),
     __metadata("design:type", String)
-], ResearchWorkload.prototype, "fundGenerated", void 0);
+], ResearchWorkload.prototype, "externallyFundedFilenames", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true, array: true }),
+    __metadata("design:type", String)
+], ResearchWorkload.prototype, "externallyFundedFilePath", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true, array: true }),
     __metadata("design:type", String)
 ], ResearchWorkload.prototype, "disseminatedResearch", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", String)
-], ResearchWorkload.prototype, "rwlFilePath", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", String)
-], ResearchWorkload.prototype, "rwlFilePath1", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true, array: true }),
     __metadata("design:type", String)
@@ -73,6 +69,14 @@ __decorate([
     (0, typeorm_1.Column)('jsonb', { nullable: true }),
     __metadata("design:type", Object)
 ], ResearchWorkload.prototype, "remarks", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Boolean)
+], ResearchWorkload.prototype, "isSubmitted", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true, array: true }),
+    __metadata("design:type", String)
+], ResearchWorkload.prototype, "disseminatedResearchFilenames", void 0);
 ResearchWorkload = __decorate([
     (0, typeorm_1.Entity)('research-workload')
 ], ResearchWorkload);

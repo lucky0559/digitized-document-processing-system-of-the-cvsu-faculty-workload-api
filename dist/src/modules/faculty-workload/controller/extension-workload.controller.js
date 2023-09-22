@@ -52,6 +52,12 @@ let ExtensionWorkloadController = class ExtensionWorkloadController {
     async getAllPendingWorkloadByIdAndCurrentProcessRole(userId, currentProcessRole) {
         return this.extensionWorkloadService.getAllPendingWorkloadByIdAndCurrentProcessRole(userId, currentProcessRole);
     }
+    async getSavedWorkload(userId) {
+        return this.extensionWorkloadService.getSavedWorkload(userId);
+    }
+    async submitWorkload(id) {
+        return this.extensionWorkloadService.submitWorkload(id);
+    }
 };
 __decorate([
     (0, common_1.Get)(),
@@ -129,6 +135,20 @@ __decorate([
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], ExtensionWorkloadController.prototype, "getAllPendingWorkloadByIdAndCurrentProcessRole", null);
+__decorate([
+    (0, common_1.Get)(':userId/getSavedWorkload'),
+    __param(0, (0, common_1.Param)('userId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ExtensionWorkloadController.prototype, "getSavedWorkload", null);
+__decorate([
+    (0, common_1.Patch)(':id/submit-workload'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ExtensionWorkloadController.prototype, "submitWorkload", null);
 ExtensionWorkloadController = __decorate([
     (0, common_1.Controller)('/extension-workload'),
     __metadata("design:paramtypes", [extension_workload_service_1.ExtensionWorkloadService])

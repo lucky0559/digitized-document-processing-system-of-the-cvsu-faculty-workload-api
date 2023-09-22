@@ -1,3 +1,4 @@
+import { CvsuFunded, ExternallyFunded } from '../../faculty-workload/entities/research-workload.entity';
 export declare class User {
     id: string;
     workloadId: string;
@@ -14,8 +15,8 @@ export declare class User {
     verified: boolean;
     academicRank: string;
     twlFilePath?: string;
-    rwlFilePath?: string;
-    rwlFilePath1?: string;
+    cvsuFunded: CvsuFunded;
+    externallyFunded: ExternallyFunded;
     disseminatedResearchFilesPath?: string;
     extensionActivityFilePath?: string;
     certificateFilePath?: string;

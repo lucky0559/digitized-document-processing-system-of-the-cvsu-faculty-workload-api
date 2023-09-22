@@ -173,6 +173,17 @@ let TeachingWorkloadService = class TeachingWorkloadService {
         });
         return teachingWorkload;
     }
+    async getSavedWorkload(userId) {
+        return await teachingWorkloadRepository.findOneBy({
+            userID: userId,
+            isSubmitted: false,
+        });
+    }
+    async submitWorkload(id) {
+        const workload = await teachingWorkloadRepository.findOneBy({ id });
+        workload.isSubmitted = true;
+        return await teachingWorkloadRepository.save(workload);
+    }
 };
 TeachingWorkloadService = __decorate([
     (0, common_1.Injectable)()

@@ -14,11 +14,11 @@ const strategic_function_workload_entity_1 = require("../entities/strategic-func
 const strategicFunctionWorkloadRepository = data_source_1.AppDataSource.getRepository(strategic_function_workload_entity_1.StrategicFunctionWorkload);
 const userRepository = data_source_1.AppDataSource.getRepository(user_entity_1.User);
 let StrategicFunctionWorkloadService = class StrategicFunctionWorkloadService {
-    async saveStrategicFunctinWorkload(strategicFunctionWorkload, userId) {
+    async saveStrategicFunctionWorkload(strategicFunctionWorkload, userId) {
         strategicFunctionWorkload.userID = userId;
         strategicFunctionWorkload.status = 'pending';
         strategicFunctionWorkload.currentProcessRole = 'Department Chairperson';
-        return await strategicFunctionWorkloadRepository.save(strategicFunctionWorkload);
+        return await strategicFunctionWorkloadRepository.upsert(strategicFunctionWorkload, ['userID']);
     }
     async getAllPendingStrategicWorkloadDC(userId) {
         const reviewee = await userRepository.findOneBy({
@@ -195,6 +195,19 @@ let StrategicFunctionWorkloadService = class StrategicFunctionWorkloadService {
             currentProcessRole: currentProcessRole,
         });
         return strategicFunctionWorkload;
+    }
+    async getSavedWorkload(userId) {
+        return await strategicFunctionWorkloadRepository.findOneBy({
+            userID: userId,
+            isSubmitted: false,
+        });
+    }
+    async submitWorkload(id) {
+        const workload = await strategicFunctionWorkloadRepository.findOneBy({
+            id,
+        });
+        workload.isSubmitted = true;
+        return await strategicFunctionWorkloadRepository.save(workload);
     }
 };
 StrategicFunctionWorkloadService = __decorate([

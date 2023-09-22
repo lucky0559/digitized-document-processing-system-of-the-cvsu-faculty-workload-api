@@ -10,4 +10,6 @@ export declare class TeachingWorkloadService {
     getWorkloadRemarksFaculty(userId: string): Promise<any[]>;
     getAllPendingWorkload(email: string): Promise<TeachingWorkload[]>;
     getAllPendingWorkloadByIdAndCurrentProcessRole(userId: string, currentProcessRole: string): Promise<TeachingWorkload[]>;
+    getSavedWorkload(userId: string): Promise<TeachingWorkload>;
+    submitWorkload(id: string): Promise<TeachingWorkload>;
 }

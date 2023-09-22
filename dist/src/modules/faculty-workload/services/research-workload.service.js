@@ -44,8 +44,8 @@ let ResearchWorkloadService = class ResearchWorkloadService {
             })
                 .getOne();
             if (user) {
-                user.rwlFilePath = pendingResearchWorkloads[i].rwlFilePath;
-                user.rwlFilePath1 = pendingResearchWorkloads[i].rwlFilePath1;
+                user.cvsuFunded = pendingResearchWorkloads[i].cvsuFunded;
+                user.externallyFunded = pendingResearchWorkloads[i].externallyFunded;
                 user.disseminatedResearchFilesPath =
                     pendingResearchWorkloads[i].disseminatedResearchFilesPath;
                 user.workloadId = pendingResearchWorkloads[i].id;
@@ -75,8 +75,8 @@ let ResearchWorkloadService = class ResearchWorkloadService {
             })
                 .getOne();
             if (user) {
-                user.rwlFilePath = pendingResearchWorkloads[i].rwlFilePath;
-                user.rwlFilePath1 = pendingResearchWorkloads[i].rwlFilePath1;
+                user.cvsuFunded = pendingResearchWorkloads[i].cvsuFunded;
+                user.externallyFunded = pendingResearchWorkloads[i].externallyFunded;
                 user.disseminatedResearchFilesPath =
                     pendingResearchWorkloads[i].disseminatedResearchFilesPath;
                 user.workloadId = pendingResearchWorkloads[i].id;
@@ -100,8 +100,8 @@ let ResearchWorkloadService = class ResearchWorkloadService {
                 .where('user.id = :id', { id: pendingResearchWorkloads[i].userID })
                 .getOne();
             if (user) {
-                user.rwlFilePath = pendingResearchWorkloads[i].rwlFilePath;
-                user.rwlFilePath1 = pendingResearchWorkloads[i].rwlFilePath1;
+                user.cvsuFunded = pendingResearchWorkloads[i].cvsuFunded;
+                user.externallyFunded = pendingResearchWorkloads[i].externallyFunded;
                 user.disseminatedResearchFilesPath =
                     pendingResearchWorkloads[i].disseminatedResearchFilesPath;
                 user.workloadId = pendingResearchWorkloads[i].id;
@@ -150,8 +150,8 @@ let ResearchWorkloadService = class ResearchWorkloadService {
             id: userId,
         });
         for (let i = 0; workloadRemarks.length > i; i++) {
-            user.rwlFilePath = workloadRemarks[i].rwlFilePath;
-            user.rwlFilePath1 = workloadRemarks[i].rwlFilePath1;
+            user.cvsuFunded = workloadRemarks[i].cvsuFunded;
+            user.externallyFunded = workloadRemarks[i].externallyFunded;
             user.disseminatedResearchFilesPath =
                 workloadRemarks[i].disseminatedResearchFilesPath;
             user.workloadId = workloadRemarks[i].id;
@@ -172,6 +172,17 @@ let ResearchWorkloadService = class ResearchWorkloadService {
             currentProcessRole: currentProcessRole,
         });
         return researchWorkload;
+    }
+    async getSavedWorkload(userId) {
+        return await researchWorkloadRepository.findOneBy({
+            userID: userId,
+            isSubmitted: false,
+        });
+    }
+    async submitWorkload(id) {
+        const workload = await researchWorkloadRepository.findOneBy({ id });
+        workload.isSubmitted = true;
+        return await researchWorkloadRepository.save(workload);
     }
 };
 ResearchWorkloadService = __decorate([

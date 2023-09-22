@@ -74,13 +74,13 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "twlFilePath", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", String)
-], User.prototype, "rwlFilePath", void 0);
+    (0, typeorm_1.Column)('jsonb', { nullable: true, array: true }),
+    __metadata("design:type", Object)
+], User.prototype, "cvsuFunded", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", String)
-], User.prototype, "rwlFilePath1", void 0);
+    (0, typeorm_1.Column)('jsonb', { nullable: true, array: true }),
+    __metadata("design:type", Object)
+], User.prototype, "externallyFunded", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true, array: true }),
     __metadata("design:type", String)

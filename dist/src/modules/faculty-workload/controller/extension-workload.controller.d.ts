@@ -1,17 +1,20 @@
 import { ExtensionWorkloadService } from '../services/extension-workload.service';
 import { RemarksAndPoints } from '../entities/teaching-workload.entity';
+import { ExtensionWorkload } from '../entities/extension-workload.entity';
 export declare class ExtensionWorkloadController {
     private readonly extensionWorkloadService;
     constructor(extensionWorkloadService: ExtensionWorkloadService);
     extension(): Promise<string>;
-    saveExtensionWorkload(userId: string, extensionWorkload: any): Promise<import("../entities/extension-workload.entity").ExtensionWorkload>;
+    saveExtensionWorkload(userId: string, extensionWorkload: any): Promise<ExtensionWorkload>;
     getAllPendingExtensionWorkloadDC(userId: string): Promise<any[]>;
     getAllPendingExtensionWorkloadDean(userId: string): Promise<any[]>;
     getAllPendingExtensionWorkloadOVPAA(): Promise<any>;
-    approveWorkload(workloadId: string): Promise<import("../entities/extension-workload.entity").ExtensionWorkload[]>;
-    ovpaaApproveWorkload(remarks: RemarksAndPoints): Promise<import("../entities/extension-workload.entity").ExtensionWorkload>;
+    approveWorkload(workloadId: string): Promise<ExtensionWorkload[]>;
+    ovpaaApproveWorkload(remarks: RemarksAndPoints): Promise<ExtensionWorkload>;
     getWorkloadRemarksFaculty(userId: string): Promise<any[]>;
     getAllTotalWorkloadPointsApproved(): Promise<import("../../user/entities/user.entity").User[]>;
-    getAllPendingWorkload(email: string): Promise<import("../entities/extension-workload.entity").ExtensionWorkload[]>;
-    getAllPendingWorkloadByIdAndCurrentProcessRole(userId: string, currentProcessRole: string): Promise<import("../entities/extension-workload.entity").ExtensionWorkload[]>;
+    getAllPendingWorkload(email: string): Promise<ExtensionWorkload[]>;
+    getAllPendingWorkloadByIdAndCurrentProcessRole(userId: string, currentProcessRole: string): Promise<ExtensionWorkload[]>;
+    getSavedWorkload(userId: string): Promise<ExtensionWorkload>;
+    submitWorkload(id: string): Promise<ExtensionWorkload>;
 }

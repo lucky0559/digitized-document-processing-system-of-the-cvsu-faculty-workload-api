@@ -257,6 +257,17 @@ let ExtensionWorkloadService = class ExtensionWorkloadService {
         });
         return extensionWorkload;
     }
+    async getSavedWorkload(userId) {
+        return await extensionWorkloadRepository.findOneBy({
+            userID: userId,
+            isSubmitted: false,
+        });
+    }
+    async submitWorkload(id) {
+        const workload = await extensionWorkloadRepository.findOneBy({ id });
+        workload.isSubmitted = true;
+        return await extensionWorkloadRepository.save(workload);
+    }
 };
 ExtensionWorkloadService = __decorate([
     (0, common_1.Injectable)()

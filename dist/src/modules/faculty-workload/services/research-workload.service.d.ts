@@ -10,4 +10,6 @@ export declare class ResearchWorkloadService {
     getWorkloadRemarksFaculty(userId: string): Promise<any[]>;
     getAllPendingWorkload(email: string): Promise<ResearchWorkload[]>;
     getAllPendingWorkloadByIdAndCurrentProcessRole(userId: string, currentProcessRole: string): Promise<ResearchWorkload[]>;
+    getSavedWorkload(userId: string): Promise<ResearchWorkload>;
+    submitWorkload(id: string): Promise<ResearchWorkload>;
 }

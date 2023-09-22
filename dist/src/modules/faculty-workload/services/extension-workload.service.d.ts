@@ -12,4 +12,6 @@ export declare class ExtensionWorkloadService {
     getAllTotalWorkloadPointsApproved(): Promise<User[]>;
     getAllPendingWorkload(email: string): Promise<ExtensionWorkload[]>;
     getAllPendingWorkloadByIdAndCurrentProcessRole(userId: string, currentProcessRole: string): Promise<ExtensionWorkload[]>;
+    getSavedWorkload(userId: string): Promise<ExtensionWorkload>;
+    submitWorkload(id: string): Promise<ExtensionWorkload>;
 }

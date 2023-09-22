@@ -49,6 +49,12 @@ let TeachingWorkloadController = class TeachingWorkloadController {
     async getAllPendingWorkloadByIdAndCurrentProcessRole(userId, currentProcessRole) {
         return this.teachingWorkloadService.getAllPendingWorkloadByIdAndCurrentProcessRole(userId, currentProcessRole);
     }
+    async getSavedWorkload(userId) {
+        return this.teachingWorkloadService.getSavedWorkload(userId);
+    }
+    async submitWorkload(id) {
+        return this.teachingWorkloadService.submitWorkload(id);
+    }
 };
 __decorate([
     (0, common_1.Get)(),
@@ -120,6 +126,20 @@ __decorate([
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], TeachingWorkloadController.prototype, "getAllPendingWorkloadByIdAndCurrentProcessRole", null);
+__decorate([
+    (0, common_1.Get)(':userId/getSavedWorkload'),
+    __param(0, (0, common_1.Param)('userId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], TeachingWorkloadController.prototype, "getSavedWorkload", null);
+__decorate([
+    (0, common_1.Patch)(':id/submit-workload'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], TeachingWorkloadController.prototype, "submitWorkload", null);
 TeachingWorkloadController = __decorate([
     (0, common_1.Controller)('/teaching-workload'),
     __metadata("design:paramtypes", [teaching_workload_service_1.TeachingWorkloadService])
