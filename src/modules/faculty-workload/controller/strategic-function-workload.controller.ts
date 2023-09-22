@@ -58,17 +58,6 @@ export class StrategicFunctionWorkloadController {
     return this.strategicFunctionWorkloadService.ovpaaApproveWorkload(remarks);
   }
 
-  // @Patch(':workloadId/:remarks/remarks-workload')
-  // public async remarksWorkload(
-  //   @Param('workloadId') workloadId: string,
-  //   @Param('remarks') remarks: string,
-  // ) {
-  //   return this.strategicFunctionWorkloadService.remarksWorkload(
-  //     workloadId,
-  //     remarks,
-  //   );
-  // }
-
   @Get(':userId/workload-remarks')
   public async getWorkloadRemarksFaculty(@Param('userId') userId: string) {
     return this.strategicFunctionWorkloadService.getWorkloadRemarksFaculty(
@@ -97,5 +86,10 @@ export class StrategicFunctionWorkloadController {
     @Param('userId') userId: string,
   ): Promise<StrategicFunctionWorkload> {
     return this.strategicFunctionWorkloadService.getSavedWorkload(userId);
+  }
+
+  @Patch(':id/submit-workload')
+  public async submitWorkload(@Param('id') id: string) {
+    return this.strategicFunctionWorkloadService.submitWorkload(id);
   }
 }

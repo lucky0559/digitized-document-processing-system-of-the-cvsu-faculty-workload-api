@@ -58,14 +58,6 @@ export class ExtensionWorkloadController {
     return this.extensionWorkloadService.ovpaaApproveWorkload(remarks);
   }
 
-  // @Patch(':workloadId/:remarks/remarks-workload')
-  // public async remarksWorkload(
-  //   @Param('workloadId') workloadId: string,
-  //   @Param('remarks') remarks: string,
-  // ) {
-  //   return this.extensionWorkloadService.remarksWorkload(workloadId, remarks);
-  // }
-
   @Get(':userId/workload-remarks')
   public async getWorkloadRemarksFaculty(@Param('userId') userId: string) {
     return this.extensionWorkloadService.getWorkloadRemarksFaculty(userId);
@@ -97,5 +89,10 @@ export class ExtensionWorkloadController {
     @Param('userId') userId: string,
   ): Promise<ExtensionWorkload> {
     return this.extensionWorkloadService.getSavedWorkload(userId);
+  }
+
+  @Patch(':id/submit-workload')
+  public async submitWorkload(@Param('id') id: string) {
+    return this.extensionWorkloadService.submitWorkload(id);
   }
 }

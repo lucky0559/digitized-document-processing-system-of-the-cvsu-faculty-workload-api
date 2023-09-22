@@ -59,10 +59,6 @@ export class StrategicFunctionWorkloadService {
           pendingStrategicWorkloads[i].approvedCollegeCampusDesignationFilePath;
         user.approvedDepartmentDesignationFilePath =
           pendingStrategicWorkloads[i].approvedDepartmentDesignationFilePath;
-        // user.coachAdviserCertificateFilePath =
-        //   pendingStrategicWorkloads[i].coachAdviserCertificateFilePath;
-        // user.approvedDesignationFilePath =
-        //   pendingStrategicWorkloads[i].approvedDesignationFilePath;
         user.listOfAdviseesFilePath =
           pendingStrategicWorkloads[i].academicAdviseesFilePath;
         user.workloadId = pendingStrategicWorkloads[i].id;
@@ -104,10 +100,6 @@ export class StrategicFunctionWorkloadService {
           pendingStrategicWorkloads[i].approvedCollegeCampusDesignationFilePath;
         user.approvedDepartmentDesignationFilePath =
           pendingStrategicWorkloads[i].approvedDepartmentDesignationFilePath;
-        // user.coachAdviserCertificateFilePath =
-        //   pendingStrategicWorkloads[i].coachAdviserCertificateFilePath;
-        // user.approvedDesignationFilePath =
-        //   pendingStrategicWorkloads[i].approvedDesignationFilePath;
         user.listOfAdviseesFilePath =
           pendingStrategicWorkloads[i].academicAdviseesFilePath;
         user.workloadId = pendingStrategicWorkloads[i].id;
@@ -144,10 +136,6 @@ export class StrategicFunctionWorkloadService {
           pendingStrategicWorkloads[i].approvedCollegeCampusDesignationFilePath;
         user.approvedDepartmentDesignationFilePath =
           pendingStrategicWorkloads[i].approvedDepartmentDesignationFilePath;
-        // user.coachAdviserCertificateFilePath =
-        //   pendingStrategicWorkloads[i].coachAdviserCertificateFilePath;
-        // user.approvedDesignationFilePath =
-        //   pendingStrategicWorkloads[i].approvedDesignationFilePath;
         user.listOfAdviseesFilePath =
           pendingStrategicWorkloads[i].academicAdviseesFilePath;
         user.workloadId = pendingStrategicWorkloads[i].id;
@@ -186,15 +174,6 @@ export class StrategicFunctionWorkloadService {
     return await strategicFunctionWorkloadRepository.save(workload);
   }
 
-  // public async remarksWorkload(workloadId: string, remarks: string) {
-  //   const workload = await strategicFunctionWorkloadRepository.findBy({
-  //     id: workloadId,
-  //   });
-  //   workload[0].remarks = remarks;
-  //   workload[0].status = 'remarks';
-  //   return await strategicFunctionWorkloadRepository.save(workload);
-  // }
-
   public async getWorkloadRemarksFaculty(userId: string) {
     const workloadRemarks = await strategicFunctionWorkloadRepository
       .createQueryBuilder('strategic-function-workload')
@@ -216,10 +195,6 @@ export class StrategicFunctionWorkloadService {
         workloadRemarks[i].approvedCollegeCampusDesignationFilePath;
       user.approvedDepartmentDesignationFilePath =
         workloadRemarks[i].approvedDepartmentDesignationFilePath;
-      // user.coachAdviserCertificateFilePath =
-      //   workloadRemarks[i].coachAdviserCertificateFilePath;
-      // user.approvedDesignationFilePath =
-      //   workloadRemarks[i].approvedDesignationFilePath;
       user.listOfAdviseesFilePath = workloadRemarks[i].academicAdviseesFilePath;
       user.workloadId = workloadRemarks[i].id;
       data.push(user);
@@ -254,5 +229,13 @@ export class StrategicFunctionWorkloadService {
       userID: userId,
       isSubmitted: false,
     });
+  }
+
+  public async submitWorkload(id: string) {
+    const workload = await strategicFunctionWorkloadRepository.findOneBy({
+      id,
+    });
+    workload.isSubmitted = true;
+    return await strategicFunctionWorkloadRepository.save(workload);
   }
 }

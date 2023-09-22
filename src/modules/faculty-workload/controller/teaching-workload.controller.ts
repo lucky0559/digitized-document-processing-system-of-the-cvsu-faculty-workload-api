@@ -58,14 +58,6 @@ export class TeachingWorkloadController {
     return this.teachingWorkloadService.ovpaaApproveWorkload(remarks);
   }
 
-  // @Patch(':workloadId/:remarks/remarks-workload')
-  // public async remarksWorkload(
-  //   @Param('workloadId') workloadId: string,
-  //   @Param('remarks') remarks: string,
-  // ) {
-  //   return this.teachingWorkloadService.remarksWorkload(workloadId, remarks);
-  // }
-
   @Get(':userId/workload-remarks')
   public async getWorkloadRemarksFaculty(@Param('userId') userId: string) {
     return this.teachingWorkloadService.getWorkloadRemarksFaculty(userId);
@@ -92,5 +84,10 @@ export class TeachingWorkloadController {
     @Param('userId') userId: string,
   ): Promise<TeachingWorkload> {
     return this.teachingWorkloadService.getSavedWorkload(userId);
+  }
+
+  @Patch(':id/submit-workload')
+  public async submitWorkload(@Param('id') id: string) {
+    return this.teachingWorkloadService.submitWorkload(id);
   }
 }

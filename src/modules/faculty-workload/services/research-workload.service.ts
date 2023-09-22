@@ -142,15 +142,6 @@ export class ResearchWorkloadService {
     return await researchWorkloadRepository.save(workload);
   }
 
-  // public async remarksWorkload(workloadId: string, remarks: string) {
-  //   const workload = await researchWorkloadRepository.findBy({
-  //     id: workloadId,
-  //   });
-  //   workload[0].remarks = remarks;
-  //   workload[0].status = 'remarks';
-  //   return await researchWorkloadRepository.save(workload);
-  // }
-
   public async getWorkloadRemarksFaculty(userId: string) {
     const workloadRemarks = await researchWorkloadRepository
       .createQueryBuilder('research-workload')
@@ -198,5 +189,11 @@ export class ResearchWorkloadService {
       userID: userId,
       isSubmitted: false,
     });
+  }
+
+  public async submitWorkload(id: string) {
+    const workload = await researchWorkloadRepository.findOneBy({ id });
+    workload.isSubmitted = true;
+    return await researchWorkloadRepository.save(workload);
   }
 }
