@@ -32,6 +32,10 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({ nullable: true, array: true }),
     __metadata("design:type", String)
+], StrategicFunctionWorkload.prototype, "approvedUniversityDesignationFilenames", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true, array: true }),
+    __metadata("design:type", String)
 ], StrategicFunctionWorkload.prototype, "designationCollegeCampusLevel", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true, array: true }),
@@ -40,11 +44,19 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({ nullable: true, array: true }),
     __metadata("design:type", String)
+], StrategicFunctionWorkload.prototype, "approvedCollegeCampusDesignationFilenames", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true, array: true }),
+    __metadata("design:type", String)
 ], StrategicFunctionWorkload.prototype, "designationDepartmentLevel", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true, array: true }),
     __metadata("design:type", String)
 ], StrategicFunctionWorkload.prototype, "approvedDepartmentDesignationFilePath", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true, array: true }),
+    __metadata("design:type", String)
+], StrategicFunctionWorkload.prototype, "approvedDepartmentDesignationFilenames", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
@@ -64,11 +76,23 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
+], StrategicFunctionWorkload.prototype, "designationAsSportTrainorAcademicFilename", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
 ], StrategicFunctionWorkload.prototype, "designationAsSportTrainorAcademicFilePath1", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
+], StrategicFunctionWorkload.prototype, "designationAsSportTrainorAcademicFilename1", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
 ], StrategicFunctionWorkload.prototype, "designationAsSportTrainorAcademicFilePath2", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], StrategicFunctionWorkload.prototype, "designationAsSportTrainorAcademicFilename2", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
@@ -88,11 +112,23 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
+], StrategicFunctionWorkload.prototype, "designationAsMemberOfAdhocFilename", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
 ], StrategicFunctionWorkload.prototype, "designationAsMemberOfAdhocFilePath1", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
+], StrategicFunctionWorkload.prototype, "designationAsMemberOfAdhocFilename1", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
 ], StrategicFunctionWorkload.prototype, "designationAsMemberOfAdhocFilePath2", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], StrategicFunctionWorkload.prototype, "designationAsMemberOfAdhocFilename2", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
@@ -101,6 +137,10 @@ __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], StrategicFunctionWorkload.prototype, "academicAdviseesFilePath", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], StrategicFunctionWorkload.prototype, "academicAdviseesFilename", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true, type: 'decimal' }),
     __metadata("design:type", Number)
@@ -117,8 +157,13 @@ __decorate([
     (0, typeorm_1.Column)('jsonb', { nullable: true }),
     __metadata("design:type", Object)
 ], StrategicFunctionWorkload.prototype, "remarks", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Boolean)
+], StrategicFunctionWorkload.prototype, "isSubmitted", void 0);
 StrategicFunctionWorkload = __decorate([
-    (0, typeorm_1.Entity)('strategic-function-workload')
+    (0, typeorm_1.Entity)('strategic-function-workload'),
+    (0, typeorm_1.Unique)('userId', ['userID'])
 ], StrategicFunctionWorkload);
 exports.StrategicFunctionWorkload = StrategicFunctionWorkload;
 //# sourceMappingURL=strategic-function-workload.entity.js.map

@@ -30,6 +30,10 @@ __decorate([
     __metadata("design:type", String)
 ], ExtensionWorkload.prototype, "extensionActivityFilePath", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], ExtensionWorkload.prototype, "extensionActivityFilename", void 0);
+__decorate([
     (0, typeorm_1.Column)({ nullable: true, array: true }),
     __metadata("design:type", String)
 ], ExtensionWorkload.prototype, "resourcePerson", void 0);
@@ -38,6 +42,10 @@ __decorate([
     __metadata("design:type", String)
 ], ExtensionWorkload.prototype, "certificateFilePath", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ nullable: true, array: true }),
+    __metadata("design:type", String)
+], ExtensionWorkload.prototype, "certificateFilenames", void 0);
+__decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], ExtensionWorkload.prototype, "totalNumberHours", void 0);
@@ -45,6 +53,10 @@ __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], ExtensionWorkload.prototype, "summaryOfHoursFilePath", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], ExtensionWorkload.prototype, "summaryOfHoursFilename", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true, type: 'decimal' }),
     __metadata("design:type", Number)
@@ -61,6 +73,10 @@ __decorate([
     (0, typeorm_1.Column)('jsonb', { nullable: true }),
     __metadata("design:type", Object)
 ], ExtensionWorkload.prototype, "remarks", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Boolean)
+], ExtensionWorkload.prototype, "isSubmitted", void 0);
 ExtensionWorkload = __decorate([
     (0, typeorm_1.Entity)('extension-workload')
 ], ExtensionWorkload);

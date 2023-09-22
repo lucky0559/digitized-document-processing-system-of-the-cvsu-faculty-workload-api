@@ -57,6 +57,10 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", Boolean)
 ], TeachingWorkload.prototype, "isSubmitted", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], TeachingWorkload.prototype, "filename", void 0);
 TeachingWorkload = __decorate([
     (0, typeorm_1.Entity)('teaching-workload')
 ], TeachingWorkload);

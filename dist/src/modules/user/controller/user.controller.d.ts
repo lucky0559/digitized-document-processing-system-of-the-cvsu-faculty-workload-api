@@ -15,7 +15,7 @@ export declare class UserController {
     uploadESignature(eSignature: ESignature): Promise<any>;
     checkESignature(userId: string): Promise<boolean>;
     changePassword(username: string, oldPassword: string, password: string): Promise<any>;
-    changeUserRole(email: string, role: string): Promise<any>;
+    changeUserRole(email: string, role: string, hourlyRate: number): Promise<any>;
     resetPassword(email: string): Promise<any>;
     findUserByPasswordCode(passwordResetCode: string): Promise<User>;
     resetChangePassword(username: string, password: string): Promise<any>;

@@ -15,4 +15,5 @@ export declare class TeachingWorkload {
     currentProcessRole: string;
     remarks: RemarksAndPoints;
     isSubmitted: boolean;
+    filename: string;
 }
