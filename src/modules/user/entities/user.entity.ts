@@ -104,4 +104,7 @@ export class User {
 
   @Column({ nullable: true })
   public passwordResetCode: string;
+
+  @Column('decimal', { nullable: true })
+  public hourlyRate: number;
 }
