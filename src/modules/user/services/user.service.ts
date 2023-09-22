@@ -94,6 +94,7 @@ export class UserService {
     user.password = hashPassword;
     user.emailToken = email_token;
     user.role = 'Faculty';
+    user.hourlyRate = 165.71;
     const isUsernameNotAvailable = await userRepository.findOneBy({
       username: user.username,
     });
@@ -215,7 +216,11 @@ export class UserService {
     }
   }
 
-  public async changeUserRole(email: string, role: string) {
+  public async updateUserAdmin(
+    email: string,
+    role: string,
+    hourlyRate: number,
+  ) {
     const user = await userRepository.findOneBy({ email });
 
     if (!user) {
@@ -223,6 +228,7 @@ export class UserService {
     }
 
     user.role = role;
+    user.hourlyRate = hourlyRate;
     await userRepository.update(user.id, user);
     return 'Role Updated Successfully';
   }
