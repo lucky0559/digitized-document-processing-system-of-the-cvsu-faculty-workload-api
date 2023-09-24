@@ -50,4 +50,19 @@ export class ExtensionWorkload {
 
   @Column()
   public isSubmitted: boolean;
+
+  @Column({ nullable: true })
+  public hoursRenderedPoints: number;
+
+  @Column({ nullable: true })
+  public designationPoints: number;
+
+  @Column({ nullable: true })
+  public resourcePerson1Points: number;
+
+  @Column({ nullable: true })
+  public resourcePerson2Points: number;
+
+  @Column({ nullable: true })
+  public resourcePerson3Points: number;
 }
