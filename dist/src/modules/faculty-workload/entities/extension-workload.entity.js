@@ -77,6 +77,26 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", Boolean)
 ], ExtensionWorkload.prototype, "isSubmitted", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Number)
+], ExtensionWorkload.prototype, "hoursRenderedPoints", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Number)
+], ExtensionWorkload.prototype, "designationPoints", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Number)
+], ExtensionWorkload.prototype, "resourcePerson1Points", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Number)
+], ExtensionWorkload.prototype, "resourcePerson2Points", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Number)
+], ExtensionWorkload.prototype, "resourcePerson3Points", void 0);
 ExtensionWorkload = __decorate([
     (0, typeorm_1.Entity)('extension-workload')
 ], ExtensionWorkload);

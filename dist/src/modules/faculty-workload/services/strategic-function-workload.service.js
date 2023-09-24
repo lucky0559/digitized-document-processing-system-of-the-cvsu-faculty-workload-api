@@ -32,6 +32,9 @@ let StrategicFunctionWorkloadService = class StrategicFunctionWorkloadService {
             .andWhere('strategic-function-workload.currentProcessRole = :currentProcessRole', {
             currentProcessRole: 'Department Chairperson',
         })
+            .andWhere('strategic-function-workload.isSubmitted = :isSubmitted', {
+            isSubmitted: true,
+        })
             .getMany();
         const data = [];
         for (let i = 0; pendingStrategicWorkloads.length > i; i++) {
@@ -72,6 +75,9 @@ let StrategicFunctionWorkloadService = class StrategicFunctionWorkloadService {
             .andWhere('strategic-function-workload.currentProcessRole = :currentProcessRole', {
             currentProcessRole: 'Dean',
         })
+            .andWhere('strategic-function-workload.isSubmitted = :isSubmitted', {
+            isSubmitted: true,
+        })
             .getMany();
         const data = [];
         for (let i = 0; pendingStrategicWorkloads.length > i; i++) {
@@ -105,6 +111,9 @@ let StrategicFunctionWorkloadService = class StrategicFunctionWorkloadService {
         })
             .andWhere('strategic-function-workload.currentProcessRole = :currentProcessRole', {
             currentProcessRole: 'OVPAA',
+        })
+            .andWhere('strategic-function-workload.isSubmitted = :isSubmitted', {
+            isSubmitted: true,
         })
             .getMany();
         const data = [];

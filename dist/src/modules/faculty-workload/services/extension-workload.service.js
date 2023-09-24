@@ -36,6 +36,9 @@ let ExtensionWorkloadService = class ExtensionWorkloadService {
             .andWhere('extension-workload.currentProcessRole = :currentProcessRole', {
             currentProcessRole: 'Department Chairperson',
         })
+            .andWhere('extension-workload.isSubmitted = :isSubmitted', {
+            isSubmitted: true,
+        })
             .getMany();
         const data = [];
         for (let i = 0; pendingExtensionWorkloads.length > i; i++) {
@@ -72,6 +75,9 @@ let ExtensionWorkloadService = class ExtensionWorkloadService {
             .andWhere('extension-workload.currentProcessRole = :currentProcessRole', {
             currentProcessRole: 'Dean',
         })
+            .andWhere('extension-workload.isSubmitted = :isSubmitted', {
+            isSubmitted: true,
+        })
             .getMany();
         const data = [];
         for (let i = 0; pendingExtensionWorkloads.length > i; i++) {
@@ -101,6 +107,9 @@ let ExtensionWorkloadService = class ExtensionWorkloadService {
             .where('extension-workload.status = :status', { status: 'pending' })
             .andWhere('extension-workload.currentProcessRole = :currentProcessRole', {
             currentProcessRole: 'OVPAA',
+        })
+            .andWhere('extension-workload.isSubmitted = :isSubmitted', {
+            isSubmitted: true,
         })
             .getMany();
         const data = [];

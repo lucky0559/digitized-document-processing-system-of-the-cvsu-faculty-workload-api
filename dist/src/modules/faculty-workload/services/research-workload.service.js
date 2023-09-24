@@ -30,6 +30,9 @@ let ResearchWorkloadService = class ResearchWorkloadService {
             .andWhere('research-workload.currentProcessRole = :currentProcessRole', {
             currentProcessRole: 'Department Chairperson',
         })
+            .andWhere('research-workload.isSubmitted = :isSubmitted', {
+            isSubmitted: true,
+        })
             .getMany();
         const data = [];
         for (let i = 0; pendingResearchWorkloads.length > i; i++) {
@@ -64,6 +67,9 @@ let ResearchWorkloadService = class ResearchWorkloadService {
             .andWhere('research-workload.currentProcessRole = :currentProcessRole', {
             currentProcessRole: 'Dean',
         })
+            .andWhere('research-workload.isSubmitted = :isSubmitted', {
+            isSubmitted: true,
+        })
             .getMany();
         const data = [];
         for (let i = 0; pendingResearchWorkloads.length > i; i++) {
@@ -91,6 +97,9 @@ let ResearchWorkloadService = class ResearchWorkloadService {
             .where('research-workload.status = :status', { status: 'pending' })
             .andWhere('research-workload.currentProcessRole = :currentProcessRole', {
             currentProcessRole: 'OVPAA',
+        })
+            .andWhere('research-workload.isSubmitted = :isSubmitted', {
+            isSubmitted: true,
         })
             .getMany();
         const data = [];

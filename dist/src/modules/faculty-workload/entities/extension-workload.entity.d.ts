@@ -16,4 +16,9 @@ export declare class ExtensionWorkload {
     currentProcessRole: string;
     remarks: RemarksAndPoints;
     isSubmitted: boolean;
+    hoursRenderedPoints: number;
+    designationPoints: number;
+    resourcePerson1Points: number;
+    resourcePerson2Points: number;
+    resourcePerson3Points: number;
 }

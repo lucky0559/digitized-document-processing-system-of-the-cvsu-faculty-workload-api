@@ -32,6 +32,9 @@ let TeachingWorkloadService = class TeachingWorkloadService {
             .andWhere('teaching-workload.currentProcessRole = :currentProcessRole', {
             currentProcessRole: 'Department Chairperson',
         })
+            .andWhere('teaching-workload.isSubmitted = :isSubmitted', {
+            isSubmitted: true,
+        })
             .getMany();
         const data = [];
         for (let i = 0; pendingTeachingWorkloads.length > i; i++) {
@@ -65,6 +68,9 @@ let TeachingWorkloadService = class TeachingWorkloadService {
             .andWhere('teaching-workload.currentProcessRole = :currentProcessRole', {
             currentProcessRole: 'Dean',
         })
+            .andWhere('teaching-workload.isSubmitted = :isSubmitted', {
+            isSubmitted: true,
+        })
             .getMany();
         const data = [];
         for (let i = 0; pendingTeachingWorkloads.length > i; i++) {
@@ -91,6 +97,9 @@ let TeachingWorkloadService = class TeachingWorkloadService {
         })
             .andWhere('teaching-workload.currentProcessRole = :currentProcessRole', {
             currentProcessRole: 'OVPAA',
+        })
+            .andWhere('teaching-workload.isSubmitted = :isSubmitted', {
+            isSubmitted: true,
         })
             .getMany();
         const data = [];
