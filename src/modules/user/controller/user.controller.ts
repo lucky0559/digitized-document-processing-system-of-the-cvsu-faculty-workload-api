@@ -78,13 +78,12 @@ export class UserController {
     return this.userService.changePassword(username, oldPassword, password);
   }
 
-  @Patch(':email/:role/:hourlyRate/update-user-admin')
+  @Patch(':email/:role/update-user-admin')
   public async changeUserRole(
     @Param('email') email: string,
     @Param('role') role: string,
-    @Param('hourlyRate') hourlyRate: number,
   ): Promise<any> {
-    return this.userService.updateUserAdmin(email, role, hourlyRate);
+    return this.userService.updateUserAdmin(email, role);
   }
 
   @Post(':email/reset-password')

@@ -5,6 +5,7 @@ import { StrategicFunctionWorkload } from './modules/faculty-workload/entities/s
 import { TeachingWorkload } from './modules/faculty-workload/entities/teaching-workload.entity';
 import { ESignature } from './modules/user/entities/e-signature.entity';
 import { User } from './modules/user/entities/user.entity';
+import { Config } from './modules/config/entities/config.entity';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -20,6 +21,7 @@ export const AppDataSource = new DataSource({
     ExtensionWorkload,
     StrategicFunctionWorkload,
     ESignature,
+    Config,
   ],
   synchronize: true,
 });
