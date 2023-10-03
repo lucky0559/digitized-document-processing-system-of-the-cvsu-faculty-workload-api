@@ -20,6 +20,6 @@ export class Config {
   @Column({ nullable: true, type: 'timestamptz' })
   public submissionDateEnd: Date;
 
-  @Column()
+  @Column('decimal', { nullable: true })
   public hourlyRate: number;
 }
