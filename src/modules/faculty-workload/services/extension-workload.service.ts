@@ -253,19 +253,30 @@ export class ExtensionWorkloadService {
           setter[b].rwlPoints = Number(researchWorkloads[d].remarks.points);
         }
       }
-      for (let e = 0; setter.length > e; e++) {
-        if (setter[b].id === extensionWorkloads[e].userID) {
-          setter[b].ewlPoints = Number(extensionWorkloads[e].remarks.points);
+
+      if (!!extensionWorkloads.length) {
+        for (let e = 0; setter.length > e; e++) {
+          if (setter[b].id === extensionWorkloads[e].userID) {
+            setter[b].ewlPoints = Number(extensionWorkloads[e].remarks.points);
+          }
         }
       }
-      for (let f = 0; setter.length > f; f++) {
-        if (setter[b].id === strategicWorkloads[f].userID) {
-          setter[b].sfwPoints = Number(strategicWorkloads[f].remarks.points);
+
+      if (!!strategicWorkloads.length) {
+        for (let f = 0; setter.length > f; f++) {
+          if (setter[b].id === strategicWorkloads[f].userID) {
+            setter[b].sfwPoints = Number(strategicWorkloads[f].remarks.points);
+          }
         }
       }
     }
 
-    return setter;
+    return setter.reduce((group, user) => {
+      const { campus } = user;
+      group[campus] = group[campus] ?? [];
+      group[campus].push(user);
+      return group;
+    }, {});
   }
 
   public async getAllPendingWorkload(email: string) {
