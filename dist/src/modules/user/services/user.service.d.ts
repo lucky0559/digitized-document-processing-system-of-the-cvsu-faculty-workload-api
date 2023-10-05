@@ -14,7 +14,7 @@ export declare class UserService {
     uploadESignature(eSignature: ESignature): Promise<false | ESignature>;
     checkESignature(userId: string): Promise<boolean>;
     changePassword(username: string, oldPassword: string, password: string): Promise<string>;
-    updateUserAdmin(email: string, role: string, hourlyRate: number): Promise<string>;
+    updateUserAdmin(email: string, role: string): Promise<string>;
     resetPassword(email: string): Promise<void>;
     findUserByPasswordCode(passwordResetCode: string): Promise<User>;
     resetChangePassword(username: string, password: string): Promise<string>;

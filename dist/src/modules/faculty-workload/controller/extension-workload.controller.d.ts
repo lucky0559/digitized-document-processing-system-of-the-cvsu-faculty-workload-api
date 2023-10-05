@@ -12,7 +12,7 @@ export declare class ExtensionWorkloadController {
     approveWorkload(workloadId: string): Promise<ExtensionWorkload[]>;
     ovpaaApproveWorkload(remarks: RemarksAndPoints): Promise<ExtensionWorkload>;
     getWorkloadRemarksFaculty(userId: string): Promise<any[]>;
-    getAllTotalWorkloadPointsApproved(): Promise<import("../../user/entities/user.entity").User[]>;
+    getAllTotalWorkloadPointsApproved(): Promise<{}>;
     getAllPendingWorkload(email: string): Promise<ExtensionWorkload[]>;
     getAllPendingWorkloadByIdAndCurrentProcessRole(userId: string, currentProcessRole: string): Promise<ExtensionWorkload[]>;
     getSavedWorkload(userId: string): Promise<ExtensionWorkload>;

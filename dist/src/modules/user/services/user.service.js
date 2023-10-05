@@ -82,7 +82,6 @@ let UserService = class UserService {
         user.password = hashPassword;
         user.emailToken = email_token;
         user.role = 'Faculty';
-        user.hourlyRate = 165.71;
         const isUsernameNotAvailable = await userRepository.findOneBy({
             username: user.username,
         });
@@ -195,13 +194,12 @@ let UserService = class UserService {
             throw new common_1.UnauthorizedException('Invalid Old Password');
         }
     }
-    async updateUserAdmin(email, role, hourlyRate) {
+    async updateUserAdmin(email, role) {
         const user = await userRepository.findOneBy({ email });
         if (!user) {
             throw new common_1.NotFoundException('User not found');
         }
         user.role = role;
-        user.hourlyRate = hourlyRate;
         await userRepository.update(user.id, user);
         return 'Role Updated Successfully';
     }

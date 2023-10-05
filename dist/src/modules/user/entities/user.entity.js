@@ -146,9 +146,21 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "passwordResetCode", void 0);
 __decorate([
-    (0, typeorm_1.Column)('decimal', { nullable: true }),
+    (0, typeorm_1.Column)({ nullable: true, type: 'decimal' }),
     __metadata("design:type", Number)
-], User.prototype, "hourlyRate", void 0);
+], User.prototype, "initialTwlPoints", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true, type: 'decimal' }),
+    __metadata("design:type", Number)
+], User.prototype, "initialRwlPoints", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true, type: 'decimal' }),
+    __metadata("design:type", Number)
+], User.prototype, "initialEwlPoints", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true, type: 'decimal' }),
+    __metadata("design:type", Number)
+], User.prototype, "initialSfwPoints", void 0);
 User = __decorate([
     (0, typeorm_1.Entity)('user')
 ], User);

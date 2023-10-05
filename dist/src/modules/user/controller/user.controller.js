@@ -52,8 +52,8 @@ let UserController = class UserController {
     async changePassword(username, oldPassword, password) {
         return this.userService.changePassword(username, oldPassword, password);
     }
-    async changeUserRole(email, role, hourlyRate) {
-        return this.userService.updateUserAdmin(email, role, hourlyRate);
+    async changeUserRole(email, role) {
+        return this.userService.updateUserAdmin(email, role);
     }
     async resetPassword(email) {
         return this.userService.resetPassword(email);
@@ -142,12 +142,11 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "changePassword", null);
 __decorate([
-    (0, common_1.Patch)(':email/:role/:hourlyRate/update-user-admin'),
+    (0, common_1.Patch)(':email/:role/update-user-admin'),
     __param(0, (0, common_1.Param)('email')),
     __param(1, (0, common_1.Param)('role')),
-    __param(2, (0, common_1.Param)('hourlyRate')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, Number]),
+    __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "changeUserRole", null);
 __decorate([

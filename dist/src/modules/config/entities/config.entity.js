@@ -38,7 +38,7 @@ __decorate([
     __metadata("design:type", Date)
 ], Config.prototype, "submissionDateEnd", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)('decimal', { nullable: true }),
     __metadata("design:type", Number)
 ], Config.prototype, "hourlyRate", void 0);
 Config = __decorate([

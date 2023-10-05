@@ -33,5 +33,8 @@ export declare class User {
     sfwPoints: number;
     twlPoints: number;
     passwordResetCode: string;
-    hourlyRate: number;
+    initialTwlPoints: number;
+    initialRwlPoints: number;
+    initialEwlPoints: number;
+    initialSfwPoints: number;
 }
