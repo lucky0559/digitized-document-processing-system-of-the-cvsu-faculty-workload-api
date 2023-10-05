@@ -104,4 +104,16 @@ export class User {
 
   @Column({ nullable: true })
   public passwordResetCode: string;
+
+  @Column({ nullable: true, type: 'decimal' })
+  public initialTwlPoints: number;
+
+  @Column({ nullable: true, type: 'decimal' })
+  public initialRwlPoints: number;
+
+  @Column({ nullable: true, type: 'decimal' })
+  public initialEwlPoints: number;
+
+  @Column({ nullable: true, type: 'decimal' })
+  public initialSfwPoints: number;
 }
