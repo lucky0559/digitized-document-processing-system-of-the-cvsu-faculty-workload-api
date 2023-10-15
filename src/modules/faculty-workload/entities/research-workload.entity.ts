@@ -67,4 +67,19 @@ export class ResearchWorkload {
 
   @Column({ nullable: true, array: true })
   public disseminatedResearchFilenames: string;
+
+  @Column({ nullable: true })
+  public disseminated1Points: number;
+
+  @Column({ nullable: true })
+  public disseminated2Points: number;
+
+  @Column({ nullable: true })
+  public disseminated3Points: number;
+
+  @Column({ nullable: true })
+  public disseminated4Points: number;
+
+  @Column('jsonb', { nullable: true })
+  public deanPoints: RemarksAndPoints;
 }

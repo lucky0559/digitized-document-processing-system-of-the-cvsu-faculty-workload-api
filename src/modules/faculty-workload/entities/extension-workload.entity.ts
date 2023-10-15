@@ -65,4 +65,7 @@ export class ExtensionWorkload {
 
   @Column({ nullable: true })
   public resourcePerson3Points: number;
+
+  @Column('jsonb', { nullable: true })
+  public deanPoints: RemarksAndPoints;
 }

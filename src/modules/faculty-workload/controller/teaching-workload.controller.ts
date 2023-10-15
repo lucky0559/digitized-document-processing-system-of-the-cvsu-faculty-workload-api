@@ -53,9 +53,12 @@ export class TeachingWorkloadController {
     return this.teachingWorkloadService.approveWorkload(workloadId);
   }
 
-  @Patch('ovpaa-approve-workload')
-  public async ovpaaApproveWorkload(@Body() remarks: RemarksAndPoints) {
-    return this.teachingWorkloadService.ovpaaApproveWorkload(remarks);
+  @Patch(':role/ovpaa-approve-workload')
+  public async ovpaaApproveWorkload(
+    @Body() remarks: RemarksAndPoints,
+    @Param('role') role: string,
+  ) {
+    return this.teachingWorkloadService.ovpaaApproveWorkload(remarks, role);
   }
 
   @Get(':userId/workload-remarks')

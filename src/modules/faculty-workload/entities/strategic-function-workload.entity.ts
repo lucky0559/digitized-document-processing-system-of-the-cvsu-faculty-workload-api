@@ -120,4 +120,7 @@ export class StrategicFunctionWorkload {
 
   @Column()
   public isSubmitted: boolean;
+
+  @Column('jsonb', { nullable: true })
+  public deanPoints: RemarksAndPoints;
 }
