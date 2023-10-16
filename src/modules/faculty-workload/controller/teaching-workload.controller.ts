@@ -4,6 +4,7 @@ import {
   RemarksAndPoints,
   TeachingWorkload,
 } from '../entities/teaching-workload.entity';
+import { OVPAAApprove } from '../entities/faculty-workload.entity';
 
 @Controller('/teaching-workload')
 export class TeachingWorkloadController {
@@ -55,10 +56,14 @@ export class TeachingWorkloadController {
 
   @Patch(':role/ovpaa-approve-workload')
   public async ovpaaApproveWorkload(
-    @Body() remarks: RemarksAndPoints,
+    @Body() body: OVPAAApprove,
     @Param('role') role: string,
   ) {
-    return this.teachingWorkloadService.ovpaaApproveWorkload(remarks, role);
+    return this.teachingWorkloadService.ovpaaApproveWorkload(
+      body.remarks,
+      role,
+      body.deanPoints,
+    );
   }
 
   @Get(':userId/workload-remarks')
