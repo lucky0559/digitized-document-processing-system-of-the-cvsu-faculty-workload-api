@@ -43,4 +43,7 @@ export class TeachingWorkload {
 
   @Column({ nullable: true })
   public filename: string;
+
+  @Column('jsonb', { nullable: true })
+  public deanPoints: RemarksAndPoints;
 }

@@ -50,7 +50,7 @@ export class ResearchWorkload {
   @Column({ nullable: true, array: true })
   public disseminatedResearchFilesPath: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'decimal' })
   public rwlPoints: number;
 
   @Column({ nullable: true })
@@ -67,4 +67,19 @@ export class ResearchWorkload {
 
   @Column({ nullable: true, array: true })
   public disseminatedResearchFilenames: string;
+
+  @Column({ nullable: true, type: 'decimal' })
+  public disseminated1Points: number;
+
+  @Column({ nullable: true, type: 'decimal' })
+  public disseminated2Points: number;
+
+  @Column({ nullable: true, type: 'decimal' })
+  public disseminated3Points: number;
+
+  @Column({ nullable: true, type: 'decimal' })
+  public disseminated4Points: number;
+
+  @Column('jsonb', { nullable: true })
+  public deanPoints: RemarksAndPoints;
 }

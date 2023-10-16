@@ -173,13 +173,23 @@ export class StrategicFunctionWorkloadService {
     return await strategicFunctionWorkloadRepository.save(workload);
   }
 
-  public async ovpaaApproveWorkload(remarks: RemarksAndPoints) {
+  public async ovpaaApproveWorkload(
+    remarks: RemarksAndPoints,
+    role: string,
+    deanPoints?: any,
+  ) {
     const workload = await strategicFunctionWorkloadRepository.findOneBy({
       id: remarks.key,
     });
-    workload.status = 'approved';
-    workload.currentProcessRole = '';
-    workload.remarks = remarks;
+    if (role === 'OVPAA') {
+      workload.status = 'approved';
+      workload.currentProcessRole = '';
+      workload.remarks = remarks;
+    } else {
+      workload.currentProcessRole = 'OVPAA';
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      workload.deanPoints = deanPoints || [];
+    }
     return await strategicFunctionWorkloadRepository.save(workload);
   }
 

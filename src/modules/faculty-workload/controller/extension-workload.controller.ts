@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { ExtensionWorkloadService } from '../services/extension-workload.service';
-import { RemarksAndPoints } from '../entities/teaching-workload.entity';
 import { ExtensionWorkload } from '../entities/extension-workload.entity';
+import { OVPAAApprove } from '../entities/faculty-workload.entity';
 
 @Controller('/extension-workload')
 export class ExtensionWorkloadController {
@@ -53,9 +53,16 @@ export class ExtensionWorkloadController {
     return this.extensionWorkloadService.approveWorkload(workloadId);
   }
 
-  @Patch('ovpaa-approve-workload')
-  public async ovpaaApproveWorkload(@Body() remarks: RemarksAndPoints) {
-    return this.extensionWorkloadService.ovpaaApproveWorkload(remarks);
+  @Patch(':role/ovpaa-approve-workload')
+  public async ovpaaApproveWorkload(
+    @Body() body: OVPAAApprove,
+    @Param('role') role: string,
+  ) {
+    return this.extensionWorkloadService.ovpaaApproveWorkload(
+      body.remarks,
+      role,
+      body.deanPoints,
+    );
   }
 
   @Get(':userId/workload-remarks')

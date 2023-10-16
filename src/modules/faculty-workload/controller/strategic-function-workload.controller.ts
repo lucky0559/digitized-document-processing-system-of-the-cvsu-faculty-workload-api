@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { StrategicFunctionWorkloadService } from '../services/strategic-function-workload.service';
-import { RemarksAndPoints } from '../entities/teaching-workload.entity';
 import { StrategicFunctionWorkload } from '../entities/strategic-function-workload.entity';
+import { OVPAAApprove } from '../entities/faculty-workload.entity';
 
 @Controller('/strategic-function-workload')
 export class StrategicFunctionWorkloadController {
@@ -53,9 +53,16 @@ export class StrategicFunctionWorkloadController {
     return this.strategicFunctionWorkloadService.approveWorkload(workloadId);
   }
 
-  @Patch('ovpaa-approve-workload')
-  public async ovpaaApproveWorkload(@Body() remarks: RemarksAndPoints) {
-    return this.strategicFunctionWorkloadService.ovpaaApproveWorkload(remarks);
+  @Patch(':role/ovpaa-approve-workload')
+  public async ovpaaApproveWorkload(
+    @Body() body: OVPAAApprove,
+    @Param('role') role: string,
+  ) {
+    return this.strategicFunctionWorkloadService.ovpaaApproveWorkload(
+      body.remarks,
+      role,
+      body.deanPoints,
+    );
   }
 
   @Get(':userId/workload-remarks')

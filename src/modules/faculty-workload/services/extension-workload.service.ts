@@ -159,13 +159,22 @@ export class ExtensionWorkloadService {
     return await extensionWorkloadRepository.save(workload);
   }
 
-  public async ovpaaApproveWorkload(remarks: RemarksAndPoints) {
+  public async ovpaaApproveWorkload(
+    remarks: RemarksAndPoints,
+    role: string,
+    deanPoints?: any,
+  ) {
     const workload = await extensionWorkloadRepository.findOneBy({
       id: remarks.key,
     });
-    workload.status = 'approved';
-    workload.currentProcessRole = '';
-    workload.remarks = remarks;
+    if (role === 'OVPAA') {
+      workload.status = 'approved';
+      workload.currentProcessRole = '';
+      workload.remarks = remarks;
+    } else {
+      workload.currentProcessRole = 'OVPAA';
+      workload.deanPoints = deanPoints || [];
+    }
     return await extensionWorkloadRepository.save(workload);
   }
 

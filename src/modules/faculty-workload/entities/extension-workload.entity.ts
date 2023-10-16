@@ -51,18 +51,21 @@ export class ExtensionWorkload {
   @Column()
   public isSubmitted: boolean;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'decimal' })
   public hoursRenderedPoints: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'decimal' })
   public designationPoints: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'decimal' })
   public resourcePerson1Points: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'decimal' })
   public resourcePerson2Points: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'decimal' })
   public resourcePerson3Points: number;
+
+  @Column('jsonb', { nullable: true })
+  public deanPoints: RemarksAndPoints;
 }

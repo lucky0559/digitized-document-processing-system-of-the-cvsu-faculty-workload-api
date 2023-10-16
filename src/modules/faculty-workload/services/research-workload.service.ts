@@ -135,19 +135,27 @@ export class ResearchWorkloadService {
     });
     if (workload[0].currentProcessRole === 'Department Chairperson') {
       workload[0].currentProcessRole = 'Dean';
-    } else if (workload[0].currentProcessRole === 'Dean') {
-      workload[0].currentProcessRole = 'OVPAA';
     }
     return await researchWorkloadRepository.save(workload);
   }
 
-  public async ovpaaApproveWorkload(remarks: RemarksAndPoints) {
+  public async ovpaaApproveWorkload(
+    remarks: RemarksAndPoints,
+    role: string,
+    deanPoints?: any,
+  ) {
     const workload = await researchWorkloadRepository.findOneBy({
       id: remarks.key,
     });
-    workload.status = 'approved';
-    workload.currentProcessRole = '';
-    workload.remarks = remarks;
+    if (role === 'OVPAA') {
+      workload.status = 'approved';
+      workload.currentProcessRole = '';
+      workload.remarks = remarks;
+    } else {
+      workload.currentProcessRole = 'OVPAA';
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      workload.deanPoints = deanPoints || [];
+    }
     return await researchWorkloadRepository.save(workload);
   }
 

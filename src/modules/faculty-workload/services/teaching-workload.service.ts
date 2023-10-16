@@ -141,13 +141,22 @@ export class TeachingWorkloadService {
     return await teachingWorkloadRepository.save(workload);
   }
 
-  public async ovpaaApproveWorkload(remarks: RemarksAndPoints) {
-    const workload = await teachingWorkloadRepository.findBy({
+  public async ovpaaApproveWorkload(
+    remarks: RemarksAndPoints,
+    role: string,
+    deanPoints?: any,
+  ) {
+    const workload = await teachingWorkloadRepository.findOneBy({
       id: remarks.key,
     });
-    workload[0].status = 'approved';
-    workload[0].currentProcessRole = '';
-    workload[0].remarks = remarks;
+    if (role === 'OVPAA') {
+      workload.status = 'approved';
+      workload.currentProcessRole = '';
+      workload.remarks = remarks;
+    } else {
+      workload.currentProcessRole = 'OVPAA';
+      workload.deanPoints = deanPoints || [];
+    }
     return await teachingWorkloadRepository.save(workload);
   }
 
