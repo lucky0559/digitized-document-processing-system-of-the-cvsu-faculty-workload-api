@@ -75,6 +75,19 @@ export class ExtensionWorkloadController {
     return this.extensionWorkloadService.getAllTotalWorkloadPointsApproved();
   }
 
+  @Get(':role/:campus/:department/workloads-dept-dean-approved')
+  public async getAllTotalWorkloadDeanDeptPointsApproved(
+    @Param('role') role: string,
+    @Param('campus') campus: string,
+    @Param('department') department: string,
+  ) {
+    return this.extensionWorkloadService.getAllTotalWorkloadDeanDeptPointsApproved(
+      role,
+      campus,
+      department,
+    );
+  }
+
   @Get(':email/all-pending-workloads')
   public async getAllPendingWorkload(@Param('email') email: string) {
     return this.extensionWorkloadService.getAllPendingWorkload(email);
