@@ -9,11 +9,11 @@ import { Config } from './modules/config/entities/config.entity';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
-  host: 'bk6v1mavp0s8wdc05wtd-postgresql.services.clever-cloud.com',
-  port: 5432,
+  host: 'bfc5pjhogvnsdqiyu5kc-postgresql.services.clever-cloud.com',
+  port: 50013,
   username: 'utkffh2rjuun7a9wtwrc',
   password: 'Pwk4J1mjiVCxsXzA2CCP',
-  database: 'bk6v1mavp0s8wdc05wtd',
+  database: 'bfc5pjhogvnsdqiyu5kc',
   entities: [
     User,
     TeachingWorkload,
