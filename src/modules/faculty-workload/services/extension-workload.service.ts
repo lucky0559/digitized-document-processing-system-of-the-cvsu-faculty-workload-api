@@ -296,6 +296,109 @@ export class ExtensionWorkloadService {
     }, {});
   }
 
+  public async getAllTotalWorkloadDeanDeptPointsApproved(
+    role: string,
+    campus: string,
+    department: string,
+  ) {
+    const extensionWorkloads = await extensionWorkloadRepository.findBy({
+      status: 'approved',
+    });
+    const researchWorkloads = await researchWorkloadRepository.findBy({
+      status: 'approved',
+    });
+    const strategicWorkloads = await strategicWorkloadRepository.findBy({
+      status: 'approved',
+    });
+    const teachingWorkloads = await teachingWorkloadRepository.findBy({
+      status: 'approved',
+    });
+    const users: User[] = [];
+    const filteredUsers = [];
+    for (let i = 0; i < extensionWorkloads.length; i++) {
+      const user = await userRepository.findOneBy({
+        id: extensionWorkloads[i].userID,
+      });
+      users.push(user);
+    }
+    for (let i = 0; i < researchWorkloads.length; i++) {
+      const user = await userRepository.findOneBy({
+        id: researchWorkloads[i].userID,
+      });
+      users.push(user);
+    }
+    for (let i = 0; i < strategicWorkloads.length; i++) {
+      const user = await userRepository.findOneBy({
+        id: strategicWorkloads[i].userID,
+      });
+      users.push(user);
+    }
+    for (let i = 0; i < teachingWorkloads.length; i++) {
+      const user = await userRepository.findOneBy({
+        id: teachingWorkloads[i].userID,
+      });
+      users.push(user);
+    }
+    const filtered: User[] = users.filter((element) => {
+      const isDuplicate = filteredUsers.includes(element.id);
+
+      if (!isDuplicate) {
+        filteredUsers.push(element.id);
+        return true;
+      }
+      return false;
+    });
+
+    const setter = filtered;
+    for (let b = 0; setter.length > b; b++) {
+      for (let c = 0; teachingWorkloads.length > c; c++) {
+        if (setter[b].id === teachingWorkloads[c].userID) {
+          setter[b].twlPoints = Number(teachingWorkloads[c].remarks.points);
+          setter[b].remarks = teachingWorkloads[c].remarks.remarks;
+          setter[b].initialTwlPoints =
+            teachingWorkloads[c].totalTeachingWorkload;
+        }
+      }
+      for (let d = 0; researchWorkloads.length > d; d++) {
+        if (setter[b].id === researchWorkloads[d].userID) {
+          setter[b].rwlPoints = Number(researchWorkloads[d].remarks.points);
+          setter[b].remarks = researchWorkloads[d].remarks.remarks;
+          setter[b].initialRwlPoints = researchWorkloads[d].rwlPoints;
+        }
+      }
+
+      if (!!extensionWorkloads.length) {
+        for (let e = 0; setter.length > e; e++) {
+          if (setter[b].id === extensionWorkloads[e].userID) {
+            setter[b].ewlPoints = Number(extensionWorkloads[e].remarks.points);
+            setter[b].remarks = extensionWorkloads[e].remarks.remarks;
+            setter[b].initialEwlPoints = extensionWorkloads[e].ewlPoints;
+          }
+        }
+      }
+
+      if (!!strategicWorkloads.length) {
+        for (let f = 0; setter.length > f; f++) {
+          if (setter[b].id === strategicWorkloads[f].userID) {
+            setter[b].sfwPoints = Number(strategicWorkloads[f].remarks.points);
+            setter[b].initialSfwPoints = strategicWorkloads[f].sfwPoints;
+          }
+        }
+      }
+    }
+    if (role === 'Department Chairperson') {
+      const filteredSetter = setter.filter((item) => {
+        return item.campus === campus && item.department === department;
+      });
+      return filteredSetter;
+    } else {
+      const filteredSetter = setter.filter((item) => {
+        return item.campus === campus;
+      });
+      return filteredSetter;
+    }
+  }
+
   public async getAllPendingWorkload(email: string) {
     const user = await userRepository.findOneBy({ email: email });
     const extensionWorkload = await extensionWorkloadRepository.findBy({
