@@ -149,13 +149,19 @@ let ExtensionWorkloadService = class ExtensionWorkloadService {
         }
         return await extensionWorkloadRepository.save(workload);
     }
-    async ovpaaApproveWorkload(remarks) {
+    async ovpaaApproveWorkload(remarks, role, deanPoints) {
         const workload = await extensionWorkloadRepository.findOneBy({
             id: remarks.key,
         });
-        workload.status = 'approved';
-        workload.currentProcessRole = '';
-        workload.remarks = remarks;
+        if (role === 'OVPAA') {
+            workload.status = 'approved';
+            workload.currentProcessRole = '';
+            workload.remarks = remarks;
+        }
+        else {
+            workload.currentProcessRole = 'OVPAA';
+            workload.deanPoints = deanPoints || [];
+        }
         return await extensionWorkloadRepository.save(workload);
     }
     async getWorkloadRemarksFaculty(userId) {
@@ -181,6 +187,7 @@ let ExtensionWorkloadService = class ExtensionWorkloadService {
         return data;
     }
     async getAllTotalWorkloadPointsApproved() {
+        var _a, _b, _c, _d;
         const extensionWorkloads = await extensionWorkloadRepository.findBy({
             status: 'approved',
         });
@@ -230,7 +237,7 @@ let ExtensionWorkloadService = class ExtensionWorkloadService {
         const setter = filtered;
         for (let b = 0; setter.length > b; b++) {
             for (let c = 0; teachingWorkloads.length > c; c++) {
-                if (setter[b].id === teachingWorkloads[c].userID) {
+                if (setter[b].id === ((_a = teachingWorkloads[c]) === null || _a === void 0 ? void 0 : _a.userID)) {
                     setter[b].twlPoints = Number(teachingWorkloads[c].remarks.points);
                     setter[b].remarks = teachingWorkloads[c].remarks.remarks;
                     setter[b].initialTwlPoints =
@@ -238,7 +245,7 @@ let ExtensionWorkloadService = class ExtensionWorkloadService {
                 }
             }
             for (let d = 0; researchWorkloads.length > d; d++) {
-                if (setter[b].id === researchWorkloads[d].userID) {
+                if (setter[b].id === ((_b = researchWorkloads[d]) === null || _b === void 0 ? void 0 : _b.userID)) {
                     setter[b].rwlPoints = Number(researchWorkloads[d].remarks.points);
                     setter[b].remarks = researchWorkloads[d].remarks.remarks;
                     setter[b].initialRwlPoints = researchWorkloads[d].rwlPoints;
@@ -246,7 +253,7 @@ let ExtensionWorkloadService = class ExtensionWorkloadService {
             }
             if (!!extensionWorkloads.length) {
                 for (let e = 0; setter.length > e; e++) {
-                    if (setter[b].id === extensionWorkloads[e].userID) {
+                    if (setter[b].id === ((_c = extensionWorkloads[e]) === null || _c === void 0 ? void 0 : _c.userID)) {
                         setter[b].ewlPoints = Number(extensionWorkloads[e].remarks.points);
                         setter[b].remarks = extensionWorkloads[e].remarks.remarks;
                         setter[b].initialEwlPoints = extensionWorkloads[e].ewlPoints;
@@ -255,7 +262,7 @@ let ExtensionWorkloadService = class ExtensionWorkloadService {
             }
             if (!!strategicWorkloads.length) {
                 for (let f = 0; setter.length > f; f++) {
-                    if (setter[b].id === strategicWorkloads[f].userID) {
+                    if (setter[b].id === ((_d = strategicWorkloads[f]) === null || _d === void 0 ? void 0 : _d.userID)) {
                         setter[b].sfwPoints = Number(strategicWorkloads[f].remarks.points);
                         setter[b].initialSfwPoints = strategicWorkloads[f].sfwPoints;
                     }
@@ -269,6 +276,160 @@ let ExtensionWorkloadService = class ExtensionWorkloadService {
             group[campus].push(user);
             return group;
         }, {});
+    }
+    async getAllTotalWorkloadDeanDeptPointsApproved(role, campus, department) {
+        var _a, _b, _c, _d;
+        let extensionWorkloads, researchWorkloads, strategicWorkloads, teachingWorkloads;
+        if (role === 'Department Chairperson') {
+            extensionWorkloads = await extensionWorkloadRepository
+                .createQueryBuilder('extension-workload')
+                .where('extension-workload.currentProcessRole != :currentProcessRole', {
+                currentProcessRole: role,
+            })
+                .getMany();
+            researchWorkloads = await researchWorkloadRepository
+                .createQueryBuilder('research-workload')
+                .where('research-workload.currentProcessRole != :currentProcessRole', {
+                currentProcessRole: role,
+            })
+                .getMany();
+            strategicWorkloads = await strategicWorkloadRepository
+                .createQueryBuilder('strategic-function-workload')
+                .where('strategic-function-workload.currentProcessRole != :currentProcessRole', {
+                currentProcessRole: role,
+            })
+                .getMany();
+            teachingWorkloads = await teachingWorkloadRepository
+                .createQueryBuilder('teaching-workload')
+                .where('teaching-workload.currentProcessRole != :currentProcessRole', {
+                currentProcessRole: role,
+            })
+                .getMany();
+        }
+        else {
+            extensionWorkloads = await extensionWorkloadRepository.find({
+                where: {
+                    currentProcessRole: 'OVPAA' || '',
+                },
+            });
+            researchWorkloads = await researchWorkloadRepository.find({
+                where: {
+                    currentProcessRole: 'OVPAA' || '',
+                },
+            });
+            strategicWorkloads = await strategicWorkloadRepository.find({
+                where: {
+                    currentProcessRole: 'OVPAA' || '',
+                },
+            });
+            teachingWorkloads = await teachingWorkloadRepository.find({
+                where: {
+                    currentProcessRole: 'OVPAA' || '',
+                },
+            });
+        }
+        const users = [];
+        const filteredUsers = [];
+        for (let i = 0; i < extensionWorkloads.length; i++) {
+            const user = await userRepository.findOneBy({
+                id: extensionWorkloads[i].userID,
+            });
+            users.push(user);
+        }
+        for (let i = 0; i < researchWorkloads.length; i++) {
+            const user = await userRepository.findOneBy({
+                id: researchWorkloads[i].userID,
+            });
+            users.push(user);
+        }
+        for (let i = 0; i < strategicWorkloads.length; i++) {
+            const user = await userRepository.findOneBy({
+                id: strategicWorkloads[i].userID,
+            });
+            users.push(user);
+        }
+        for (let i = 0; i < teachingWorkloads.length; i++) {
+            const user = await userRepository.findOneBy({
+                id: teachingWorkloads[i].userID,
+            });
+            users.push(user);
+        }
+        const filtered = users.filter((element) => {
+            const isDuplicate = filteredUsers.includes(element.id);
+            if (!isDuplicate) {
+                filteredUsers.push(element.id);
+                return true;
+            }
+            return false;
+        });
+        const setter = filtered;
+        for (let b = 0; setter.length > b; b++) {
+            for (let c = 0; teachingWorkloads.length > c; c++) {
+                if (setter[b].id === ((_a = teachingWorkloads[c]) === null || _a === void 0 ? void 0 : _a.userID)) {
+                    if (teachingWorkloads[c].currentProcessRole) {
+                        setter[b].initialTwlPoints =
+                            teachingWorkloads[c].totalTeachingWorkload;
+                    }
+                    else {
+                        setter[b].twlPoints = Number(teachingWorkloads[c].remarks.points);
+                        setter[b].remarks = teachingWorkloads[c].remarks.remarks;
+                        setter[b].initialTwlPoints =
+                            teachingWorkloads[c].totalTeachingWorkload;
+                    }
+                }
+            }
+            for (let d = 0; researchWorkloads.length > d; d++) {
+                if (setter[b].id === ((_b = researchWorkloads[d]) === null || _b === void 0 ? void 0 : _b.userID)) {
+                    if (researchWorkloads[d].currentProcessRole) {
+                        setter[b].initialRwlPoints = researchWorkloads[d].rwlPoints;
+                    }
+                    else {
+                        setter[b].rwlPoints = Number(researchWorkloads[d].remarks.points);
+                        setter[b].remarks = researchWorkloads[d].remarks.remarks;
+                        setter[b].initialRwlPoints = researchWorkloads[d].rwlPoints;
+                    }
+                }
+            }
+            if (!!extensionWorkloads.length) {
+                for (let e = 0; setter.length > e; e++) {
+                    if (setter[b].id === ((_c = extensionWorkloads[e]) === null || _c === void 0 ? void 0 : _c.userID)) {
+                        if (extensionWorkloads[e].currentProcessRole) {
+                            setter[b].initialEwlPoints = extensionWorkloads[e].ewlPoints;
+                        }
+                        else {
+                            setter[b].ewlPoints = Number(extensionWorkloads[e].remarks.points);
+                            setter[b].remarks = extensionWorkloads[e].remarks.remarks;
+                            setter[b].initialEwlPoints = extensionWorkloads[e].ewlPoints;
+                        }
+                    }
+                }
+            }
+            if (!!strategicWorkloads.length) {
+                for (let f = 0; setter.length > f; f++) {
+                    if (setter[b].id === ((_d = strategicWorkloads[f]) === null || _d === void 0 ? void 0 : _d.userID)) {
+                        if (strategicWorkloads[f].currentProcessRole) {
+                            setter[b].initialSfwPoints = strategicWorkloads[f].sfwPoints;
+                        }
+                        else {
+                            setter[b].sfwPoints = Number(strategicWorkloads[f].remarks.points);
+                            setter[b].initialSfwPoints = strategicWorkloads[f].sfwPoints;
+                        }
+                    }
+                }
+            }
+        }
+        if (role === 'Department Chairperson') {
+            const filteredSetter = setter.filter((item) => {
+                return item.campus === campus && item.department === department;
+            });
+            return filteredSetter;
+        }
+        else {
+            const filteredSetter = setter.filter((item) => {
+                return item.campus === campus;
+            });
+            return filteredSetter;
+        }
     }
     async getAllPendingWorkload(email) {
         const user = await userRepository.findOneBy({ email: email });
