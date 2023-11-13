@@ -20,6 +20,10 @@ const strategicWorkloadRepository = AppDataSource.getRepository(
 const teachingWorkloadRepository =
   AppDataSource.getRepository(TeachingWorkload);
 
+if (!AppDataSource.isInitialized) {
+  AppDataSource.initialize();
+}
+
 @Injectable()
 export class ExtensionWorkloadService {
   public async saveExtensionWorkload(
@@ -29,7 +33,8 @@ export class ExtensionWorkloadService {
     extensionWorkload.userID = userId;
     extensionWorkload.status = 'pending';
     extensionWorkload.currentProcessRole = 'Department Chairperson';
-    return await extensionWorkloadRepository.save(extensionWorkload);
+    await extensionWorkloadRepository.save(extensionWorkload);
+    return AppDataSource.destroy();
   }
 
   public async getAllPendingExtensionWorkloadDC(userId: string) {
@@ -69,6 +74,7 @@ export class ExtensionWorkloadService {
         data.push(user);
       }
     }
+    AppDataSource.destroy();
     return data;
   }
 
@@ -106,7 +112,7 @@ export class ExtensionWorkloadService {
         data.push(user);
       }
     }
-
+    AppDataSource.destroy();
     return data;
   }
 
@@ -138,7 +144,7 @@ export class ExtensionWorkloadService {
         data.push(user);
       }
     }
-
+    AppDataSource.destroy();
     return data.reduce((group, workload) => {
       const { campus } = workload;
       group[campus] = group[campus] ?? [];
@@ -156,7 +162,8 @@ export class ExtensionWorkloadService {
     } else if (workload[0].currentProcessRole === 'Dean') {
       workload[0].currentProcessRole = 'OVPAA';
     }
-    return await extensionWorkloadRepository.save(workload);
+    await extensionWorkloadRepository.save(workload);
+    return AppDataSource.destroy();
   }
 
   public async ovpaaApproveWorkload(
@@ -175,7 +182,8 @@ export class ExtensionWorkloadService {
       workload.currentProcessRole = 'OVPAA';
       workload.deanPoints = deanPoints || [];
     }
-    return await extensionWorkloadRepository.save(workload);
+    await extensionWorkloadRepository.save(workload);
+    return AppDataSource.destroy();
   }
 
   public async getWorkloadRemarksFaculty(userId: string) {
@@ -198,6 +206,7 @@ export class ExtensionWorkloadService {
       user.workloadId = workloadRemarks[i].id;
       data.push(user);
     }
+    AppDataSource.destroy();
     return data;
   }
 
@@ -287,7 +296,7 @@ export class ExtensionWorkloadService {
         }
       }
     }
-
+    AppDataSource.destroy();
     return setter.reduce((group, user) => {
       const { campus } = user;
       group[campus] = group[campus] ?? [];
@@ -382,6 +391,7 @@ export class ExtensionWorkloadService {
       });
       users.push(user);
     }
+    AppDataSource.destroy();
     const filtered: User[] = users.filter((element) => {
       const isDuplicate = filteredUsers.includes(element.id);
 
@@ -468,6 +478,7 @@ export class ExtensionWorkloadService {
     const extensionWorkload = await extensionWorkloadRepository.findBy({
       userID: user.id,
     });
+    AppDataSource.destroy();
     return extensionWorkload;
   }
 
@@ -479,19 +490,23 @@ export class ExtensionWorkloadService {
       userID: userId,
       currentProcessRole: currentProcessRole,
     });
+    AppDataSource.destroy();
     return extensionWorkload;
   }
 
-  public async getSavedWorkload(userId: string): Promise<ExtensionWorkload> {
-    return await extensionWorkloadRepository.findOneBy({
+  public async getSavedWorkload(userId: string) {
+    const data = await extensionWorkloadRepository.findOneBy({
       userID: userId,
       isSubmitted: false,
     });
+    AppDataSource.destroy();
+    return data;
   }
 
   public async submitWorkload(id: string) {
     const workload = await extensionWorkloadRepository.findOneBy({ id });
     workload.isSubmitted = true;
-    return await extensionWorkloadRepository.save(workload);
+    await extensionWorkloadRepository.save(workload);
+    return AppDataSource.destroy();
   }
 }
