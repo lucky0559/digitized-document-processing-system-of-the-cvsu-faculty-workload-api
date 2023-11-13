@@ -9,6 +9,10 @@ const strategicFunctionWorkloadRepository = AppDataSource.getRepository(
 );
 const userRepository = AppDataSource.getRepository(User);
 
+if (!AppDataSource.isInitialized) {
+  AppDataSource.initialize();
+}
+
 @Injectable()
 export class StrategicFunctionWorkloadService {
   public async saveStrategicFunctionWorkload(
@@ -18,10 +22,11 @@ export class StrategicFunctionWorkloadService {
     strategicFunctionWorkload.userID = userId;
     strategicFunctionWorkload.status = 'pending';
     strategicFunctionWorkload.currentProcessRole = 'Department Chairperson';
-    return await strategicFunctionWorkloadRepository.upsert(
+    await strategicFunctionWorkloadRepository.upsert(
       strategicFunctionWorkload,
       ['userID'],
     );
+    return AppDataSource.destroy();
   }
 
   public async getAllPendingStrategicWorkloadDC(userId: string) {
@@ -43,6 +48,7 @@ export class StrategicFunctionWorkloadService {
         isSubmitted: true,
       })
       .getMany();
+    AppDataSource.destroy();
     const data = [];
     for (let i = 0; pendingStrategicWorkloads.length > i; i++) {
       const user = await userRepository
@@ -90,6 +96,7 @@ export class StrategicFunctionWorkloadService {
         isSubmitted: true,
       })
       .getMany();
+    AppDataSource.destroy();
     const data = [];
     for (let i = 0; pendingStrategicWorkloads.length > i; i++) {
       const user = await userRepository
@@ -138,6 +145,7 @@ export class StrategicFunctionWorkloadService {
         .createQueryBuilder('user')
         .where('user.id = :id', { id: pendingStrategicWorkloads[i].userID })
         .getOne();
+      AppDataSource.destroy();
       if (user) {
         user.approvedUniversityDesignationFilePath =
           pendingStrategicWorkloads[i].approvedUniversityDesignationFilePath;
@@ -170,7 +178,8 @@ export class StrategicFunctionWorkloadService {
     } else if (workload[0].currentProcessRole === 'Dean') {
       workload[0].currentProcessRole = 'OVPAA';
     }
-    return await strategicFunctionWorkloadRepository.save(workload);
+    await strategicFunctionWorkloadRepository.save(workload);
+    return AppDataSource.destroy();
   }
 
   public async ovpaaApproveWorkload(
@@ -190,7 +199,8 @@ export class StrategicFunctionWorkloadService {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       workload.deanPoints = deanPoints || [];
     }
-    return await strategicFunctionWorkloadRepository.save(workload);
+    await strategicFunctionWorkloadRepository.save(workload);
+    return AppDataSource.destroy();
   }
 
   public async getWorkloadRemarksFaculty(userId: string) {
@@ -207,6 +217,7 @@ export class StrategicFunctionWorkloadService {
     const user = await userRepository.findOneBy({
       id: userId,
     });
+    AppDataSource.destroy();
     for (let i = 0; workloadRemarks.length > i; i++) {
       user.approvedUniversityDesignationFilePath =
         workloadRemarks[i].approvedUniversityDesignationFilePath;
@@ -226,6 +237,7 @@ export class StrategicFunctionWorkloadService {
     const strategicWorkload = await strategicFunctionWorkloadRepository.findBy({
       userID: user.id,
     });
+    AppDataSource.destroy();
     return strategicWorkload;
   }
 
@@ -238,16 +250,19 @@ export class StrategicFunctionWorkloadService {
         userID: userId,
         currentProcessRole: currentProcessRole,
       });
+    AppDataSource.destroy();
     return strategicFunctionWorkload;
   }
 
   public async getSavedWorkload(
     userId: string,
   ): Promise<StrategicFunctionWorkload> {
-    return await strategicFunctionWorkloadRepository.findOneBy({
+    const data = await strategicFunctionWorkloadRepository.findOneBy({
       userID: userId,
       isSubmitted: false,
     });
+    AppDataSource.destroy();
+    return data;
   }
 
   public async submitWorkload(id: string) {
@@ -255,6 +270,7 @@ export class StrategicFunctionWorkloadService {
       id,
     });
     workload.isSubmitted = true;
-    return await strategicFunctionWorkloadRepository.save(workload);
+    await strategicFunctionWorkloadRepository.save(workload);
+    return AppDataSource.destroy();
   }
 }

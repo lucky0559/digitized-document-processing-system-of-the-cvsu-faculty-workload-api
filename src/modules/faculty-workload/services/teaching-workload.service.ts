@@ -11,6 +11,10 @@ const teachingWorkloadRepository =
 
 const userRepository = AppDataSource.getRepository(User);
 
+if (!AppDataSource.isInitialized) {
+  AppDataSource.initialize();
+}
+
 @Injectable()
 export class TeachingWorkloadService {
   public async saveTeachingWorkload(
@@ -20,7 +24,8 @@ export class TeachingWorkloadService {
     teachingWorkload.userID = userId;
     teachingWorkload.status = 'pending';
     teachingWorkload.currentProcessRole = 'Department Chairperson';
-    return await teachingWorkloadRepository.save(teachingWorkload);
+    await teachingWorkloadRepository.save(teachingWorkload);
+    return AppDataSource.destroy();
   }
 
   public async getAllPendingTeachingWorkloadDC(userId: string) {
@@ -51,6 +56,7 @@ export class TeachingWorkloadService {
           department: reviewee.department,
         })
         .getOne();
+      AppDataSource.destroy();
       if (user) {
         user.twlFilePath = pendingTeachingWorkloads[i].twlFilePath;
         user.workloadId = pendingTeachingWorkloads[i].id;
@@ -85,6 +91,7 @@ export class TeachingWorkloadService {
           campus: reviewee.campus,
         })
         .getOne();
+      AppDataSource.destroy();
       if (user) {
         user.twlFilePath = pendingTeachingWorkloads[i].twlFilePath;
         user.workloadId = pendingTeachingWorkloads[i].id;
@@ -114,6 +121,7 @@ export class TeachingWorkloadService {
         .createQueryBuilder('user')
         .where('user.id = :id', { id: pendingTeachingWorkloads[i].userID })
         .getOne();
+      AppDataSource.destroy();
       if (user) {
         user.twlFilePath = pendingTeachingWorkloads[i].twlFilePath;
         user.workloadId = pendingTeachingWorkloads[i].id;
@@ -138,7 +146,8 @@ export class TeachingWorkloadService {
     } else if (workload[0].currentProcessRole === 'Dean') {
       workload[0].currentProcessRole = 'OVPAA';
     }
-    return await teachingWorkloadRepository.save(workload);
+    await teachingWorkloadRepository.save(workload);
+    return AppDataSource.destroy();
   }
 
   public async ovpaaApproveWorkload(
@@ -157,7 +166,8 @@ export class TeachingWorkloadService {
       workload.currentProcessRole = 'OVPAA';
       workload.deanPoints = deanPoints || [];
     }
-    return await teachingWorkloadRepository.save(workload);
+    await teachingWorkloadRepository.save(workload);
+    return AppDataSource.destroy();
   }
 
   public async disapproveWorkload(workloadId: string) {
@@ -165,7 +175,8 @@ export class TeachingWorkloadService {
       id: workloadId,
     });
     workload[0].status = 'disapproved';
-    return await teachingWorkloadRepository.save(workload);
+    await teachingWorkloadRepository.save(workload);
+    return AppDataSource.destroy();
   }
 
   public async getWorkloadRemarksFaculty(userId: string) {
@@ -179,6 +190,7 @@ export class TeachingWorkloadService {
     const user = await userRepository.findOneBy({
       id: userId,
     });
+    AppDataSource.destroy();
     for (let i = 0; workloadRemarks.length > i; i++) {
       user.twlFilePath = workloadRemarks[i].twlFilePath;
       user.workloadId = workloadRemarks[i].id;
@@ -192,6 +204,7 @@ export class TeachingWorkloadService {
     const teachingWorkload = await teachingWorkloadRepository.findBy({
       userID: user.id,
     });
+    AppDataSource.destroy();
     return teachingWorkload;
   }
 
@@ -203,19 +216,23 @@ export class TeachingWorkloadService {
       userID: userId,
       currentProcessRole: currentProcessRole,
     });
+    AppDataSource.destroy();
     return teachingWorkload;
   }
 
   public async getSavedWorkload(userId: string): Promise<TeachingWorkload> {
-    return await teachingWorkloadRepository.findOneBy({
+    const data = await teachingWorkloadRepository.findOneBy({
       userID: userId,
       isSubmitted: false,
     });
+    AppDataSource.destroy();
+    return data;
   }
 
   public async submitWorkload(id: string) {
     const workload = await teachingWorkloadRepository.findOneBy({ id });
     workload.isSubmitted = true;
-    return await teachingWorkloadRepository.save(workload);
+    await teachingWorkloadRepository.save(workload);
+    return AppDataSource.destroy();
   }
 }

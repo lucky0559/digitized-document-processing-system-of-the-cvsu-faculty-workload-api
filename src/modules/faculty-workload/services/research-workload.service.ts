@@ -7,6 +7,9 @@ import { RemarksAndPoints } from '../entities/teaching-workload.entity';
 const researchWorkloadRepository =
   AppDataSource.getRepository(ResearchWorkload);
 const userRepository = AppDataSource.getRepository(User);
+if (!AppDataSource.isInitialized) {
+  AppDataSource.initialize();
+}
 
 @Injectable()
 export class ResearchWorkloadService {
@@ -17,7 +20,8 @@ export class ResearchWorkloadService {
     researchWorkload.userID = userId;
     researchWorkload.status = 'pending';
     researchWorkload.currentProcessRole = 'Department Chairperson';
-    return await researchWorkloadRepository.save(researchWorkload);
+    await researchWorkloadRepository.save(researchWorkload);
+    return AppDataSource.destroy();
   }
 
   public async getAllPendingResearchWorkloadDC(userId: string) {
@@ -46,6 +50,7 @@ export class ResearchWorkloadService {
           department: reviewee.department,
         })
         .getOne();
+      AppDataSource.destroy();
       if (user) {
         user.cvsuFunded = pendingResearchWorkloads[i].cvsuFunded;
         user.externallyFunded = pendingResearchWorkloads[i].externallyFunded;
@@ -81,6 +86,7 @@ export class ResearchWorkloadService {
           campus: reviewee.campus,
         })
         .getOne();
+      AppDataSource.destroy();
       if (user) {
         user.cvsuFunded = pendingResearchWorkloads[i].cvsuFunded;
         user.externallyFunded = pendingResearchWorkloads[i].externallyFunded;
@@ -120,7 +126,7 @@ export class ResearchWorkloadService {
         data.push(user);
       }
     }
-
+    AppDataSource.destroy();
     return data.reduce((group, workload) => {
       const { campus } = workload;
       group[campus] = group[campus] ?? [];
@@ -136,7 +142,8 @@ export class ResearchWorkloadService {
     if (workload[0].currentProcessRole === 'Department Chairperson') {
       workload[0].currentProcessRole = 'Dean';
     }
-    return await researchWorkloadRepository.save(workload);
+    await researchWorkloadRepository.save(workload);
+    return AppDataSource.destroy();
   }
 
   public async ovpaaApproveWorkload(
@@ -156,7 +163,8 @@ export class ResearchWorkloadService {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       workload.deanPoints = deanPoints || [];
     }
-    return await researchWorkloadRepository.save(workload);
+    await researchWorkloadRepository.save(workload);
+    return AppDataSource.destroy();
   }
 
   public async getWorkloadRemarksFaculty(userId: string) {
@@ -171,6 +179,7 @@ export class ResearchWorkloadService {
     const user = await userRepository.findOneBy({
       id: userId,
     });
+    AppDataSource.destroy();
     for (let i = 0; workloadRemarks.length > i; i++) {
       user.cvsuFunded = workloadRemarks[i].cvsuFunded;
       user.externallyFunded = workloadRemarks[i].externallyFunded;
@@ -187,6 +196,7 @@ export class ResearchWorkloadService {
     const researchWorkload = await researchWorkloadRepository.findBy({
       userID: user.id,
     });
+    AppDataSource.destroy();
     return researchWorkload;
   }
 
@@ -198,19 +208,23 @@ export class ResearchWorkloadService {
       userID: userId,
       currentProcessRole: currentProcessRole,
     });
+    AppDataSource.destroy();
     return researchWorkload;
   }
 
   public async getSavedWorkload(userId: string): Promise<ResearchWorkload> {
-    return await researchWorkloadRepository.findOneBy({
+    const data = await researchWorkloadRepository.findOneBy({
       userID: userId,
       isSubmitted: false,
     });
+    AppDataSource.destroy();
+    return data;
   }
 
   public async submitWorkload(id: string) {
     const workload = await researchWorkloadRepository.findOneBy({ id });
     workload.isSubmitted = true;
-    return await researchWorkloadRepository.save(workload);
+    await researchWorkloadRepository.save(workload);
+    return AppDataSource.destroy();
   }
 }
