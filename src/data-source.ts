@@ -23,7 +23,7 @@ export const AppDataSource = new DataSource({
     ESignature,
     Config,
   ],
-  synchronize: false,
+  synchronize: true,
 });
 
 if (!AppDataSource.isInitialized) {

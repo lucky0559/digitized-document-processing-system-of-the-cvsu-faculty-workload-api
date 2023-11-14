@@ -22,7 +22,7 @@ import { ConfigModule } from './modules/config/config.module';
       password: 'Pwk4J1mjiVCxsXzA2CCP',
       database: 'bfc5pjhogvnsdqiyu5kc',
       entities: [`__dirname + '/../**/*.entity.js'`],
-      synchronize: false,
+      synchronize: true,
     }),
     UserModule,
     FacultyWorkloadModule,
